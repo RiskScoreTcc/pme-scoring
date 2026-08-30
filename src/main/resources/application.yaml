@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: pme-scoring
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pme_scoring_db
+    username: admin_teste
+    password: sua_senha_segura
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+server:
+  port: 8080
