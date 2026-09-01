@@ -1,6 +1,6 @@
 package com.scoring.pmescoring.Domain;
 
-import com.scoring.pmescoring.model.TypeUser;
+import com.scoring.pmescoring.Model.TypeUser;
 import jakarta.persistence.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;

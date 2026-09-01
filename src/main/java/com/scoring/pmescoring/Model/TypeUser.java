@@ -1,4 +1,4 @@
-package com.scoring.pmescoring.model;
+package com.scoring.pmescoring.Model;
 
 public enum TypeUser {
     PME,
