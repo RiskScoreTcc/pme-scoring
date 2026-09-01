@@ -1,6 +1,5 @@
 package com.scoring.pmescoring.Domain;
 
-import com.scoring.pmescoring.model.TypeUser;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -33,19 +32,26 @@ public class Firm {
     @Column(name = "number_of_employees", nullable = false)
     private Integer numberOfEmployees;
 
+    @Column(name = "active", nullable = false)
+    private Boolean active = true;
+
     @Column(name = "creation_date", updatable = false)
     private LocalDate creationDate;
 
     public Firm(){}
 
-    public Firm(User user, String cnpj, String registeredCompanyName, BigDecimal averageRevenue, int timeMonths, int numberOfEmployees, LocalDate creationDate) {
+    public Firm(User user, String cnpj, String registeredCompanyName, BigDecimal averageRevenue, int timeMonths, int numberOfEmployees) {
         this.user = user;
         this.cnpj = cnpj;
         this.registeredCompanyName = registeredCompanyName;
         this.averageRevenue = averageRevenue;
         this.timeMonths = timeMonths;
         this.numberOfEmployees = numberOfEmployees;
-        this.creationDate = creationDate;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.creationDate = LocalDate.now();
     }
 
     @Override
@@ -106,6 +112,10 @@ public class Firm {
     public void setNumberOfEmployees(int numberOfEmployees) {
         this.numberOfEmployees = numberOfEmployees;
     }
+
+    public Boolean getActive(){ return this.active; }
+
+    public void setActive(Boolean active){ this.active = active; }
 
     public LocalDate getCreationDate() {
         return creationDate;
