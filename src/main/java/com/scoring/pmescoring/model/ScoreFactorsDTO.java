@@ -1,4 +1,4 @@
-package com.scoring.pmescoring.Model;
+package com.scoring.pmescoring.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,7 +1,7 @@
-package com.scoring.pmescoring.Domain;
+package com.scoring.pmescoring.domain;
 
-import com.scoring.pmescoring.Model.RiskBand;
-import com.scoring.pmescoring.Model.ScoreFactorsDTO;
+import com.scoring.pmescoring.model.RiskBand;
+import com.scoring.pmescoring.model.ScoreFactorsDTO;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;

@@ -1,4 +1,4 @@
-package com.scoring.pmescoring.Model;
+package com.scoring.pmescoring.model;
 
 public enum FormulaType {
     LINEAR_WEIGHTED_V1

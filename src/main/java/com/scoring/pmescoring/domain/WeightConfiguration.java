@@ -1,6 +1,6 @@
-package com.scoring.pmescoring.Domain;
+package com.scoring.pmescoring.domain;
 
-import com.scoring.pmescoring.Model.FormulaType;
+import com.scoring.pmescoring.model.FormulaType;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
