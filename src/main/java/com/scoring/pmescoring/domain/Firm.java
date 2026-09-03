@@ -1,4 +1,4 @@
-package com.scoring.pmescoring.Domain;
+package com.scoring.pmescoring.domain;
 
 import jakarta.persistence.*;
 

@@ -1,6 +1,6 @@
-package com.scoring.pmescoring.Repository;
+package com.scoring.pmescoring.repository;
 
-import com.scoring.pmescoring.Domain.DefaultOccurrence;
+import com.scoring.pmescoring.domain.DefaultOccurrence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
