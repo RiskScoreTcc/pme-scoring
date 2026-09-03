@@ -30,6 +30,12 @@ public class DefaultOccurrence {
     @Column( name = "description")
     private String description;
 
+    @Column(name = "active", nullable = false)
+    private Boolean active = true;
+
+    @Column(name = "creation_date", updatable = false)
+    private LocalDate creationDate;
+
     public DefaultOccurrence(){}
 
     public DefaultOccurrence(Firm firm, LocalDate dateOccurrence, BigDecimal amountDue, String description) {
@@ -38,6 +44,11 @@ public class DefaultOccurrence {
         this.amountDue = amountDue;
         this.statusResolved = false;
         this.description = description;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.creationDate = LocalDate.now();
     }
 
     public Long getId() {
@@ -82,6 +93,18 @@ public class DefaultOccurrence {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
     @Override
