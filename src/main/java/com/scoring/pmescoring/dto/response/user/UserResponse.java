@@ -1,4 +1,4 @@
-package com.scoring.pmescoring.dto.response;
+package com.scoring.pmescoring.dto.response.user;
 
 import com.scoring.pmescoring.model.TypeUser;
 

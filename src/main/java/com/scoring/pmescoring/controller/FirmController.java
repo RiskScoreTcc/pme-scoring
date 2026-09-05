@@ -1,8 +1,8 @@
 package com.scoring.pmescoring.controller;
 
-import com.scoring.pmescoring.dto.request.FirmRequest;
-import com.scoring.pmescoring.dto.request.UpdateFirmRequest;
-import com.scoring.pmescoring.dto.response.FirmResponse;
+import com.scoring.pmescoring.dto.request.firm.FirmRequest;
+import com.scoring.pmescoring.dto.request.firm.UpdateFirmRequest;
+import com.scoring.pmescoring.dto.response.firm.FirmResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

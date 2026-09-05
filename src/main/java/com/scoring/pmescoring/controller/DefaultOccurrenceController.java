@@ -1,8 +1,8 @@
 package com.scoring.pmescoring.controller;
 
-import com.scoring.pmescoring.dto.request.DefaultOccurrenceRequest;
-import com.scoring.pmescoring.dto.request.UpdateDefaultOccurrenceRequest;
-import com.scoring.pmescoring.dto.response.DefaultOccurrenceResponse;
+import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceRequest;
+import com.scoring.pmescoring.dto.request.defaultoccurrence.UpdateDefaultOccurrenceRequest;
+import com.scoring.pmescoring.dto.response.defaultoccurrence.DefaultOccurrenceResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

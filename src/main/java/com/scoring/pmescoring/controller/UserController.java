@@ -1,8 +1,8 @@
 package com.scoring.pmescoring.controller;
 
-import com.scoring.pmescoring.dto.request.UpdateUserRequest;
-import com.scoring.pmescoring.dto.request.UserRequest;
-import com.scoring.pmescoring.dto.response.UserResponse;
+import com.scoring.pmescoring.dto.request.user.UpdateUserRequest;
+import com.scoring.pmescoring.dto.request.user.UserRequest;
+import com.scoring.pmescoring.dto.response.user.UserResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package com.scoring.pmescoring.dto.response;
+package com.scoring.pmescoring.dto.response.defaultoccurrence;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
