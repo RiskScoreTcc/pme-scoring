@@ -1,4 +1,4 @@
-package com.scoring.pmescoring.dto.request;
+package com.scoring.pmescoring.dto.request.defaultoccurrence;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;

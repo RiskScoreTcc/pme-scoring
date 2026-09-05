@@ -1,4 +1,4 @@
-package com.scoring.pmescoring.dto.request;
+package com.scoring.pmescoring.dto.request.user;
 
 import com.scoring.pmescoring.model.TypeUser;
 import jakarta.validation.constraints.Email;

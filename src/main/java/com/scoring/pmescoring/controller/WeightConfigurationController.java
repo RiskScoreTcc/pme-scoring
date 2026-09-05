@@ -1,8 +1,8 @@
 package com.scoring.pmescoring.controller;
 
-import com.scoring.pmescoring.dto.request.UpdateWeightConfigurationRequest;
-import com.scoring.pmescoring.dto.request.WeightConfigurationRequest;
-import com.scoring.pmescoring.dto.response.WeightConfigurationResponse;
+import com.scoring.pmescoring.dto.request.weightconfiguration.UpdateWeightConfigurationRequest;
+import com.scoring.pmescoring.dto.request.weightconfiguration.WeightConfigurationRequest;
+import com.scoring.pmescoring.dto.response.weightconfiguration.WeightConfigurationResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

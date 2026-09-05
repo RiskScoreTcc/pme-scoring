@@ -1,4 +1,4 @@
-package com.scoring.pmescoring.dto.response;
+package com.scoring.pmescoring.dto.response.weightconfiguration;
 
 import com.scoring.pmescoring.model.FormulaType;
 

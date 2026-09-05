@@ -1,12 +1,14 @@
-package com.scoring.pmescoring.dto.request;
+package com.scoring.pmescoring.dto.response.firm;
 
 import java.math.BigDecimal;
 
-public record UpdateFirmRequest(
+public record FirmResponse(
+        Long id,
         String cnpj,
         String registeredCompanyName,
         BigDecimal averageRevenue,
         Integer ageInMonths,
-        Integer numberOfEmployees
+        Integer numberOfEmployees,
+        Boolean active
 ) {
 }

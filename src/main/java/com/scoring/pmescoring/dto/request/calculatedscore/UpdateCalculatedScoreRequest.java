@@ -1,4 +1,4 @@
-package com.scoring.pmescoring.dto.request;
+package com.scoring.pmescoring.dto.request.calculatedscore;
 
 import com.scoring.pmescoring.model.RiskBand;
 

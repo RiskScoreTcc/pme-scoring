@@ -1,4 +1,4 @@
-package com.scoring.pmescoring.dto.request;
+package com.scoring.pmescoring.dto.request.firm;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
