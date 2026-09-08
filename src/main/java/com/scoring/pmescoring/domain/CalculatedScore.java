@@ -21,6 +21,10 @@ public class CalculatedScore {
     @JoinColumn(name = "firm_id", referencedColumnName = "id", nullable = false)
     private Firm firm;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private User analyzedByUser;
+
     @Column(name = "score_value", nullable = false)
     private Integer scoreValue;
 
@@ -48,8 +52,9 @@ public class CalculatedScore {
     }
 
 
-    public CalculatedScore(Firm firm, Integer scoreValue, RiskBand riskBand, ScoreFactorsDTO factorsJson) {
+    public CalculatedScore(Firm firm,User user, Integer scoreValue, RiskBand riskBand, ScoreFactorsDTO factorsJson) {
         this.firm = firm;
+        this.analyzedByUser = user;
         this.scoreValue = scoreValue;
         this.riskBand = riskBand;
         this.active = true;
@@ -67,6 +72,14 @@ public class CalculatedScore {
 
     public Firm getFirm() {
         return firm;
+    }
+
+    public User getAnalyzedByUser() {
+        return analyzedByUser;
+    }
+
+    public void setAnalyzedByUser(User analyzedByUser) {
+        this.analyzedByUser = analyzedByUser;
     }
 
     public void setFirm(Firm firm) {

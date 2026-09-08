@@ -17,7 +17,9 @@ public class WeightConfigurationMapper implements GenericMapper<WeightConfigurat
                 request.timeWeight(),
                 request.defaultWeight(),
                 request.maxRevenueReference(),
-                request.maxTimeReferenceMonths()
+                request.maxTimeReferenceMonths(),
+                request.lowRiskThreshold(),
+                request.mediumRiskThreshold()
         );
     }
 
@@ -31,8 +33,11 @@ public class WeightConfigurationMapper implements GenericMapper<WeightConfigurat
                 entity.getDefaultWeight(),
                 entity.getMaxRevenueReference(),
                 entity.getMaxTimeReferenceMonths(),
+                entity.getLowRiskThreshold(),
+                entity.getMediumRiskThreshold(),
                 entity.getActive(),
-                entity.getCreationDate()
+                entity.getCreationDate(),
+                entity.getUpdatedByUser().getId()
         );
     }
 }

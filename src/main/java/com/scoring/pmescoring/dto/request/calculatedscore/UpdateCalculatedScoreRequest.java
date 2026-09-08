@@ -1,6 +1,7 @@
 package com.scoring.pmescoring.dto.request.calculatedscore;
 
 public record UpdateCalculatedScoreRequest(
-        Long firmId
+        Long firmId,
+        Long userId
 ) {
 }

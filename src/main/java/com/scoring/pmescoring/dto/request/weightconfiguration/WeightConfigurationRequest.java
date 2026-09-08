@@ -33,6 +33,18 @@ public record WeightConfigurationRequest(
 
         @NotNull(message = "Max time reference months is required")
         @Positive(message = "Max time reference months must be greater than zero")
-        Integer maxTimeReferenceMonths
+        Integer maxTimeReferenceMonths,
+
+        @NotNull(message = "Low risk threshold is required")
+        @Positive(message = "Low risk threshold must be greater than zero")
+        Integer lowRiskThreshold,
+
+        @NotNull(message = "Medium risk threshold is required")
+        @Positive(message = "Medium risk threshold must be greater than zero")
+        Integer mediumRiskThreshold,
+
+        @NotNull(message = "Updated by user ID is required")
+        @Positive(message = "User ID must be greater than zero")
+        Long updatedByUserId
 ) {
 }

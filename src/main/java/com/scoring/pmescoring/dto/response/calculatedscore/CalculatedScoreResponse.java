@@ -8,10 +8,12 @@ import java.time.LocalDate;
 public record CalculatedScoreResponse(
         Long id,
         Long firmId,
+        Long userId,
         Integer scoreValue,
         RiskBand riskBand,
         Boolean active,
         ScoreFactorsDTO factorsJson,
-        LocalDate calculationDate
+        LocalDate calculationDate,
+        String disclaimer
 ) {
 }

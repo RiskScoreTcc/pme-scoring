@@ -34,21 +34,47 @@ public class WeightConfiguration {
     @Column(name = "max_time_reference_months", nullable = false)
     private Integer maxTimeReferenceMonths;
 
+    @Column(name = "low_risk_threshold", nullable = false)
+    private Integer lowRiskThreshold;
+
+    @Column(name = "medium_risk_threshold", nullable = false)
+    private Integer mediumRiskThreshold;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "updated_by_user_id", referencedColumnName = "id", nullable = false)
+    private User updatedByUser;
+
     @Column(name = "active", nullable = false)
     private Boolean active = true;
 
     @Column(name = "creation_date", updatable = false)
     private LocalDate creationDate;
 
-    public WeightConfiguration(){}
+    public WeightConfiguration() {
+    }
 
-    public WeightConfiguration(FormulaType formulaType, BigDecimal revenueWeight, BigDecimal timeWeight, BigDecimal defaultWeight, BigDecimal maxRevenueReference, Integer maxTimeReferenceMonths) {
+    public WeightConfiguration(FormulaType formulaType, BigDecimal revenueWeight, BigDecimal timeWeight, BigDecimal defaultWeight, BigDecimal maxRevenueReference, Integer maxTimeReferenceMonths, Integer lowRiskThreshold, Integer mediumRiskThreshold, User user) {
         this.formulaType = formulaType;
         this.revenueWeight = revenueWeight;
         this.timeWeight = timeWeight;
         this.defaultWeight = defaultWeight;
         this.maxRevenueReference = maxRevenueReference;
         this.maxTimeReferenceMonths = maxTimeReferenceMonths;
+        this.lowRiskThreshold = lowRiskThreshold;
+        this.mediumRiskThreshold = mediumRiskThreshold;
+        this.active = true;
+        this.updatedByUser = user;
+    }
+
+    public WeightConfiguration(FormulaType formulaType, BigDecimal revenueWeight, BigDecimal timeWeight, BigDecimal defaultWeight, BigDecimal maxRevenueReference, Integer maxTimeReferenceMonths, Integer lowRiskThreshold, Integer mediumRiskThreshold) {
+        this.formulaType = formulaType;
+        this.revenueWeight = revenueWeight;
+        this.timeWeight = timeWeight;
+        this.defaultWeight = defaultWeight;
+        this.maxRevenueReference = maxRevenueReference;
+        this.maxTimeReferenceMonths = maxTimeReferenceMonths;
+        this.lowRiskThreshold = lowRiskThreshold;
+        this.mediumRiskThreshold = mediumRiskThreshold;
         this.active = true;
     }
 
@@ -107,6 +133,30 @@ public class WeightConfiguration {
 
     public void setMaxTimeReferenceMonths(Integer maxTimeReferenceMonths) {
         this.maxTimeReferenceMonths = maxTimeReferenceMonths;
+    }
+
+    public Integer getLowRiskThreshold() {
+        return lowRiskThreshold;
+    }
+
+    public void setLowRiskThreshold(Integer lowRiskThreshold) {
+        this.lowRiskThreshold = lowRiskThreshold;
+    }
+
+    public Integer getMediumRiskThreshold() {
+        return mediumRiskThreshold;
+    }
+
+    public void setMediumRiskThreshold(Integer mediumRiskThreshold) {
+        this.mediumRiskThreshold = mediumRiskThreshold;
+    }
+
+    public User getUpdatedByUser() {
+        return updatedByUser;
+    }
+
+    public void setUpdatedByUser(User updatedByUser) {
+        this.updatedByUser = updatedByUser;
     }
 
     public Boolean getActive() {

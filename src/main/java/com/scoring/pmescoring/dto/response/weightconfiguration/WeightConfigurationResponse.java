@@ -13,7 +13,10 @@ public record WeightConfigurationResponse(
         BigDecimal defaultWeight,
         BigDecimal maxRevenueReference,
         Integer maxTimeReferenceMonths,
+        Integer lowRiskThreshold,
+        Integer mediumRiskThreshold,
         Boolean active,
-        LocalDate creationDate
+        LocalDate creationDate,
+        Long updatedByUserId
 ) {
 }

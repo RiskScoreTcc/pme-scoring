@@ -7,10 +7,7 @@ import com.scoring.pmescoring.dto.response.calculatedscore.CalculatedScoreRespon
 import com.scoring.pmescoring.mapper.CalculatedScoreMapper;
 import com.scoring.pmescoring.model.RiskBand;
 import com.scoring.pmescoring.model.ScoreFactorsDTO;
-import com.scoring.pmescoring.repository.CalculatedScoreRepository;
-import com.scoring.pmescoring.repository.DefaultOccurrenceRepository;
-import com.scoring.pmescoring.repository.FirmRepository;
-import com.scoring.pmescoring.repository.WeightConfigurationRepository;
+import com.scoring.pmescoring.repository.*;
 import com.scoring.pmescoring.service.CalculatedScoreService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,13 +26,15 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
     private final CalculatedScoreRepository calculatedScoreRepository;
     private final CalculatedScoreMapper calculatedScoreMapper;
     private final FirmRepository firmRepository;
+    private final UserRepository userRepository;
     private final WeightConfigurationRepository weightConfigurationRepository;
     private final DefaultOccurrenceRepository defaultOccurrenceRepository;
 
-    public CalculatedScoreServiceImpl(CalculatedScoreRepository calculatedScoreRepository, CalculatedScoreMapper calculatedScoreMapper, FirmRepository firmRepository, WeightConfigurationRepository weightConfigurationRepository, DefaultOccurrenceRepository defaultOccurrenceRepository) {
+    public CalculatedScoreServiceImpl(CalculatedScoreRepository calculatedScoreRepository, CalculatedScoreMapper calculatedScoreMapper, FirmRepository firmRepository, UserRepository userRepository, WeightConfigurationRepository weightConfigurationRepository, DefaultOccurrenceRepository defaultOccurrenceRepository) {
         this.calculatedScoreRepository = calculatedScoreRepository;
         this.calculatedScoreMapper = calculatedScoreMapper;
         this.firmRepository = firmRepository;
+        this.userRepository = userRepository;
         this.weightConfigurationRepository = weightConfigurationRepository;
         this.defaultOccurrenceRepository = defaultOccurrenceRepository;
     }
@@ -43,13 +42,14 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
     @Override
     @Transactional
     public CalculatedScoreResponse create(CalculatedScoreRequest calculatedScoreRequest) {
-        CalculatedScore calculatedScore = setCalculation(calculatedScoreRequest.firmId());
+        CalculatedScore calculatedScore = setCalculation(calculatedScoreRequest.firmId(), calculatedScoreRequest.userId());
         calculatedScoreRepository.save(calculatedScore);
         return calculatedScoreMapper.toResponse(calculatedScore);
     }
 
-    private CalculatedScore setCalculation(Long firmId) {
+    private CalculatedScore setCalculation(Long firmId, Long userId) {
         Firm firm = companySearch(firmId);
+        User user = userSearch(userId);
         WeightConfiguration weightConfiguration = findLatestActiveWeightConfiguration();
         List<DefaultOccurrence> activeDefaults = findActiveDefaults(firmId);
 
@@ -58,7 +58,7 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
         BigDecimal scoreDefault = calculateDefaultScore(activeDefaults);
         int calculatedScoreValue = calculateFinalScore(scoreRev, scoreTime, scoreDefault, weightConfiguration);
 
-        RiskBand riskBand = classifyRiskBand(calculatedScoreValue);
+        RiskBand riskBand = classifyRiskBand(calculatedScoreValue, weightConfiguration);
         boolean inDefault = !activeDefaults.isEmpty();
         BigDecimal amountDue = activeDefaults.stream()
                 .map(DefaultOccurrence::getAmountDue)
@@ -80,6 +80,7 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
 
         return new CalculatedScore(
                 firm,
+                user,
                 calculatedScoreValue,
                 riskBand,
                 scoreFactorsDTO
@@ -119,6 +120,11 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
                 .orElseThrow(() -> new IllegalArgumentException("Firm not found with ID: " + id));
     }
 
+    private User userSearch(Long id) {
+        return userRepository.findByIdAndActiveTrue(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
+    }
+
     private WeightConfiguration findLatestActiveWeightConfiguration() {
         return weightConfigurationRepository.findFirstByActiveTrueOrderByIdDesc()
                 .orElseThrow(() -> new IllegalStateException("No active weight configuration found in the system."));
@@ -128,10 +134,10 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
         return defaultOccurrenceRepository.findByFirmIdAndActiveTrueAndStatusResolvedFalse(firmId);
     }
 
-    private RiskBand classifyRiskBand(int score) {
-        if (score >= 700) {
+    private RiskBand classifyRiskBand(int score, WeightConfiguration weightConfiguration) {
+        if (score >= weightConfiguration.getLowRiskThreshold()) {
             return RiskBand.LOW;
-        } else if (score >= 400) {
+        } else if (score >= weightConfiguration.getMediumRiskThreshold()) {
             return RiskBand.MEDIUM;
         } else {
             return RiskBand.HIGH;
@@ -180,7 +186,7 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
         calculatedScore.delete();
         calculatedScoreRepository.save(calculatedScore);
 
-        CalculatedScore setCalculation = setCalculation(updateCalculatedScoreRequest.firmId());
+        CalculatedScore setCalculation = setCalculation(updateCalculatedScoreRequest.firmId(), updateCalculatedScoreRequest.userId());
         calculatedScoreRepository.save(setCalculation);
         return calculatedScoreMapper.toResponse(setCalculation);
     }

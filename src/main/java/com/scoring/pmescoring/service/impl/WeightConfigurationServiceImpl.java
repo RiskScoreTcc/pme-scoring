@@ -1,10 +1,12 @@
 package com.scoring.pmescoring.service.impl;
 
+import com.scoring.pmescoring.domain.User;
 import com.scoring.pmescoring.domain.WeightConfiguration;
 import com.scoring.pmescoring.dto.request.weightconfiguration.UpdateWeightConfigurationRequest;
 import com.scoring.pmescoring.dto.request.weightconfiguration.WeightConfigurationRequest;
 import com.scoring.pmescoring.dto.response.weightconfiguration.WeightConfigurationResponse;
 import com.scoring.pmescoring.mapper.WeightConfigurationMapper;
+import com.scoring.pmescoring.repository.UserRepository;
 import com.scoring.pmescoring.repository.WeightConfigurationRepository;
 import com.scoring.pmescoring.service.WeightConfigurationService;
 import org.springframework.data.domain.Page;
@@ -17,21 +19,42 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
 
     private final WeightConfigurationRepository weightConfigurationRepository;
     private final WeightConfigurationMapper weightConfigurationMapper;
+    private final UserRepository userRepository;
 
-    public WeightConfigurationServiceImpl(WeightConfigurationRepository weightConfigurationRepository, WeightConfigurationMapper weightConfigurationMapper) {
+    public WeightConfigurationServiceImpl(WeightConfigurationRepository weightConfigurationRepository, WeightConfigurationMapper weightConfigurationMapper, UserRepository userRepository) {
         this.weightConfigurationRepository = weightConfigurationRepository;
         this.weightConfigurationMapper = weightConfigurationMapper;
+        this.userRepository = userRepository;
     }
 
     @Override
     @Transactional
-    public WeightConfigurationResponse create(WeightConfigurationRequest weightConfigurationRequest) {
+    public WeightConfigurationResponse create(WeightConfigurationRequest request) {
+        Long UserID = request.updatedByUserId();
+
+        if (request.lowRiskThreshold() <= request.mediumRiskThreshold()) {
+            throw new IllegalArgumentException("Low risk threshold must be greater than medium risk threshold.");
+        }
+
+        User user = userRepository.findByIdAndActiveTrue(UserID)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + UserID));
+
         weightConfigurationRepository.findByActiveTrue().forEach(config -> {
             config.delete();
             weightConfigurationRepository.save(config);
         });
 
-        WeightConfiguration newConfiguration = new WeightConfiguration(weightConfigurationRequest.formulaType(), weightConfigurationRequest.revenueWeight(), weightConfigurationRequest.timeWeight(), weightConfigurationRequest.defaultWeight(), weightConfigurationRequest.maxRevenueReference(), weightConfigurationRequest.maxTimeReferenceMonths());
+        WeightConfiguration newConfiguration = new WeightConfiguration(
+                request.formulaType(),
+                request.revenueWeight(),
+                request.timeWeight(),
+                request.defaultWeight(),
+                request.maxRevenueReference(),
+                request.maxTimeReferenceMonths(),
+                request.lowRiskThreshold(),
+                request.mediumRiskThreshold(),
+                user
+        );
 
         WeightConfiguration savedConfiguration = weightConfigurationRepository.save(newConfiguration);
 
@@ -68,13 +91,42 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
 
     @Override
     @Transactional
-    public WeightConfigurationResponse update(Long id, UpdateWeightConfigurationRequest updateWeightConfigurationRequest) {
-        WeightConfiguration weightConfiguration = weightConfigurationRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("weight configuration not found with ID: " + id));
+    public WeightConfigurationResponse update(Long id, UpdateWeightConfigurationRequest request) {
+        WeightConfiguration existingConfiguration = weightConfigurationRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("weight configuration not found with ID: " + id));
+        Long UserID = request.updatedByUserId();
 
-        weightConfiguration.delete();
-        weightConfigurationRepository.save(weightConfiguration);
+        var formulaType = request.formulaType() != null ? request.formulaType() : existingConfiguration.getFormulaType();
+        var revenueWeight = request.revenueWeight() != null ? request.revenueWeight() : existingConfiguration.getRevenueWeight();
+        var timeWeight = request.timeWeight() != null ? request.timeWeight() : existingConfiguration.getTimeWeight();
+        var defaultWeight = request.defaultWeight() != null ? request.defaultWeight() : existingConfiguration.getDefaultWeight();
+        var maxRevenueReference = request.maxRevenueReference() != null ? request.maxRevenueReference() : existingConfiguration.getMaxRevenueReference();
+        var maxTimeReferenceMonths = request.maxTimeReferenceMonths() != null ? request.maxTimeReferenceMonths() : existingConfiguration.getMaxTimeReferenceMonths();
+        var lowRiskThreshold = request.lowRiskThreshold() != null ? request.lowRiskThreshold() : existingConfiguration.getLowRiskThreshold();
+        var mediumRiskThreshold = request.mediumRiskThreshold() != null ? request.mediumRiskThreshold() : existingConfiguration.getMediumRiskThreshold();
 
-        WeightConfiguration weightConfigurationUpdate = new WeightConfiguration(updateWeightConfigurationRequest.formulaType(), updateWeightConfigurationRequest.revenueWeight(), updateWeightConfigurationRequest.timeWeight(), updateWeightConfigurationRequest.defaultWeight(), updateWeightConfigurationRequest.maxRevenueReference(), updateWeightConfigurationRequest.maxTimeReferenceMonths());
+        if (lowRiskThreshold <= mediumRiskThreshold) {
+            throw new IllegalArgumentException("Low risk threshold must be greater than medium risk threshold.");
+        }
+
+        User user = userRepository.findByIdAndActiveTrue(UserID)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + UserID));
+
+
+        existingConfiguration.delete();
+        weightConfigurationRepository.save(existingConfiguration);
+
+        WeightConfiguration weightConfigurationUpdate = new WeightConfiguration(
+                formulaType,
+                revenueWeight,
+                timeWeight,
+                defaultWeight,
+                maxRevenueReference,
+                maxTimeReferenceMonths,
+                lowRiskThreshold,
+                mediumRiskThreshold,
+                user
+        );
+
         weightConfigurationRepository.save(weightConfigurationUpdate);
         return weightConfigurationMapper.toResponse(weightConfigurationUpdate);
     }
