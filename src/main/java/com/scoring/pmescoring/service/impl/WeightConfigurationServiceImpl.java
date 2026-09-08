@@ -1,5 +1,7 @@
 package com.scoring.pmescoring.service.impl;
 
+import com.scoring.pmescoring.common.exception.BusinessException;
+import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
 import com.scoring.pmescoring.domain.User;
 import com.scoring.pmescoring.domain.WeightConfiguration;
 import com.scoring.pmescoring.dto.request.weightconfiguration.UpdateWeightConfigurationRequest;
@@ -33,11 +35,11 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
         Long UserID = request.updatedByUserId();
 
         if (request.lowRiskThreshold() <= request.mediumRiskThreshold()) {
-            throw new IllegalArgumentException("Low risk threshold must be greater than medium risk threshold.");
+            throw new BusinessException("Low risk threshold must be greater than medium risk threshold.");
         }
 
         User user = userRepository.findByIdAndActiveTrue(UserID)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + UserID));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + UserID));
 
         weightConfigurationRepository.findByActiveTrue().forEach(config -> {
             config.delete();
@@ -64,11 +66,11 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
     @Override
     @Transactional
     public void delete(Long id) {
-        WeightConfiguration weightConfiguration = weightConfigurationRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("weight configuration not found with ID: " + id));
+        WeightConfiguration weightConfiguration = weightConfigurationRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new ResourceNotFoundException("weight configuration not found with ID: " + id));
 
         long activeConfigurationsCount = weightConfigurationRepository.countByActiveTrue();
         if (activeConfigurationsCount <= 1) {
-            throw new IllegalStateException("Cannot delete the only active weight configuration. At least one active configuration must remain in the system.");
+            throw new BusinessException("Cannot delete the only active weight configuration. At least one active configuration must remain in the system.");
         }
         weightConfiguration.delete();
 
@@ -78,7 +80,7 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
     @Override
     @Transactional(readOnly = true)
     public WeightConfigurationResponse findById(Long id) {
-        WeightConfiguration weightConfiguration = weightConfigurationRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("weight configuration not found with ID: " + id));
+        WeightConfiguration weightConfiguration = weightConfigurationRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new ResourceNotFoundException("weight configuration not found with ID: " + id));
         return weightConfigurationMapper.toResponse(weightConfiguration);
     }
 
@@ -92,7 +94,7 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
     @Override
     @Transactional
     public WeightConfigurationResponse update(Long id, UpdateWeightConfigurationRequest request) {
-        WeightConfiguration existingConfiguration = weightConfigurationRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("weight configuration not found with ID: " + id));
+        WeightConfiguration existingConfiguration = weightConfigurationRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new ResourceNotFoundException("weight configuration not found with ID: " + id));
         Long UserID = request.updatedByUserId();
 
         var formulaType = request.formulaType() != null ? request.formulaType() : existingConfiguration.getFormulaType();
@@ -105,11 +107,11 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
         var mediumRiskThreshold = request.mediumRiskThreshold() != null ? request.mediumRiskThreshold() : existingConfiguration.getMediumRiskThreshold();
 
         if (lowRiskThreshold <= mediumRiskThreshold) {
-            throw new IllegalArgumentException("Low risk threshold must be greater than medium risk threshold.");
+            throw new BusinessException("Low risk threshold must be greater than medium risk threshold.");
         }
 
         User user = userRepository.findByIdAndActiveTrue(UserID)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + UserID));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + UserID));
 
 
         existingConfiguration.delete();

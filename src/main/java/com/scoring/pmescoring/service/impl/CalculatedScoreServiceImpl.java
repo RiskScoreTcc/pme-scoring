@@ -1,5 +1,7 @@
 package com.scoring.pmescoring.service.impl;
 
+import com.scoring.pmescoring.common.exception.BusinessException;
+import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
 import com.scoring.pmescoring.domain.*;
 import com.scoring.pmescoring.dto.request.calculatedscore.CalculatedScoreRequest;
 import com.scoring.pmescoring.dto.request.calculatedscore.UpdateCalculatedScoreRequest;
@@ -117,17 +119,17 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
 
     private Firm companySearch(Long id) {
         return firmRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException("Firm not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Firm not found with ID: " + id));
     }
 
     private User userSearch(Long id) {
         return userRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
     }
 
     private WeightConfiguration findLatestActiveWeightConfiguration() {
         return weightConfigurationRepository.findFirstByActiveTrueOrderByIdDesc()
-                .orElseThrow(() -> new IllegalStateException("No active weight configuration found in the system."));
+                .orElseThrow(() -> new BusinessException("No active weight configuration found in the system."));
     }
 
     private List<DefaultOccurrence> findActiveDefaults(Long firmId) {
@@ -148,11 +150,11 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
     @Transactional
     public void delete(Long id) {
         CalculatedScore calculatedScore = calculatedScoreRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException("calculated Score not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("calculated Score not found with ID: " + id));
 
         long activeCalculatedScoreCount = calculatedScoreRepository.countByActiveTrue();
         if (activeCalculatedScoreCount <= 1) {
-            throw new IllegalStateException("Cannot delete the only active calculated score. At least one active score must remain in the system.");
+            throw new BusinessException("Cannot delete the only active calculated score. At least one active score must remain in the system.");
         }
 
         calculatedScore.delete();
@@ -163,7 +165,7 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
     @Transactional(readOnly = true)
     public CalculatedScoreResponse findById(Long id) {
         CalculatedScore calculatedScore = calculatedScoreRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("calculated Score not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("calculated Score not found with ID: " + id));
 
         return calculatedScoreMapper.toResponse(calculatedScore);
     }
@@ -181,7 +183,7 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
     @Transactional
     public CalculatedScoreResponse update(Long id, UpdateCalculatedScoreRequest updateCalculatedScoreRequest) {
         CalculatedScore calculatedScore = calculatedScoreRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException("calculated Score not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("calculated Score not found with ID: " + id));
 
         calculatedScore.delete();
         calculatedScoreRepository.save(calculatedScore);

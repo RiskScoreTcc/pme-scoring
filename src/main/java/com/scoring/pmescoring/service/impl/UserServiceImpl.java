@@ -1,5 +1,7 @@
 package com.scoring.pmescoring.service.impl;
 
+import com.scoring.pmescoring.common.exception.BusinessException;
+import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
 import com.scoring.pmescoring.domain.User;
 import com.scoring.pmescoring.dto.request.user.UpdateUserRequest;
 import com.scoring.pmescoring.dto.request.user.UserRequest;
@@ -11,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
         boolean existsEmail = userRepository.existsByEmailAndActiveTrue(userRequest.email());
 
         if (existsEmail) {
-            throw new IllegalArgumentException("User already exists with this email.");
+            throw new BusinessException("User already exists with this email.");
         }
 
         User user = userMapper.toEntity(userRequest);
@@ -42,7 +43,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void delete(Long id) {
         User user = userRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
+
         user.delete();
         userRepository.save(user);
     }
@@ -51,7 +53,8 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserResponse findById(Long id) {
         User user = userRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
+
         return userMapper.toResponse(user);
     }
 
@@ -66,12 +69,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponse update(Long id, UpdateUserRequest updateUserRequest) {
         User user = userRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
 
         if (!user.getEmail().equals(updateUserRequest.email())) {
             boolean existsEmail = userRepository.existsByEmailAndActiveTrue(updateUserRequest.email());
             if (existsEmail) {
-                throw new IllegalArgumentException("This email is already in use by another user.");
+                throw new BusinessException("This email is already in use by another user.");
             }
         }
 

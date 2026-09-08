@@ -1,5 +1,7 @@
 package com.scoring.pmescoring.service.impl;
 
+import com.scoring.pmescoring.common.exception.BusinessException;
+import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
 import com.scoring.pmescoring.domain.Firm;
 import com.scoring.pmescoring.domain.User;
 import com.scoring.pmescoring.dto.request.firm.FirmRequest;
@@ -34,9 +36,9 @@ public class FirmServiceImpl implements FirmService {
         boolean existsFirm = firmRepository.existsByCnpjAndActiveTrue(firmRequest.cnpj());
 
         if (existsFirm) {
-            throw new IllegalArgumentException("Firm already exists with this cnpj.");
+            throw new BusinessException("Firm already exists with this cnpj.");
         }
-        User user = userRepository.findByIdAndActiveTrue(idUser).orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + idUser));
+        User user = userRepository.findByIdAndActiveTrue(idUser).orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + idUser));
         Firm firm = new Firm(user, firmRequest.cnpj(), firmRequest.registeredCompanyName(), firmRequest.averageRevenue(), firmRequest.ageInMonths(), firmRequest.numberOfEmployees());
         Firm savedFirm = firmRepository.save(firm);
 
@@ -46,7 +48,7 @@ public class FirmServiceImpl implements FirmService {
     @Override
     @Transactional
     public void delete(Long id) {
-        Firm firm = firmRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("Firm not found with ID: " + id));
+        Firm firm = firmRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new ResourceNotFoundException("Firm not found with ID: " + id));
 
         firm.delete();
 
@@ -56,7 +58,7 @@ public class FirmServiceImpl implements FirmService {
     @Override
     @Transactional(readOnly = true)
     public FirmResponse findById(Long id) {
-        Firm firm = firmRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("Firm not found with ID: " + id));
+        Firm firm = firmRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new ResourceNotFoundException("Firm not found with ID: " + id));
 
         return firmMapper.toResponse(firm);
     }
@@ -71,11 +73,11 @@ public class FirmServiceImpl implements FirmService {
     @Override
     @Transactional
     public FirmResponse update(Long id, UpdateFirmRequest updateFirmRequest) {
-        Firm firm = firmRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("Firm not found with ID: " + id));
+        Firm firm = firmRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new ResourceNotFoundException("Firm not found with ID: " + id));
 
         if (!firm.getCnpj().equals(updateFirmRequest.cnpj())) {
             if (firmRepository.existsByCnpjAndActiveTrue(updateFirmRequest.cnpj())) {
-                throw new IllegalArgumentException("This Cnpj is already in use by another user.");
+                throw new BusinessException("This Cnpj is already in use by another user.");
             }
         }
         firm.update(updateFirmRequest.cnpj(), updateFirmRequest.ageInMonths(), updateFirmRequest.averageRevenue(), updateFirmRequest.numberOfEmployees(), updateFirmRequest.registeredCompanyName());

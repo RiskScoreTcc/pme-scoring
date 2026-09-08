@@ -1,5 +1,6 @@
 package com.scoring.pmescoring.service.impl;
 
+import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
 import com.scoring.pmescoring.domain.DefaultOccurrence;
 import com.scoring.pmescoring.domain.Firm;
 import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceRequest;
@@ -33,7 +34,7 @@ public class DefaultOccurrenceServiceImpl implements DefaultOccurrenceService {
         Long firmID = defaultOccurrenceRequest.firmId();
 
         Firm firm = firmRepository.findByIdAndActiveTrue(firmID)
-                .orElseThrow(() -> new IllegalArgumentException("Firm not found with ID: " + firmID));
+                .orElseThrow(() -> new ResourceNotFoundException("Firm not found with ID: " + firmID));
 
         DefaultOccurrence defaultOccurrence = new DefaultOccurrence(firm, defaultOccurrenceRequest.dateOccurrence(), defaultOccurrenceRequest.amountDue(), defaultOccurrenceRequest.description());
         defaultOccurrenceRepository.save(defaultOccurrence);
@@ -45,7 +46,7 @@ public class DefaultOccurrenceServiceImpl implements DefaultOccurrenceService {
     @Transactional
     public void delete(Long id) {
         DefaultOccurrence defaultOccurrence = defaultOccurrenceRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException("Default Occurrence not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Default Occurrence not found with ID: " + id));
 
         defaultOccurrence.delete();
         defaultOccurrenceRepository.save(defaultOccurrence);
@@ -55,7 +56,7 @@ public class DefaultOccurrenceServiceImpl implements DefaultOccurrenceService {
     @Transactional(readOnly = true)
     public DefaultOccurrenceResponse findById(Long id) {
         DefaultOccurrence defaultOccurrence = defaultOccurrenceRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException("Default Occurrence not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Default Occurrence not found with ID: " + id));
 
         return defaultOccurrenceMapper.toResponse(defaultOccurrence);
     }
@@ -71,7 +72,7 @@ public class DefaultOccurrenceServiceImpl implements DefaultOccurrenceService {
     @Transactional
     public DefaultOccurrenceResponse update(Long id, UpdateDefaultOccurrenceRequest updateDefaultOccurrenceRequest) {
         DefaultOccurrence defaultOccurrence = defaultOccurrenceRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException("Default Occurrence not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Default Occurrence not found with ID: " + id));
 
         defaultOccurrence.update(updateDefaultOccurrenceRequest.amountDue(), updateDefaultOccurrenceRequest.dateOccurrence(), updateDefaultOccurrenceRequest.description());
         defaultOccurrenceRepository.save(defaultOccurrence);
@@ -83,7 +84,7 @@ public class DefaultOccurrenceServiceImpl implements DefaultOccurrenceService {
     @Transactional
     public DefaultOccurrenceResponse updateStatus(Long id) {
         DefaultOccurrence defaultOccurrence = defaultOccurrenceRepository.findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new IllegalArgumentException("Default Occurrence not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Default Occurrence not found with ID: " + id));
 
         defaultOccurrence.setStatusResolved(true);
 
