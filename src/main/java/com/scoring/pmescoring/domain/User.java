@@ -20,7 +20,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email",nullable = false)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -36,9 +36,10 @@ public class User implements UserDetails {
     @Column(name = "creation_date", updatable = false)
     private LocalDate creationDate;
 
-    public User(){}
+    public User() {
+    }
 
-    public User(String email, String password, TypeUser userType){
+    public User(String email, String password, TypeUser userType) {
         this.email = email;
         this.password = password;
         this.userType = userType;
@@ -63,6 +64,7 @@ public class User implements UserDetails {
     public String getUsername() {
         return this.email;
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -129,4 +131,21 @@ public class User implements UserDetails {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+    public void updateData(String email, String password, TypeUser userType) {
+        if (email != null && !email.isBlank()) {
+            this.email = email;
+        }
+        if (password != null && !password.isBlank()) {
+            this.password = password;
+        }
+        if (userType != null) {
+            this.userType = userType;
+        }
+    }
+
+    public void delete(){
+     this.active = false;
+    }
 }
+

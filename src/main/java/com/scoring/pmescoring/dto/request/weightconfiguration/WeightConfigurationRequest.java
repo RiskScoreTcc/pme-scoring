@@ -3,6 +3,7 @@ package com.scoring.pmescoring.dto.request.weightconfiguration;
 import com.scoring.pmescoring.model.FormulaType;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
@@ -24,6 +25,14 @@ public record WeightConfigurationRequest(
         @NotNull(message = "Default weight is required")
         @PositiveOrZero(message = "Default weight cannot be negative")
         @DecimalMax(value = "100.00", message = "Default weight cannot exceed 100.00")
-        BigDecimal defaultWeight
+        BigDecimal defaultWeight,
+
+        @NotNull(message = "Max revenue reference is required")
+        @Positive(message = "Max revenue reference must be greater than zero")
+        BigDecimal maxRevenueReference,
+
+        @NotNull(message = "Max time reference months is required")
+        @Positive(message = "Max time reference months must be greater than zero")
+        Integer maxTimeReferenceMonths
 ) {
 }

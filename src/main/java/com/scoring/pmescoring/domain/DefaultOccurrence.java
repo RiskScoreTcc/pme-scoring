@@ -27,7 +27,7 @@ public class DefaultOccurrence {
     @Column(name = "status_resolved", nullable = false)
     private Boolean statusResolved = false;
 
-    @Column( name = "description")
+    @Column(name = "description")
     private String description;
 
     @Column(name = "active", nullable = false)
@@ -36,7 +36,15 @@ public class DefaultOccurrence {
     @Column(name = "creation_date", updatable = false)
     private LocalDate creationDate;
 
-    public DefaultOccurrence(){}
+    public DefaultOccurrence() {
+    }
+
+    public DefaultOccurrence(LocalDate dateOccurrence, BigDecimal amountDue, String description) {
+        this.dateOccurrence = dateOccurrence;
+        this.amountDue = amountDue;
+        this.statusResolved = false;
+        this.description = description;
+    }
 
     public DefaultOccurrence(Firm firm, LocalDate dateOccurrence, BigDecimal amountDue, String description) {
         this.firm = firm;
@@ -116,5 +124,19 @@ public class DefaultOccurrence {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public void update(BigDecimal amountDue, LocalDate dateOccurrence, String description) {
+        if (amountDue != null) {
+            this.amountDue = amountDue;
+        }
+        if (dateOccurrence != null) {
+            this.dateOccurrence = dateOccurrence;
+        }
+        this.description = description;
+    }
+
+    public void delete() {
+        this.active = false;
     }
 }

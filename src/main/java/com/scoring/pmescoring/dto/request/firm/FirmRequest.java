@@ -8,6 +8,10 @@ import org.hibernate.validator.constraints.br.CNPJ;
 import java.math.BigDecimal;
 
 public record FirmRequest(
+
+        @NotNull(message = "User ID is required")
+        Long userId,
+
         @NotBlank(message = "CNPJ is required")
         @CNPJ(message = "Invalid CNPJ format")
         String cnpj,

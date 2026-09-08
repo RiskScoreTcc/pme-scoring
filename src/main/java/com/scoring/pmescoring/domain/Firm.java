@@ -13,11 +13,11 @@ public class Firm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true, nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
-    @Column(name = "cnpj", nullable = false, unique = true, length = 14)
+    @Column(name = "cnpj", nullable = false, length = 14)
     private String cnpj;
 
     @Column(name = "registered_company_name", nullable = false)
@@ -26,7 +26,7 @@ public class Firm {
     @Column(name = "average_revenue", nullable = false, precision = 12, scale = 2)
     private BigDecimal averageRevenue;
 
-    @Column(name = "time_months", nullable = false )
+    @Column(name = "time_months", nullable = false)
     private Integer timeMonths;
 
     @Column(name = "number_of_employees", nullable = false)
@@ -38,10 +38,19 @@ public class Firm {
     @Column(name = "creation_date", updatable = false)
     private LocalDate creationDate;
 
-    public Firm(){}
+    public Firm() {
+    }
 
     public Firm(User user, String cnpj, String registeredCompanyName, BigDecimal averageRevenue, int timeMonths, int numberOfEmployees) {
         this.user = user;
+        this.cnpj = cnpj;
+        this.registeredCompanyName = registeredCompanyName;
+        this.averageRevenue = averageRevenue;
+        this.timeMonths = timeMonths;
+        this.numberOfEmployees = numberOfEmployees;
+    }
+
+    public Firm(String cnpj, String registeredCompanyName, BigDecimal averageRevenue, int timeMonths, int numberOfEmployees) {
         this.cnpj = cnpj;
         this.registeredCompanyName = registeredCompanyName;
         this.averageRevenue = averageRevenue;
@@ -67,6 +76,10 @@ public class Firm {
 
     public Long getId() {
         return id;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public void setUserID(User user) {
@@ -113,11 +126,37 @@ public class Firm {
         this.numberOfEmployees = numberOfEmployees;
     }
 
-    public Boolean getActive(){ return this.active; }
+    public Boolean getActive() {
+        return this.active;
+    }
 
-    public void setActive(Boolean active){ this.active = active; }
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     public LocalDate getCreationDate() {
         return creationDate;
+    }
+
+    public void delete() {
+        this.active = false;
+    }
+
+    public void update(String cnpj, Integer timeMonths, BigDecimal averageRevenue, Integer numberOfEmployees, String registeredCompanyName) {
+        if (cnpj != null && !cnpj.isBlank()) {
+            this.cnpj = cnpj;
+        }
+        if (timeMonths != null) {
+            this.timeMonths = timeMonths;
+        }
+        if (averageRevenue != null) {
+            this.averageRevenue = averageRevenue;
+        }
+        if (numberOfEmployees != null) {
+            this.numberOfEmployees = numberOfEmployees;
+        }
+        if (registeredCompanyName != null && !registeredCompanyName.isBlank()) {
+            this.registeredCompanyName = registeredCompanyName;
+        }
     }
 }

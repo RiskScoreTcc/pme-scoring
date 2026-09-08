@@ -7,6 +7,8 @@ public record UpdateWeightConfigurationRequest(
         FormulaType formulaType,
         BigDecimal revenueWeight,
         BigDecimal timeWeight,
-        BigDecimal defaultWeight
+        BigDecimal defaultWeight,
+        BigDecimal maxRevenueReference,
+        Integer maxTimeReferenceMonths
 ) {
 }

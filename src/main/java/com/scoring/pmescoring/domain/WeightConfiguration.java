@@ -28,6 +28,12 @@ public class WeightConfiguration {
     @Column(name = "default_weight", nullable = false, precision = 4, scale = 2)
     private BigDecimal defaultWeight;
 
+    @Column(name = "max_revenue_reference", nullable = false)
+    private BigDecimal maxRevenueReference;
+
+    @Column(name = "max_time_reference_months", nullable = false)
+    private Integer maxTimeReferenceMonths;
+
     @Column(name = "active", nullable = false)
     private Boolean active = true;
 
@@ -36,11 +42,14 @@ public class WeightConfiguration {
 
     public WeightConfiguration(){}
 
-    public WeightConfiguration(FormulaType formulaType, BigDecimal revenueWeight, BigDecimal timeWeight, BigDecimal defaultWeight) {
+    public WeightConfiguration(FormulaType formulaType, BigDecimal revenueWeight, BigDecimal timeWeight, BigDecimal defaultWeight, BigDecimal maxRevenueReference, Integer maxTimeReferenceMonths) {
         this.formulaType = formulaType;
         this.revenueWeight = revenueWeight;
         this.timeWeight = timeWeight;
         this.defaultWeight = defaultWeight;
+        this.maxRevenueReference = maxRevenueReference;
+        this.maxTimeReferenceMonths = maxTimeReferenceMonths;
+        this.active = true;
     }
 
     @PrePersist
@@ -84,6 +93,22 @@ public class WeightConfiguration {
         this.defaultWeight = defaultWeight;
     }
 
+    public BigDecimal getMaxRevenueReference() {
+        return maxRevenueReference;
+    }
+
+    public void setMaxRevenueReference(BigDecimal maxRevenueReference) {
+        this.maxRevenueReference = maxRevenueReference;
+    }
+
+    public Integer getMaxTimeReferenceMonths() {
+        return maxTimeReferenceMonths;
+    }
+
+    public void setMaxTimeReferenceMonths(Integer maxTimeReferenceMonths) {
+        this.maxTimeReferenceMonths = maxTimeReferenceMonths;
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -105,5 +130,9 @@ public class WeightConfiguration {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public void delete() {
+        this.active = false;
     }
 }

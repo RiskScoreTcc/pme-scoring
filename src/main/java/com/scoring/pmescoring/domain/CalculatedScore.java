@@ -40,6 +40,14 @@ public class CalculatedScore {
 
     public CalculatedScore(){}
 
+    public CalculatedScore(Integer scoreValue, RiskBand riskBand, ScoreFactorsDTO factorsJson) {
+        this.scoreValue = scoreValue;
+        this.riskBand = riskBand;
+        this.active = true;
+        this.factorsJson = factorsJson;
+    }
+
+
     public CalculatedScore(Firm firm, Integer scoreValue, RiskBand riskBand, ScoreFactorsDTO factorsJson) {
         this.firm = firm;
         this.scoreValue = scoreValue;
@@ -110,5 +118,9 @@ public class CalculatedScore {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public void delete() {
+        this.active = false;
     }
 }

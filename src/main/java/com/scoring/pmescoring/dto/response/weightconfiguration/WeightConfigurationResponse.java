@@ -11,6 +11,8 @@ public record WeightConfigurationResponse(
         BigDecimal revenueWeight,
         BigDecimal timeWeight,
         BigDecimal defaultWeight,
+        BigDecimal maxRevenueReference,
+        Integer maxTimeReferenceMonths,
         Boolean active,
         LocalDate creationDate
 ) {
