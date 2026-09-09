@@ -1,5 +1,6 @@
 package com.scoring.pmescoring.domain;
 
+import com.scoring.pmescoring.model.EntityStatus;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -32,8 +33,9 @@ public class Firm {
     @Column(name = "number_of_employees", nullable = false)
     private Integer numberOfEmployees;
 
-    @Column(name = "active", nullable = false)
-    private Boolean active = true;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private EntityStatus status = EntityStatus.ACTIVE;
 
     @Column(name = "creation_date", updatable = false)
     private LocalDate creationDate;
@@ -48,6 +50,7 @@ public class Firm {
         this.averageRevenue = averageRevenue;
         this.timeMonths = timeMonths;
         this.numberOfEmployees = numberOfEmployees;
+        this.status = EntityStatus.ACTIVE;
     }
 
     public Firm(String cnpj, String registeredCompanyName, BigDecimal averageRevenue, int timeMonths, int numberOfEmployees) {
@@ -56,6 +59,7 @@ public class Firm {
         this.averageRevenue = averageRevenue;
         this.timeMonths = timeMonths;
         this.numberOfEmployees = numberOfEmployees;
+        this.status = EntityStatus.ACTIVE;
     }
 
     @PrePersist
@@ -82,7 +86,7 @@ public class Firm {
         return user;
     }
 
-    public void setUserID(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -110,28 +114,28 @@ public class Firm {
         this.averageRevenue = averageRevenue;
     }
 
-    public int getTimeMonths() {
+    public Integer getTimeMonths() {
         return timeMonths;
     }
 
-    public void setTimeMonths(int timeMonths) {
+    public void setTimeMonths(Integer timeMonths) {
         this.timeMonths = timeMonths;
     }
 
-    public int getNumberOfEmployees() {
+    public Integer getNumberOfEmployees() {
         return numberOfEmployees;
     }
 
-    public void setNumberOfEmployees(int numberOfEmployees) {
+    public void setNumberOfEmployees(Integer numberOfEmployees) {
         this.numberOfEmployees = numberOfEmployees;
     }
 
-    public Boolean getActive() {
-        return this.active;
+    public EntityStatus getStatus() {
+        return status;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setStatus(EntityStatus status) {
+        this.status = status;
     }
 
     public LocalDate getCreationDate() {
@@ -139,7 +143,7 @@ public class Firm {
     }
 
     public void delete() {
-        this.active = false;
+        this.status = EntityStatus.DELETED;
     }
 
     public void update(String cnpj, Integer timeMonths, BigDecimal averageRevenue, Integer numberOfEmployees, String registeredCompanyName) {

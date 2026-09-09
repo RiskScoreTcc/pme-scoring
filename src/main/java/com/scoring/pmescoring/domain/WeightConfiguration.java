@@ -1,5 +1,6 @@
 package com.scoring.pmescoring.domain;
 
+import com.scoring.pmescoring.model.EntityStatus;
 import com.scoring.pmescoring.model.FormulaType;
 import jakarta.persistence.*;
 
@@ -44,8 +45,9 @@ public class WeightConfiguration {
     @JoinColumn(name = "updated_by_user_id", referencedColumnName = "id", nullable = false)
     private User updatedByUser;
 
-    @Column(name = "active", nullable = false)
-    private Boolean active = true;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status" ,nullable = false)
+    private EntityStatus status = EntityStatus.ACTIVE;
 
     @Column(name = "creation_date", updatable = false)
     private LocalDate creationDate;
@@ -62,7 +64,7 @@ public class WeightConfiguration {
         this.maxTimeReferenceMonths = maxTimeReferenceMonths;
         this.lowRiskThreshold = lowRiskThreshold;
         this.mediumRiskThreshold = mediumRiskThreshold;
-        this.active = true;
+        this.status = EntityStatus.ACTIVE;
         this.updatedByUser = user;
     }
 
@@ -75,7 +77,7 @@ public class WeightConfiguration {
         this.maxTimeReferenceMonths = maxTimeReferenceMonths;
         this.lowRiskThreshold = lowRiskThreshold;
         this.mediumRiskThreshold = mediumRiskThreshold;
-        this.active = true;
+        this.status = EntityStatus.ACTIVE;
     }
 
     @PrePersist
@@ -159,12 +161,12 @@ public class WeightConfiguration {
         this.updatedByUser = updatedByUser;
     }
 
-    public Boolean getActive() {
-        return active;
+    public EntityStatus getStatus() {
+        return status;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setStatus(EntityStatus status) {
+        this.status = status;
     }
 
     public LocalDate getCreationDate() {
@@ -183,6 +185,6 @@ public class WeightConfiguration {
     }
 
     public void delete() {
-        this.active = false;
+        this.status = EntityStatus.DELETED;
     }
 }

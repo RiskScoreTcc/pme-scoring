@@ -7,6 +7,7 @@ import com.scoring.pmescoring.dto.request.calculatedscore.CalculatedScoreRequest
 import com.scoring.pmescoring.dto.request.calculatedscore.UpdateCalculatedScoreRequest;
 import com.scoring.pmescoring.dto.response.calculatedscore.CalculatedScoreResponse;
 import com.scoring.pmescoring.mapper.CalculatedScoreMapper;
+import com.scoring.pmescoring.model.EntityStatus;
 import com.scoring.pmescoring.model.RiskBand;
 import com.scoring.pmescoring.model.ScoreFactorsDTO;
 import com.scoring.pmescoring.repository.*;
@@ -21,7 +22,6 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 
-
 @Service
 public class CalculatedScoreServiceImpl implements CalculatedScoreService {
 
@@ -32,7 +32,12 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
     private final WeightConfigurationRepository weightConfigurationRepository;
     private final DefaultOccurrenceRepository defaultOccurrenceRepository;
 
-    public CalculatedScoreServiceImpl(CalculatedScoreRepository calculatedScoreRepository, CalculatedScoreMapper calculatedScoreMapper, FirmRepository firmRepository, UserRepository userRepository, WeightConfigurationRepository weightConfigurationRepository, DefaultOccurrenceRepository defaultOccurrenceRepository) {
+    public CalculatedScoreServiceImpl(CalculatedScoreRepository calculatedScoreRepository,
+                                      CalculatedScoreMapper calculatedScoreMapper,
+                                      FirmRepository firmRepository,
+                                      UserRepository userRepository,
+                                      WeightConfigurationRepository weightConfigurationRepository,
+                                      DefaultOccurrenceRepository defaultOccurrenceRepository) {
         this.calculatedScoreRepository = calculatedScoreRepository;
         this.calculatedScoreMapper = calculatedScoreMapper;
         this.firmRepository = firmRepository;
@@ -44,6 +49,9 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
     @Override
     @Transactional
     public CalculatedScoreResponse create(CalculatedScoreRequest calculatedScoreRequest) {
+        calculatedScoreRepository.findByFirmIdAndStatus(calculatedScoreRequest.firmId(), EntityStatus.ACTIVE)
+                .forEach(this::deactivatePreviousCalculation);
+
         CalculatedScore calculatedScore = setCalculation(calculatedScoreRequest.firmId(), calculatedScoreRequest.userId());
         calculatedScoreRepository.save(calculatedScore);
         return calculatedScoreMapper.toResponse(calculatedScore);
@@ -80,11 +88,14 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
                 weightConfiguration.getMaxTimeReferenceMonths()
         );
 
+        String justification =  generateJustification(scoreFactorsDTO, riskBand,  calculatedScoreValue);
+
         return new CalculatedScore(
                 firm,
                 user,
                 calculatedScoreValue,
                 riskBand,
+                justification,
                 scoreFactorsDTO
         );
     }
@@ -116,24 +127,23 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
         return finalScore.setScale(0, RoundingMode.HALF_UP).intValue();
     }
 
-
     private Firm companySearch(Long id) {
-        return firmRepository.findByIdAndActiveTrue(id)
+        return firmRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("Firm not found with ID: " + id));
     }
 
     private User userSearch(Long id) {
-        return userRepository.findByIdAndActiveTrue(id)
+        return userRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
     }
 
     private WeightConfiguration findLatestActiveWeightConfiguration() {
-        return weightConfigurationRepository.findFirstByActiveTrueOrderByIdDesc()
+        return weightConfigurationRepository.findFirstByStatusOrderByIdDesc(EntityStatus.ACTIVE)
                 .orElseThrow(() -> new BusinessException("No active weight configuration found in the system."));
     }
 
     private List<DefaultOccurrence> findActiveDefaults(Long firmId) {
-        return defaultOccurrenceRepository.findByFirmIdAndActiveTrueAndStatusResolvedFalse(firmId);
+        return defaultOccurrenceRepository.findByFirmIdAndStatusAndStatusResolvedFalse(firmId, EntityStatus.ACTIVE);
     }
 
     private RiskBand classifyRiskBand(int score, WeightConfiguration weightConfiguration) {
@@ -146,25 +156,46 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
         }
     }
 
+    private String generateJustification(ScoreFactorsDTO factors, RiskBand riskBand, int finalScore) {
+        StringBuilder justification = new StringBuilder();
+
+        justification.append(String.format("The final score was %d points, classified in the %s risk band. ", finalScore, riskBand));
+
+        if (factors.inDefault()) {
+            justification.append("The factor with the greatest negative impact was the presence of active default occurrences, which zeroed the score for this category. ");
+        } else {
+            justification.append("The absence of active defaults contributed positively to the maximum score in the payment history category. ");
+        }
+
+        justification.append(String.format("The reported average revenue was R$ %.2f (weight of %.0f%%) and the operating time was %d months (weight of %.0f%%).",
+                factors.averageRevenue(),
+                factors.revenueWeight().multiply(new BigDecimal("100")),
+                factors.timeMonths(),
+                factors.timeWeight().multiply(new BigDecimal("100"))
+        ));
+
+        return justification.toString();
+    }
+
     @Override
     @Transactional
     public void delete(Long id) {
-        CalculatedScore calculatedScore = calculatedScoreRepository.findByIdAndActiveTrue(id)
+        CalculatedScore calculatedScore = calculatedScoreRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("calculated Score not found with ID: " + id));
 
-        long activeCalculatedScoreCount = calculatedScoreRepository.countByActiveTrue();
+        long activeCalculatedScoreCount = calculatedScoreRepository.countByStatus(EntityStatus.ACTIVE);
         if (activeCalculatedScoreCount <= 1) {
             throw new BusinessException("Cannot delete the only active calculated score. At least one active score must remain in the system.");
         }
 
-        calculatedScore.delete();
+        calculatedScore.inactive();
         calculatedScoreRepository.save(calculatedScore);
     }
 
     @Override
     @Transactional(readOnly = true)
     public CalculatedScoreResponse findById(Long id) {
-        CalculatedScore calculatedScore = calculatedScoreRepository.findById(id)
+        CalculatedScore calculatedScore = calculatedScoreRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("calculated Score not found with ID: " + id));
 
         return calculatedScoreMapper.toResponse(calculatedScore);
@@ -174,7 +205,7 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
     @Transactional(readOnly = true)
     public Page<CalculatedScoreResponse> findAll(Pageable pageable) {
         Page<CalculatedScore> calculatedScoreResponsePage = calculatedScoreRepository
-                .findAll(pageable);
+                .findByStatusNot(EntityStatus.DELETED, pageable);
 
         return calculatedScoreResponsePage.map(calculatedScoreMapper::toResponse);
     }
@@ -182,14 +213,21 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
     @Override
     @Transactional
     public CalculatedScoreResponse update(Long id, UpdateCalculatedScoreRequest updateCalculatedScoreRequest) {
-        CalculatedScore calculatedScore = calculatedScoreRepository.findByIdAndActiveTrue(id)
+        CalculatedScore calculatedScore = calculatedScoreRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("calculated Score not found with ID: " + id));
 
-        calculatedScore.delete();
-        calculatedScoreRepository.save(calculatedScore);
+        deactivatePreviousCalculation(calculatedScore);
+
+        calculatedScoreRepository.findByFirmIdAndStatus(updateCalculatedScoreRequest.firmId(), EntityStatus.ACTIVE)
+                .forEach(this::deactivatePreviousCalculation);
 
         CalculatedScore setCalculation = setCalculation(updateCalculatedScoreRequest.firmId(), updateCalculatedScoreRequest.userId());
         calculatedScoreRepository.save(setCalculation);
         return calculatedScoreMapper.toResponse(setCalculation);
+    }
+
+    private void deactivatePreviousCalculation(CalculatedScore calculatedScore) {
+        calculatedScore.inactive();
+        calculatedScoreRepository.save(calculatedScore);
     }
 }

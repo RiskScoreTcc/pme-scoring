@@ -8,6 +8,7 @@ import com.scoring.pmescoring.dto.request.weightconfiguration.UpdateWeightConfig
 import com.scoring.pmescoring.dto.request.weightconfiguration.WeightConfigurationRequest;
 import com.scoring.pmescoring.dto.response.weightconfiguration.WeightConfigurationResponse;
 import com.scoring.pmescoring.mapper.WeightConfigurationMapper;
+import com.scoring.pmescoring.model.EntityStatus;
 import com.scoring.pmescoring.repository.UserRepository;
 import com.scoring.pmescoring.repository.WeightConfigurationRepository;
 import com.scoring.pmescoring.service.WeightConfigurationService;
@@ -38,10 +39,10 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
             throw new BusinessException("Low risk threshold must be greater than medium risk threshold.");
         }
 
-        User user = userRepository.findByIdAndActiveTrue(UserID)
+        User user = userRepository.findByIdAndStatus(UserID, EntityStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + UserID));
 
-        weightConfigurationRepository.findByActiveTrue().forEach(config -> {
+        weightConfigurationRepository.findByStatus(EntityStatus.ACTIVE).forEach(config -> {
             config.delete();
             weightConfigurationRepository.save(config);
         });
@@ -66,9 +67,10 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
     @Override
     @Transactional
     public void delete(Long id) {
-        WeightConfiguration weightConfiguration = weightConfigurationRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new ResourceNotFoundException("weight configuration not found with ID: " + id));
+        WeightConfiguration weightConfiguration = weightConfigurationRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
+                .orElseThrow(() -> new ResourceNotFoundException("weight configuration not found with ID: " + id));
 
-        long activeConfigurationsCount = weightConfigurationRepository.countByActiveTrue();
+        long activeConfigurationsCount = weightConfigurationRepository.countByStatus(EntityStatus.ACTIVE);
         if (activeConfigurationsCount <= 1) {
             throw new BusinessException("Cannot delete the only active weight configuration. At least one active configuration must remain in the system.");
         }
@@ -80,7 +82,8 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
     @Override
     @Transactional(readOnly = true)
     public WeightConfigurationResponse findById(Long id) {
-        WeightConfiguration weightConfiguration = weightConfigurationRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new ResourceNotFoundException("weight configuration not found with ID: " + id));
+        WeightConfiguration weightConfiguration = weightConfigurationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("weight configuration not found with ID: " + id));
         return weightConfigurationMapper.toResponse(weightConfiguration);
     }
 
@@ -94,7 +97,8 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
     @Override
     @Transactional
     public WeightConfigurationResponse update(Long id, UpdateWeightConfigurationRequest request) {
-        WeightConfiguration existingConfiguration = weightConfigurationRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new ResourceNotFoundException("weight configuration not found with ID: " + id));
+        WeightConfiguration existingConfiguration = weightConfigurationRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
+                .orElseThrow(() -> new ResourceNotFoundException("weight configuration not found with ID: " + id));
         Long UserID = request.updatedByUserId();
 
         var formulaType = request.formulaType() != null ? request.formulaType() : existingConfiguration.getFormulaType();
@@ -110,9 +114,8 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
             throw new BusinessException("Low risk threshold must be greater than medium risk threshold.");
         }
 
-        User user = userRepository.findByIdAndActiveTrue(UserID)
+        User user = userRepository.findByIdAndStatus(UserID, EntityStatus.ACTIVE)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + UserID));
-
 
         existingConfiguration.delete();
         weightConfigurationRepository.save(existingConfiguration);

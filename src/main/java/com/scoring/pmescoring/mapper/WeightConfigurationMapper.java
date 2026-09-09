@@ -35,7 +35,7 @@ public class WeightConfigurationMapper implements GenericMapper<WeightConfigurat
                 entity.getMaxTimeReferenceMonths(),
                 entity.getLowRiskThreshold(),
                 entity.getMediumRiskThreshold(),
-                entity.getActive(),
+                entity.getStatus(),
                 entity.getCreationDate(),
                 entity.getUpdatedByUser().getId()
         );

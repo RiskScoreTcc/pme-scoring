@@ -15,6 +15,6 @@ public class DefaultOccurrenceMapper implements GenericMapper<DefaultOccurrenceR
 
     @Override
     public DefaultOccurrenceResponse toResponse(DefaultOccurrence entity) {
-        return new DefaultOccurrenceResponse(entity.getId(), entity.getFirm().getId(), entity.getDateOccurrence(), entity.getAmountDue(), entity.getStatusResolved(), entity.getDescription(), entity.getActive(), entity.getCreationDate());
+        return new DefaultOccurrenceResponse(entity.getId(), entity.getFirm().getId(), entity.getDateOccurrence(), entity.getAmountDue(), entity.getStatusResolved(), entity.getDescription(), entity.getStatus(), entity.getCreationDate());
     }
 }

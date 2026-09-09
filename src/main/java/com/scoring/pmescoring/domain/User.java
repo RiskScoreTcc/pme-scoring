@@ -1,5 +1,6 @@
 package com.scoring.pmescoring.domain;
 
+import com.scoring.pmescoring.model.EntityStatus;
 import com.scoring.pmescoring.model.TypeUser;
 import jakarta.persistence.*;
 import org.jspecify.annotations.Nullable;
@@ -20,7 +21,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "email",nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -30,8 +31,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private TypeUser userType;
 
-    @Column(name = "active", nullable = false)
-    private Boolean active = true;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private EntityStatus status = EntityStatus.ACTIVE;
 
     @Column(name = "creation_date", updatable = false)
     private LocalDate creationDate;
@@ -43,6 +45,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.userType = userType;
+        this.status = EntityStatus.ACTIVE;
     }
 
     @PrePersist
@@ -82,7 +85,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.active;
+        return this.status == EntityStatus.ACTIVE;
     }
 
     public Long getId() {
@@ -109,12 +112,12 @@ public class User implements UserDetails {
         this.userType = userType;
     }
 
-    public Boolean getActive() {
-        return active;
+    public EntityStatus getStatus() {
+        return status;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setStatus(EntityStatus status) {
+        this.status = status;
     }
 
     public LocalDate getCreationDate() {
@@ -145,7 +148,6 @@ public class User implements UserDetails {
     }
 
     public void delete(){
-     this.active = false;
+        this.status = EntityStatus.DELETED;
     }
 }
-

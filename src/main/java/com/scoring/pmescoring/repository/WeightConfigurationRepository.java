@@ -1,6 +1,7 @@
 package com.scoring.pmescoring.repository;
 
 import com.scoring.pmescoring.domain.WeightConfiguration;
+import com.scoring.pmescoring.model.EntityStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,9 +10,12 @@ import java.util.Optional;
 
 @Repository
 public interface WeightConfigurationRepository extends JpaRepository<WeightConfiguration, Long> {
-    boolean existsByIdAndActiveTrue(Long id);
-    Optional<WeightConfiguration> findByIdAndActiveTrue(Long id);
-    List<WeightConfiguration> findByActiveTrue();
-    long countByActiveTrue();
-    Optional<WeightConfiguration> findFirstByActiveTrueOrderByIdDesc();
+
+    Optional<WeightConfiguration> findByIdAndStatus(Long id, EntityStatus status);
+
+    List<WeightConfiguration> findByStatus(EntityStatus status);
+
+    long countByStatus(EntityStatus status);
+
+    Optional<WeightConfiguration> findFirstByStatusOrderByIdDesc(EntityStatus status);
 }

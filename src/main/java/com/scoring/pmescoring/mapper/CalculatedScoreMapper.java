@@ -15,7 +15,7 @@ public class CalculatedScoreMapper implements GenericMapper<CalculatedScoreReque
 
     @Override
     public CalculatedScoreResponse toResponse(CalculatedScore entity) {
-        return new CalculatedScoreResponse(entity.getId(), entity.getFirm().getId(), entity.getAnalyzedByUser().getId() ,entity.getScoreValue(), entity.getRiskBand(), entity.getActive(), entity.getFactorsJson(), entity.getCalculationDate(),
+        return new CalculatedScoreResponse(entity.getId(), entity.getFirm().getId(), entity.getAnalyzedByUser().getId() ,entity.getScoreValue(), entity.getRiskBand(), entity.getStatus(), entity.getFactorsJson(), entity.getJustification(), entity.getCalculationDate(),
                 "Este score é uma estimativa simplificada, não substituindo análise de crédito formal de instituições financeiras.");
     }
 }

@@ -1,5 +1,6 @@
 package com.scoring.pmescoring.dto.response.weightconfiguration;
 
+import com.scoring.pmescoring.model.EntityStatus;
 import com.scoring.pmescoring.model.FormulaType;
 
 import java.math.BigDecimal;
@@ -15,7 +16,7 @@ public record WeightConfigurationResponse(
         Integer maxTimeReferenceMonths,
         Integer lowRiskThreshold,
         Integer mediumRiskThreshold,
-        Boolean active,
+        EntityStatus status,
         LocalDate creationDate,
         Long updatedByUserId
 ) {

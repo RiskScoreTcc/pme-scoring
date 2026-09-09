@@ -1,5 +1,6 @@
 package com.scoring.pmescoring.dto.response.calculatedscore;
 
+import com.scoring.pmescoring.model.EntityStatus;
 import com.scoring.pmescoring.model.RiskBand;
 import com.scoring.pmescoring.model.ScoreFactorsDTO;
 
@@ -11,8 +12,9 @@ public record CalculatedScoreResponse(
         Long userId,
         Integer scoreValue,
         RiskBand riskBand,
-        Boolean active,
+        EntityStatus status,
         ScoreFactorsDTO factorsJson,
+        String justification,
         LocalDate calculationDate,
         String disclaimer
 ) {
