@@ -2,6 +2,7 @@ package com.scoring.pmescoring.dto.request.weightconfiguration;
 
 import com.scoring.pmescoring.model.FormulaType;
 import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -14,21 +15,25 @@ public record WeightConfigurationRequest(
 
         @NotNull(message = "Revenue weight is required")
         @PositiveOrZero(message = "Revenue weight cannot be negative")
-        @DecimalMax(value = "100.00", message = "Revenue weight cannot exceed 100.00")
+        @DecimalMax(value = "1.00", message = "Revenue weight cannot exceed 1.00")
+        @Digits(integer = 1, fraction = 2, message = "Invalid format for revenue weight")
         BigDecimal revenueWeight,
 
         @NotNull(message = "Time weight is required")
         @PositiveOrZero(message = "Time weight cannot be negative")
-        @DecimalMax(value = "100.00", message = "Time weight cannot exceed 100.00")
+        @DecimalMax(value = "1.00", message = "Time weight cannot exceed 1.00")
+        @Digits(integer = 1, fraction = 2, message = "Invalid format for time weight")
         BigDecimal timeWeight,
 
         @NotNull(message = "Default weight is required")
         @PositiveOrZero(message = "Default weight cannot be negative")
-        @DecimalMax(value = "100.00", message = "Default weight cannot exceed 100.00")
+        @DecimalMax(value = "1.00", message = "Default weight cannot exceed 1.00")
+        @Digits(integer = 1, fraction = 2, message = "Invalid format for default weight")
         BigDecimal defaultWeight,
 
         @NotNull(message = "Max revenue reference is required")
         @Positive(message = "Max revenue reference must be greater than zero")
+        @Digits(integer = 12, fraction = 2, message = "Max revenue reference exceeds allowed limits")
         BigDecimal maxRevenueReference,
 
         @NotNull(message = "Max time reference months is required")
