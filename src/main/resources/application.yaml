@@ -7,13 +7,22 @@ spring:
     password: sua_senha_segura
     driver-class-name: org.postgresql.Driver
   jpa:
+    open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
 server:
   port: 8080
+
+api:
+  token:
+    secret: ${JWT_SECRET:sua-chave-secreta-super-forte-para-desenvolvimento-local}
+  identify:
+    origin: ${SOURCE_ID:local}
+  admin:
+    email: ${ADMIN_DEFAULT_EMAIL:admin@pmescoring.com}
+    password: ${ADMIN_DEFAULT_PASSWORD:Admin@123456}

@@ -1,9 +1,12 @@
 package com.scoring.pmescoring.controller;
 
 import com.scoring.pmescoring.dto.request.user.UpdateUserRequest;
+import com.scoring.pmescoring.dto.request.user.UserLogin;
 import com.scoring.pmescoring.dto.request.user.UserRequest;
+import com.scoring.pmescoring.dto.response.user.DataTokenResponse;
 import com.scoring.pmescoring.dto.response.user.UserResponse;
 import com.scoring.pmescoring.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -58,5 +61,16 @@ public class UserController {
     public ResponseEntity<Void> delete(@PathVariable(name = "id") Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<DataTokenResponse> login(@RequestBody @Valid UserLogin login) {
+        return ResponseEntity.ok(userService.login(login));
+    }
+
+    @GetMapping("/valid/{token}")
+    public ResponseEntity validation(@PathVariable String token) {
+        this.userService.validToken(token);
+        return ResponseEntity.ok().build();
     }
 }
