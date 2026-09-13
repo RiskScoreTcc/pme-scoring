@@ -2,6 +2,7 @@ package com.scoring.pmescoring.service.impl;
 
 import com.scoring.pmescoring.common.exception.BusinessException;
 import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
+import com.scoring.pmescoring.common.util.PageableSanitizer;
 import com.scoring.pmescoring.domain.*;
 import com.scoring.pmescoring.dto.request.calculatedscore.CalculatedScoreRequest;
 import com.scoring.pmescoring.dto.request.calculatedscore.UpdateCalculatedScoreRequest;
@@ -13,6 +14,7 @@ import com.scoring.pmescoring.model.ScoreFactorsDTO;
 import com.scoring.pmescoring.repository.*;
 import com.scoring.pmescoring.service.CalculatedScoreService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,19 +33,21 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
     private final UserRepository userRepository;
     private final WeightConfigurationRepository weightConfigurationRepository;
     private final DefaultOccurrenceRepository defaultOccurrenceRepository;
+    private final PageableSanitizer pageableSanitizer;
 
     public CalculatedScoreServiceImpl(CalculatedScoreRepository calculatedScoreRepository,
                                       CalculatedScoreMapper calculatedScoreMapper,
                                       FirmRepository firmRepository,
                                       UserRepository userRepository,
                                       WeightConfigurationRepository weightConfigurationRepository,
-                                      DefaultOccurrenceRepository defaultOccurrenceRepository) {
+                                      DefaultOccurrenceRepository defaultOccurrenceRepository, PageableSanitizer pageableSanitizer) {
         this.calculatedScoreRepository = calculatedScoreRepository;
         this.calculatedScoreMapper = calculatedScoreMapper;
         this.firmRepository = firmRepository;
         this.userRepository = userRepository;
         this.weightConfigurationRepository = weightConfigurationRepository;
         this.defaultOccurrenceRepository = defaultOccurrenceRepository;
+        this.pageableSanitizer = pageableSanitizer;
     }
 
     @Override
@@ -204,6 +208,7 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
     @Override
     @Transactional(readOnly = true)
     public Page<CalculatedScoreResponse> findAll(Pageable pageable) {
+        pageable = pageableSanitizer.sanitize(pageable);
         Page<CalculatedScore> calculatedScoreResponsePage = calculatedScoreRepository
                 .findByStatusNot(EntityStatus.DELETED, pageable);
 

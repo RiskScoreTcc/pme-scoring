@@ -2,6 +2,7 @@ package com.scoring.pmescoring.service.impl;
 
 import com.scoring.pmescoring.common.exception.BusinessException;
 import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
+import com.scoring.pmescoring.common.util.PageableSanitizer;
 import com.scoring.pmescoring.domain.CalculatedScore;
 import com.scoring.pmescoring.domain.DefaultOccurrence;
 import com.scoring.pmescoring.domain.Firm;
@@ -29,17 +30,19 @@ public class FirmServiceImpl implements FirmService {
     private final UserRepository userRepository;
     private final CalculatedScoreRepository calculatedScoreRepository;
     private final DefaultOccurrenceRepository defaultOccurrenceRepository;
+    private final PageableSanitizer pageableSanitizer;
 
     public FirmServiceImpl(FirmRepository firmRepository,
                            FirmMapper firmMapper,
                            UserRepository userRepository,
                            CalculatedScoreRepository calculatedScoreRepository,
-                           DefaultOccurrenceRepository defaultOccurrenceRepository) {
+                           DefaultOccurrenceRepository defaultOccurrenceRepository, PageableSanitizer pageableSanitizer) {
         this.firmRepository = firmRepository;
         this.firmMapper = firmMapper;
         this.userRepository = userRepository;
         this.calculatedScoreRepository = calculatedScoreRepository;
         this.defaultOccurrenceRepository = defaultOccurrenceRepository;
+        this.pageableSanitizer = pageableSanitizer;
     }
 
     @Override
@@ -92,6 +95,7 @@ public class FirmServiceImpl implements FirmService {
     @Override
     @Transactional(readOnly = true)
     public Page<FirmResponse> findAll(Pageable pageable) {
+        pageable = pageableSanitizer.sanitize(pageable);
         Page<Firm> firmPage = firmRepository.findByStatus(EntityStatus.ACTIVE, pageable);
         return firmPage.map(firmMapper::toResponse);
     }

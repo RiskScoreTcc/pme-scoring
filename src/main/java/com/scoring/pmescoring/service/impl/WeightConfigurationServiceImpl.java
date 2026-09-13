@@ -2,6 +2,7 @@ package com.scoring.pmescoring.service.impl;
 
 import com.scoring.pmescoring.common.exception.BusinessException;
 import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
+import com.scoring.pmescoring.common.util.PageableSanitizer;
 import com.scoring.pmescoring.domain.User;
 import com.scoring.pmescoring.domain.WeightConfiguration;
 import com.scoring.pmescoring.dto.request.weightconfiguration.UpdateWeightConfigurationRequest;
@@ -23,11 +24,13 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
     private final WeightConfigurationRepository weightConfigurationRepository;
     private final WeightConfigurationMapper weightConfigurationMapper;
     private final UserRepository userRepository;
+    private final PageableSanitizer pageableSanitizer;
 
-    public WeightConfigurationServiceImpl(WeightConfigurationRepository weightConfigurationRepository, WeightConfigurationMapper weightConfigurationMapper, UserRepository userRepository) {
+    public WeightConfigurationServiceImpl(WeightConfigurationRepository weightConfigurationRepository, WeightConfigurationMapper weightConfigurationMapper, UserRepository userRepository, PageableSanitizer pageableSanitizer) {
         this.weightConfigurationRepository = weightConfigurationRepository;
         this.weightConfigurationMapper = weightConfigurationMapper;
         this.userRepository = userRepository;
+        this.pageableSanitizer = pageableSanitizer;
     }
 
     @Override
@@ -90,6 +93,7 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
     @Override
     @Transactional(readOnly = true)
     public Page<WeightConfigurationResponse> findAll(Pageable pageable) {
+        pageable = pageableSanitizer.sanitize(pageable);
         Page<WeightConfiguration> weightConfigurationPage = weightConfigurationRepository.findAll(pageable);
         return weightConfigurationPage.map(weightConfigurationMapper::toResponse);
     }

@@ -2,6 +2,7 @@ package com.scoring.pmescoring.service.impl;
 
 import com.scoring.pmescoring.common.exception.BusinessException;
 import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
+import com.scoring.pmescoring.common.util.PageableSanitizer;
 import com.scoring.pmescoring.domain.User;
 import com.scoring.pmescoring.dto.request.user.UpdateUserRequest;
 import com.scoring.pmescoring.dto.request.user.UserRequest;
@@ -20,10 +21,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PageableSanitizer pageableSanitizer;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PageableSanitizer pageableSanitizer) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.pageableSanitizer = pageableSanitizer;
     }
 
     @Override
@@ -62,6 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public Page<UserResponse> findAll(Pageable pageable) {
+        pageable = pageableSanitizer.sanitize(pageable);
         Page<User> usersPage = userRepository.findByStatus(EntityStatus.ACTIVE, pageable);
         return usersPage.map(userMapper::toResponse);
     }

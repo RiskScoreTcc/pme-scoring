@@ -1,6 +1,7 @@
 package com.scoring.pmescoring.service.impl;
 
 import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
+import com.scoring.pmescoring.common.util.PageableSanitizer;
 import com.scoring.pmescoring.domain.DefaultOccurrence;
 import com.scoring.pmescoring.domain.Firm;
 import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceRequest;
@@ -22,11 +23,13 @@ public class DefaultOccurrenceServiceImpl implements DefaultOccurrenceService {
     private final DefaultOccurrenceRepository defaultOccurrenceRepository;
     private final FirmRepository firmRepository;
     private final DefaultOccurrenceMapper defaultOccurrenceMapper;
+    private final PageableSanitizer pageableSanitizer;
 
-    public DefaultOccurrenceServiceImpl(DefaultOccurrenceRepository defaultOccurrenceRepository, FirmRepository firmRepository, DefaultOccurrenceMapper defaultOccurrenceMapper) {
+    public DefaultOccurrenceServiceImpl(DefaultOccurrenceRepository defaultOccurrenceRepository, FirmRepository firmRepository, DefaultOccurrenceMapper defaultOccurrenceMapper, PageableSanitizer pageableSanitizer) {
         this.defaultOccurrenceRepository = defaultOccurrenceRepository;
         this.firmRepository = firmRepository;
         this.defaultOccurrenceMapper = defaultOccurrenceMapper;
+        this.pageableSanitizer = pageableSanitizer;
     }
 
     @Override
@@ -65,6 +68,7 @@ public class DefaultOccurrenceServiceImpl implements DefaultOccurrenceService {
     @Override
     @Transactional(readOnly = true)
     public Page<DefaultOccurrenceResponse> findAll(Pageable pageable) {
+        pageable = pageableSanitizer.sanitize(pageable);
         Page<DefaultOccurrence> defaultOccurrencePage = defaultOccurrenceRepository.findByStatus(EntityStatus.ACTIVE, pageable);
         return defaultOccurrencePage.map(defaultOccurrenceMapper::toResponse);
     }
