@@ -34,3 +34,6 @@ build/
 
 # Meus arquivos locais de configuração com senhas
 application.yml
+
+# Ignorar arquivos de log gerados localmente
+logs/
