@@ -3,6 +3,10 @@ package com.scoring.pmescoring.controller;
 import com.scoring.pmescoring.dto.response.firm.FirmRiskResponse;
 import com.scoring.pmescoring.model.RiskBand;
 import com.scoring.pmescoring.service.DashboardService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,11 +26,17 @@ import java.time.format.DateTimeFormatter;
 @RestController
 @RequestMapping("/api/v1/companies/dashboard")
 @RequiredArgsConstructor
+@Tag(name = "Dashboard", description = "Endpoints for analytical dashboard data and report exports")
 public class DashboardController {
 
     private final DashboardService dashboardService;
 
     @GetMapping("/firms")
+    @Operation(summary = "List dashboard firms", description = "Retrieves a paginated list of active firms with their risk bands and scores. Supports optional filtering by risk band.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Dashboard data retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied (Requires CREDIT_ANALYST role)")
+    })
     public ResponseEntity<Page<FirmRiskResponse>> getFirmsDashboard(
             @RequestParam(required = false) RiskBand risk,
             @PageableDefault(size = 10) Pageable pageable
@@ -36,6 +46,12 @@ public class DashboardController {
     }
 
     @GetMapping(value = "/export/csv", produces = "text/csv")
+    @Operation(summary = "Export firms data to CSV", description = "Streams a large dataset of firms and their scores in CSV format. Uses StreamingResponseBody to prevent memory overload on the server.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "CSV file stream initiated successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied (Requires CREDIT_ANALYST role)"),
+            @ApiResponse(responseCode = "500", description = "Internal server error during stream processing")
+    })
     public ResponseEntity<StreamingResponseBody> exportLargeCsv(
             @RequestParam(required = false) RiskBand risk,
             @RequestParam(defaultValue = "5000") int pageSize
