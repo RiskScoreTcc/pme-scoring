@@ -3,17 +3,30 @@ spring:
     name: pme-scoring
   datasource:
     url: jdbc:postgresql://localhost:5432/pme_scoring_db
-    username: admin_teste
-    password: sua_senha_segura
+    username: postgres
+    password: 1506
     driver-class-name: org.postgresql.Driver
   jpa:
+    open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
 server:
   port: 8080
+
+logging:
+  file:
+    path: ${LOG_PATH:./logs/pme-scoring}
+
+api:
+  token:
+    secret: ${JWT_SECRET:sua-chave-secreta-super-forte-para-desenvolvimento-local}
+  identify:
+    origin: ${SOURCE_ID:local}
+  admin:
+    email: ${ADMIN_DEFAULT_EMAIL:admin@pmescoring.com}
+    password: ${ADMIN_DEFAULT_PASSWORD:Admin@123456}

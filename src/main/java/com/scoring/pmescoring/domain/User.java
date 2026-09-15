@@ -55,7 +55,16 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + this.userType.name()));
+        if (this.userType == TypeUser.ADMIN) {
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_CREDIT_ANALYST")
+            );
+        } else {
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_CREDIT_ANALYST")
+            );
+        }
     }
 
     @Override
