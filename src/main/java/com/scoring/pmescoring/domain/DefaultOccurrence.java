@@ -1,5 +1,6 @@
 package com.scoring.pmescoring.domain;
 
+import com.scoring.pmescoring.model.EntityStatus;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -27,16 +28,26 @@ public class DefaultOccurrence {
     @Column(name = "status_resolved", nullable = false)
     private Boolean statusResolved = false;
 
-    @Column( name = "description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "active", nullable = false)
-    private Boolean active = true;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private EntityStatus status = EntityStatus.ACTIVE;
 
     @Column(name = "creation_date", updatable = false)
     private LocalDate creationDate;
 
-    public DefaultOccurrence(){}
+    public DefaultOccurrence() {
+    }
+
+    public DefaultOccurrence(LocalDate dateOccurrence, BigDecimal amountDue, String description) {
+        this.dateOccurrence = dateOccurrence;
+        this.amountDue = amountDue;
+        this.statusResolved = false;
+        this.description = description;
+        this.status = EntityStatus.ACTIVE;
+    }
 
     public DefaultOccurrence(Firm firm, LocalDate dateOccurrence, BigDecimal amountDue, String description) {
         this.firm = firm;
@@ -44,6 +55,7 @@ public class DefaultOccurrence {
         this.amountDue = amountDue;
         this.statusResolved = false;
         this.description = description;
+        this.status = EntityStatus.ACTIVE;
     }
 
     @PrePersist
@@ -95,12 +107,12 @@ public class DefaultOccurrence {
         this.description = description;
     }
 
-    public Boolean getActive() {
-        return active;
+    public EntityStatus getStatus() {
+        return status;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setStatus(EntityStatus status) {
+        this.status = status;
     }
 
     public LocalDate getCreationDate() {
@@ -116,5 +128,19 @@ public class DefaultOccurrence {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public void update(BigDecimal amountDue, LocalDate dateOccurrence, String description) {
+        if (amountDue != null) {
+            this.amountDue = amountDue;
+        }
+        if (dateOccurrence != null) {
+            this.dateOccurrence = dateOccurrence;
+        }
+        this.description = description;
+    }
+
+    public void delete() {
+        this.status = EntityStatus.DELETED;
     }
 }

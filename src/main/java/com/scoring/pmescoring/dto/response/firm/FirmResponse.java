@@ -1,5 +1,7 @@
 package com.scoring.pmescoring.dto.response.firm;
 
+import com.scoring.pmescoring.model.EntityStatus;
+
 import java.math.BigDecimal;
 
 public record FirmResponse(
@@ -9,6 +11,6 @@ public record FirmResponse(
         BigDecimal averageRevenue,
         Integer ageInMonths,
         Integer numberOfEmployees,
-        Boolean active
+        EntityStatus status
 ) {
 }

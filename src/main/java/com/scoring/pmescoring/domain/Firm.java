@@ -1,5 +1,6 @@
 package com.scoring.pmescoring.domain;
 
+import com.scoring.pmescoring.model.EntityStatus;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -13,11 +14,11 @@ public class Firm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true, nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
-    @Column(name = "cnpj", nullable = false, unique = true, length = 14)
+    @Column(name = "cnpj", nullable = false, length = 14)
     private String cnpj;
 
     @Column(name = "registered_company_name", nullable = false)
@@ -26,19 +27,21 @@ public class Firm {
     @Column(name = "average_revenue", nullable = false, precision = 12, scale = 2)
     private BigDecimal averageRevenue;
 
-    @Column(name = "time_months", nullable = false )
+    @Column(name = "time_months", nullable = false)
     private Integer timeMonths;
 
     @Column(name = "number_of_employees", nullable = false)
     private Integer numberOfEmployees;
 
-    @Column(name = "active", nullable = false)
-    private Boolean active = true;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private EntityStatus status = EntityStatus.ACTIVE;
 
     @Column(name = "creation_date", updatable = false)
     private LocalDate creationDate;
 
-    public Firm(){}
+    public Firm() {
+    }
 
     public Firm(User user, String cnpj, String registeredCompanyName, BigDecimal averageRevenue, int timeMonths, int numberOfEmployees) {
         this.user = user;
@@ -47,6 +50,16 @@ public class Firm {
         this.averageRevenue = averageRevenue;
         this.timeMonths = timeMonths;
         this.numberOfEmployees = numberOfEmployees;
+        this.status = EntityStatus.ACTIVE;
+    }
+
+    public Firm(String cnpj, String registeredCompanyName, BigDecimal averageRevenue, int timeMonths, int numberOfEmployees) {
+        this.cnpj = cnpj;
+        this.registeredCompanyName = registeredCompanyName;
+        this.averageRevenue = averageRevenue;
+        this.timeMonths = timeMonths;
+        this.numberOfEmployees = numberOfEmployees;
+        this.status = EntityStatus.ACTIVE;
     }
 
     @PrePersist
@@ -69,7 +82,11 @@ public class Firm {
         return id;
     }
 
-    public void setUserID(User user) {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -97,27 +114,53 @@ public class Firm {
         this.averageRevenue = averageRevenue;
     }
 
-    public int getTimeMonths() {
+    public Integer getTimeMonths() {
         return timeMonths;
     }
 
-    public void setTimeMonths(int timeMonths) {
+    public void setTimeMonths(Integer timeMonths) {
         this.timeMonths = timeMonths;
     }
 
-    public int getNumberOfEmployees() {
+    public Integer getNumberOfEmployees() {
         return numberOfEmployees;
     }
 
-    public void setNumberOfEmployees(int numberOfEmployees) {
+    public void setNumberOfEmployees(Integer numberOfEmployees) {
         this.numberOfEmployees = numberOfEmployees;
     }
 
-    public Boolean getActive(){ return this.active; }
+    public EntityStatus getStatus() {
+        return status;
+    }
 
-    public void setActive(Boolean active){ this.active = active; }
+    public void setStatus(EntityStatus status) {
+        this.status = status;
+    }
 
     public LocalDate getCreationDate() {
         return creationDate;
+    }
+
+    public void delete() {
+        this.status = EntityStatus.DELETED;
+    }
+
+    public void update(String cnpj, Integer timeMonths, BigDecimal averageRevenue, Integer numberOfEmployees, String registeredCompanyName) {
+        if (cnpj != null && !cnpj.isBlank()) {
+            this.cnpj = cnpj;
+        }
+        if (timeMonths != null) {
+            this.timeMonths = timeMonths;
+        }
+        if (averageRevenue != null) {
+            this.averageRevenue = averageRevenue;
+        }
+        if (numberOfEmployees != null) {
+            this.numberOfEmployees = numberOfEmployees;
+        }
+        if (registeredCompanyName != null && !registeredCompanyName.isBlank()) {
+            this.registeredCompanyName = registeredCompanyName;
+        }
     }
 }

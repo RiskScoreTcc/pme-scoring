@@ -1,18 +1,15 @@
 package com.scoring.pmescoring.dto.request.calculatedscore;
 
-import com.scoring.pmescoring.model.RiskBand;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Positive;
 
 public record CalculatedScoreRequest(
         @NotNull(message = "Firm ID is required")
+        @Positive(message = "Firm ID must be greater than zero")
         Long firmId,
 
-        @NotNull(message = "Score value is required")
-        @PositiveOrZero(message = "Score value cannot be negative")
-        Integer scoreValue,
-
-        @NotNull(message = "Risk band is required")
-        RiskBand riskBand
+        @NotNull(message = "User ID is required")
+        @Positive(message = "User ID must be greater than zero")
+        Long userId
 ) {
 }

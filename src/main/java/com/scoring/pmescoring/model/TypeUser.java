@@ -1,6 +1,6 @@
 package com.scoring.pmescoring.model;
 
 public enum TypeUser {
-    PME,
+    CREDIT_ANALYST,
     ADMIN
 }

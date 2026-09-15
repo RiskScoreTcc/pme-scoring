@@ -12,5 +12,8 @@ public record ScoreFactorsDTO(
         BigDecimal timeWeight,
         BigDecimal defaultWeight,
         Boolean inDefault,
-        BigDecimal amountDue
+        BigDecimal amountDue,
+        BigDecimal maxRevenueReference,
+        Integer maxTimeReferenceMonths
+
 ) {}
