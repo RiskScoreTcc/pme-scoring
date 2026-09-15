@@ -1,0 +1,19 @@
+package com.scoring.pmescoring.model;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+public record ScoreFactorsDTO(
+        LocalDate calculationDate,
+        BigDecimal averageRevenue,
+        Integer timeMonths,
+        Integer totalActiveDefaults,
+        BigDecimal revenueWeight,
+        BigDecimal timeWeight,
+        BigDecimal defaultWeight,
+        Boolean inDefault,
+        BigDecimal amountDue,
+        BigDecimal maxRevenueReference,
+        Integer maxTimeReferenceMonths
+
+) {}
