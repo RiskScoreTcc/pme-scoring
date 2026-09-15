@@ -1,5 +1,6 @@
 package com.scoring.pmescoring.config.security;
 
+import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,8 @@ public class SecurityConfig {
                 .sessionManagement(https -> https.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize ->
                         authorize
+                                .dispatcherTypeMatchers(DispatcherType.ASYNC, DispatcherType.FORWARD, DispatcherType.ERROR).hasRole("CREDIT_ANALYST")
+
                                 .requestMatchers(
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",

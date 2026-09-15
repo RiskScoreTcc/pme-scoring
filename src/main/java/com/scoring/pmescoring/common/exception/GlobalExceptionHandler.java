@@ -135,6 +135,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
+    @ExceptionHandler(org.springframework.security.authorization.AuthorizationDeniedException.class)
+    public ResponseEntity handleAuthorizationDenied(org.springframework.security.authorization.AuthorizationDeniedException ex) {
+        log.warn("Access denied: {}", ex.getMessage());
+
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.FORBIDDEN.value(),
+                "Access Denied: You do not have the required role or permissions to access this resource.",
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
+
     public record ErrorResponse(int status, String message, LocalDateTime timestamp) {
     }
 
