@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # 1. Banco de Dados PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '5433:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app-net
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U \({POSTGRES_USER} -d\){POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Sua Aplicação Spring Boot
+  app:
+    image: pme-scoring:local
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: spring_boot_app
+    restart: always
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_DDL_AUTO=update
+      - SHOW_SQL=true
+      - FORMAT_SQL=true
+      - SERVER_PORT=${SERVER_PORT}
+      - LOG_PATH=${LOG_PATH}
+      - JWT_SECRET=${JWT_SECRET}
+      - SOURCE_ID=${SOURCE_ID}
+      - ADMIN_DEFAULT_EMAIL=${ADMIN_DEFAULT_EMAIL}
+      - ADMIN_DEFAULT_PASSWORD=${ADMIN_DEFAULT_PASSWORD}
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./logs:${LOG_PATH}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - app-net
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  app-net:
+    driver: bridge
