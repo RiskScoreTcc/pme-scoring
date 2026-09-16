@@ -7,17 +7,17 @@ services:
     container_name: postgres_db
     restart: always
     environment:
-      POSTGRES_DB: pme_scoring_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: senha_segura_postgres
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "5433:5432"
+      - '5433:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
       - app-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d pme_scoring_db"]
+      test: ['CMD-SHELL', 'pg_isready -U \({POSTGRES_USER} -d\){POSTGRES_DB}']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -33,22 +33,22 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_NAME=pme_scoring_db
-      - DB_USER=postgres
-      - DB_PASSWORD=senha_segura_postgres
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
       - DB_DDL_AUTO=update
       - SHOW_SQL=true
       - FORMAT_SQL=true
-      - SERVER_PORT=8080
-      - LOG_PATH=/app/logs
-      - JWT_SECRET=sua_chave_secreta_jwt_super_segura_aqui
-      - SOURCE_ID=docker-env
-      - ADMIN_DEFAULT_EMAIL=admin@admin.com
-      - ADMIN_DEFAULT_PASSWORD=admin123
+      - SERVER_PORT=${SERVER_PORT}
+      - LOG_PATH=${LOG_PATH}
+      - JWT_SECRET=${JWT_SECRET}
+      - SOURCE_ID=${SOURCE_ID}
+      - ADMIN_DEFAULT_EMAIL=${ADMIN_DEFAULT_EMAIL}
+      - ADMIN_DEFAULT_PASSWORD=${ADMIN_DEFAULT_PASSWORD}
     ports:
-      - "8080:8080"
+      - '8080:8080'
     volumes:
-      - ./logs:/app/logs
+      - ./logs:${LOG_PATH}
     depends_on:
       db:
         condition: service_healthy
