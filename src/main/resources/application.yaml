@@ -1,32 +1,46 @@
 spring:
   application:
     name: pme-scoring
+
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pme_scoring_db}
+    username: ${DB_USER:admin_teste}
+    password: ${DB_PASSWORD:sua_senha_segura}
     driver-class-name: org.postgresql.Driver
+
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: ${DB_DDL_AUTO}
+      ddl-auto: ${DB_DDL_AUTO:update}
     show-sql: ${SHOW_SQL:false}
     properties:
       hibernate:
         format_sql: ${FORMAT_SQL:false}
 
 server:
-  port: ${SERVER_PORT}
+  port: ${SERVER_PORT:8080}
 
 logging:
   file:
-    path: ${LOG_PATH}
+    path: ${LOG_PATH:logsTes}
 
 api:
   token:
-    secret: ${JWT_SECRET}
+    secret: ${JWT_SECRET:sua_chave_secreta_jwt_super_segura_aqui}
   identify:
-    origin: ${SOURCE_ID}
+    origin: ${SOURCE_ID:local}
   admin:
-    email: ${ADMIN_DEFAULT_EMAIL}
-    password: ${ADMIN_DEFAULT_PASSWORD}
+    email: ${ADMIN_DEFAULT_EMAIL:admin@admin.com}
+    password: ${ADMIN_DEFAULT_PASSWORD:admin123}
+
+cors:
+  allowed-origin-patterns: ${CORS_ALLOWED_ORIGIN_PATTERNS:http://localhost:4200,http://127.0.0.1:4200,http://localhost:3000,http://127.0.0.1:3000}
+  allowed-methods: ${CORS_ALLOWED_METHODS:GET,POST,PUT,DELETE,OPTIONS,HEAD,PATCH}
+  allowed-headers: ${CORS_ALLOWED_HEADERS:Authorization,Content-Type,Cache-Control}
+  allow-credentials: ${CORS_ALLOW_CREDENTIALS:true}
+
+springdoc:
+  api-docs:
+    enabled: ${SPRINGDOC_API_DOCS_ENABLED:false}
+  swagger-ui:
+    enabled: ${SPRINGDOC_SWAGGER_UI_ENABLED:false}

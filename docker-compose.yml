@@ -31,12 +31,15 @@ services:
     container_name: spring_boot_app
     restart: always
     environment:
+      # Ambiente
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+
       - DB_HOST=db
       - DB_PORT=5432
       - DB_NAME=${POSTGRES_DB}
       - DB_USER=${POSTGRES_USER}
       - DB_PASSWORD=${POSTGRES_PASSWORD}
-      - DB_DDL_AUTO=update
+      - DB_DDL_AUTO=${DB_DDL_AUTO}
       - SHOW_SQL=true
       - FORMAT_SQL=true
       - SERVER_PORT=${SERVER_PORT}
@@ -51,6 +54,10 @@ services:
       - CORS_ALLOWED_METHODS=${CORS_ALLOWED_METHODS}
       - CORS_ALLOWED_HEADERS=${CORS_ALLOWED_HEADERS}
       - CORS_ALLOW_CREDENTIALS=${CORS_ALLOW_CREDENTIALS}
+
+      # Documentação da API
+      - SPRINGDOC_API_DOCS_ENABLED=${SPRINGDOC_API_DOCS_ENABLED}
+      - SPRINGDOC_SWAGGER_UI_ENABLED=${SPRINGDOC_SWAGGER_UI_ENABLED}
 
     ports:
       - '8080:8080'
