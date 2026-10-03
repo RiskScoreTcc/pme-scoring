@@ -24,7 +24,7 @@ public class UserMapper implements GenericMapper<UserRequest, UserResponse, User
         if (user == null) {
             return null;
         }
-        return new UserResponse(user.getId(), user.getEmail(), user.getUserType());
+        return new UserResponse(user.getId(), user.getEmail(), user.getUserType(), user.getStatus(), user.getLastAccess(), user.getCreationDate());
     }
 
 }
