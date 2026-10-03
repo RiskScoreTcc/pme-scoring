@@ -1,6 +1,7 @@
 package com.scoring.pmescoring.controller;
 
 import com.scoring.pmescoring.dto.request.user.UpdateUserRequest;
+import com.scoring.pmescoring.dto.request.user.UserFilter;
 import com.scoring.pmescoring.dto.request.user.UserLogin;
 import com.scoring.pmescoring.dto.request.user.UserRequest;
 import com.scoring.pmescoring.dto.response.user.DataTokenResponse;
@@ -75,6 +76,24 @@ public class UserController {
     public ResponseEntity<Page<UserResponse>> getAllUsers(@PageableDefault(size = 10, sort = {"id"}) Pageable pageable) {
         log.info("Fetching paginated users. PageNumber: {}, PageSize: {}", pageable.getPageNumber(), pageable.getPageSize());
         return ResponseEntity.ok(userService.findAll(pageable));
+    }
+
+    @GetMapping("/filter")
+    @Operation(summary = "Filter users", description = "Retrieves a paginated list of users based on the provided filters.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Filtered users retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid filter parameters"),
+            @ApiResponse(responseCode = "403", description = "Access denied (Requires ADMIN role)")
+    })
+    public ResponseEntity<Page<UserResponse>> filterUsers(@Valid @ModelAttribute UserFilter filter, @PageableDefault(size = 10, sort = {"id"}) Pageable pageable) {
+        log.info(
+                "Filtering users. PageNumber: {}, PageSize: {}, Filters: {}",
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                filter
+        );
+
+        return ResponseEntity.ok(userService.findAllByFilter(filter, pageable));
     }
 
     @PatchMapping("/{id}")

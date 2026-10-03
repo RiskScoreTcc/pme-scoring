@@ -17,6 +17,9 @@ public record UpdateUserRequest(
         String password,
 
         @Schema(description = "Updated access profile type defining the user's role and permissions", example = "ADMIN")
-        TypeUser type
+        TypeUser type,
+
+        @Schema( description = "Defines the user's account status. Set to true to deactivate the account or false to activate the account", example = "true" )
+        Boolean isDeactivate
 ) {
 }

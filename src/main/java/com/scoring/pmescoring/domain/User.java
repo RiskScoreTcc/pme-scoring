@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +35,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private EntityStatus status = EntityStatus.ACTIVE;
+
+    @Column(name = "last_access")
+    private LocalDateTime lastAccess;
 
     @Column(name = "creation_date", updatable = false)
     private LocalDate creationDate;
@@ -133,6 +137,14 @@ public class User implements UserDetails {
         return creationDate;
     }
 
+    public LocalDateTime getLastAccess() {
+        return lastAccess;
+    }
+
+    public void setLastAccess(LocalDateTime lastAccess) {
+        this.lastAccess = lastAccess;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof User user)) return false;
@@ -144,19 +156,25 @@ public class User implements UserDetails {
         return Objects.hashCode(id);
     }
 
-    public void updateData(String email, String password, TypeUser userType) {
+    public void updateData(String email, TypeUser userType, Boolean deactivate) {
         if (email != null && !email.isBlank()) {
             this.email = email;
-        }
-        if (password != null && !password.isBlank()) {
-            this.password = password;
         }
         if (userType != null) {
             this.userType = userType;
         }
+
+        if (deactivate != null) {
+            this.deactivateUser(deactivate);
+        }
     }
 
-    public void delete(){
+    public void delete() {
         this.status = EntityStatus.DELETED;
     }
+
+    private void deactivateUser(boolean deactivate) {
+        this.status = deactivate ? EntityStatus.INACTIVE : EntityStatus.ACTIVE;
+    }
+
 }

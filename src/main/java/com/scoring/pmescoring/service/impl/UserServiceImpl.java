@@ -6,13 +6,16 @@ import com.scoring.pmescoring.common.util.PageableSanitizer;
 import com.scoring.pmescoring.config.security.TokenService;
 import com.scoring.pmescoring.domain.User;
 import com.scoring.pmescoring.dto.request.user.UpdateUserRequest;
+import com.scoring.pmescoring.dto.request.user.UserFilter;
 import com.scoring.pmescoring.dto.request.user.UserLogin;
 import com.scoring.pmescoring.dto.request.user.UserRequest;
 import com.scoring.pmescoring.dto.response.user.DataTokenResponse;
 import com.scoring.pmescoring.dto.response.user.UserResponse;
 import com.scoring.pmescoring.mapper.UserMapper;
 import com.scoring.pmescoring.model.EntityStatus;
+import com.scoring.pmescoring.model.TypeUser;
 import com.scoring.pmescoring.repository.UserRepository;
+import com.scoring.pmescoring.repository.specification.UserSpecification;
 import com.scoring.pmescoring.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +26,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -41,7 +47,7 @@ public class UserServiceImpl implements UserService {
     public UserResponse create(UserRequest userRequest) {
         log.info("Initiating user creation process for email: {}", userRequest.email());
 
-        boolean existsEmail = userRepository.existsByEmailAndStatus(userRequest.email(), EntityStatus.ACTIVE);
+        boolean existsEmail = userRepository.existsByEmailAndStatusIn(userRequest.email(), List.of(EntityStatus.ACTIVE, EntityStatus.INACTIVE));
 
         if (existsEmail) {
             log.warn("Business rule violation: Attempted to create user with an already existing email: {}", userRequest.email());
@@ -62,11 +68,10 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         log.info("Initiating logical deletion for user ID: {}", id);
 
-        User user = userRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
-                .orElseThrow(() -> {
-                    log.warn("Deletion failed. Active user not found with ID: {}", id);
-                    return new ResourceNotFoundException("User not found with ID: " + id);
-                });
+        User user = userRepository.findByIdAndStatus(id, EntityStatus.ACTIVE).orElseThrow(() -> {
+            log.warn("Deletion failed. Active user not found with ID: {}", id);
+            return new ResourceNotFoundException("User not found with ID: " + id);
+        });
 
         user.delete();
         userRepository.save(user);
@@ -79,11 +84,10 @@ public class UserServiceImpl implements UserService {
     public UserResponse findById(Long id) {
         log.info("Fetching user with ID: {}", id);
 
-        User user = userRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
-                .orElseThrow(() -> {
-                    log.warn("Fetch failed. Active user not found with ID: {}", id);
-                    return new ResourceNotFoundException("User not found with ID: " + id);
-                });
+        User user = userRepository.findById(id).orElseThrow(() -> {
+            log.warn("Fetch failed. Active user not found with ID: {}", id);
+            return new ResourceNotFoundException("User not found with ID: " + id);
+        });
 
         return userMapper.toResponse(user);
     }
@@ -94,9 +98,31 @@ public class UserServiceImpl implements UserService {
         log.info("Fetching paginated active users");
 
         pageable = pageableSanitizer.sanitize(pageable);
-        Page<User> usersPage = userRepository.findByStatus(EntityStatus.ACTIVE, pageable);
+        Page<User> usersPage = userRepository.findAll(pageable);
 
         return usersPage.map(userMapper::toResponse);
+    }
+
+
+    @Override
+    public Page<UserResponse> findAllByFilter(UserFilter filter, Pageable pageable) {
+        this.validateSearchFilter(filter);
+        var specification = UserSpecification.filter(filter);
+        return userRepository
+                .findAll(specification, pageable)
+                .map(userMapper::toResponse);
+    }
+
+
+    @Override
+    public void validateSearchFilter(UserFilter filter) {
+        if (filter.lastAccessFrom() != null && filter.lastAccessTo() != null && filter.lastAccessFrom().isAfter(filter.lastAccessTo())) {
+            throw new BusinessException("The last access start date cannot be later than the end date.");
+        }
+
+        if (filter.creationDateFrom() != null && filter.creationDateTo() != null && filter.creationDateFrom().isAfter(filter.creationDateTo())) {
+            throw new BusinessException("The creation start date cannot be later than the end date.");
+        }
     }
 
     @Override
@@ -104,22 +130,23 @@ public class UserServiceImpl implements UserService {
     public UserResponse update(Long id, UpdateUserRequest updateUserRequest) {
         log.info("Initiating update process for user ID: {}", id);
 
-        User user = userRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
-                .orElseThrow(() -> {
-                    log.warn("Update failed. Active user not found with ID: {}", id);
-                    return new ResourceNotFoundException("User not found with ID: " + id);
-                });
+        User user = userRepository.findByIdAndStatusIn(id, List.of(EntityStatus.ACTIVE, EntityStatus.INACTIVE)).orElseThrow(() -> {
+            log.warn("Update failed. Active user not found with ID: {}", id);
+            return new ResourceNotFoundException("User not found with ID: " + id);
+        });
 
         if (!user.getEmail().equals(updateUserRequest.email())) {
-            boolean existsEmail = userRepository.existsByEmailAndStatus(updateUserRequest.email(), EntityStatus.ACTIVE);
+            boolean existsEmail = userRepository.existsByEmailAndStatusIn(updateUserRequest.email(), List.of(EntityStatus.ACTIVE, EntityStatus.INACTIVE));
             if (existsEmail) {
                 log.warn("Business rule violation: Attempted to update user ID: {} with an already existing email: {}", id, updateUserRequest.email());
                 throw new BusinessException("This email is already in use by another user.");
             }
         }
 
-        user.updateData(updateUserRequest.email(), updateUserRequest.password(), updateUserRequest.type());
-        user.setPassword(passwordEncoder.encode(updateUserRequest.password()));
+        user.updateData(updateUserRequest.email(), updateUserRequest.type(), updateUserRequest.isDeactivate());
+        if (updateUserRequest.password() != null && !updateUserRequest.password().isBlank()) {
+            user.setPassword(passwordEncoder.encode(updateUserRequest.password()));
+        }
         User updatedUser = userRepository.save(user);
 
         log.info("User ID: {} updated successfully", updatedUser.getId());
@@ -138,10 +165,11 @@ public class UserServiceImpl implements UserService {
     public DataTokenResponse login(UserLogin login) {
         log.info("Attempting authentication for email: {}", login.email());
 
-        var user = new UsernamePasswordAuthenticationToken(login.email(), login.password());
-        var userAuth = manager.authenticate(user);
-
+        var authentication = new UsernamePasswordAuthenticationToken(login.email(), login.password());
+        var userAuth = manager.authenticate(authentication);
+        var user = (User) userAuth.getPrincipal();
+        user.setLastAccess(LocalDateTime.now());
         log.info("Authentication successful for email: {}. Generating JWT token.", login.email());
-        return new DataTokenResponse(tokenService.generateToken((User) userAuth.getPrincipal()));
+        return new DataTokenResponse(tokenService.generateToken(user));
     }
 }
