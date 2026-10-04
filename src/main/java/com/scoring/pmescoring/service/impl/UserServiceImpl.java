@@ -116,9 +116,7 @@ public class UserServiceImpl implements UserService {
     public Page<UserResponse> findAllByFilter(UserFilter filter, Pageable pageable) {
         this.validateSearchFilter(filter);
         var specification = UserSpecification.filter(filter);
-        return userRepository
-                .findAll(specification, pageable)
-                .map(userMapper::toResponse);
+        return userRepository.findAll(specification, pageable).map(userMapper::toResponse);
     }
 
 
@@ -136,6 +134,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponse update(Long id, UpdateUserRequest updateUserRequest) {
+        boolean isTryingToChangeEmail = updateUserRequest.email() != null && !updateUserRequest.email().isEmpty();
+
         log.info("Initiating update process for user ID: {}", id);
 
         User user = userRepository.findByIdAndStatusIn(id, List.of(EntityStatus.ACTIVE, EntityStatus.INACTIVE)).orElseThrow(() -> {
@@ -151,8 +151,8 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        if (adminEmail.equals(user.getEmail()) && updateUserRequest.isDeactivate()) {
-            throw new BusinessException("Cannot deactivate admin user with ID: " + id);
+        if (adminEmail.equals(user.getEmail()) && (updateUserRequest.isDeactivate() || isTryingToChangeEmail)) {
+            throw new BusinessException("Cannot deactivate or change the email of the admin user with ID: " + id);
         }
 
         user.updateData(updateUserRequest.email(), updateUserRequest.type(), updateUserRequest.isDeactivate());
