@@ -19,6 +19,7 @@ import com.scoring.pmescoring.repository.specification.UserSpecification;
 import com.scoring.pmescoring.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,6 +42,9 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager manager;
     private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${api.admin.email}")
+    private String adminEmail;
 
     @Override
     @Transactional
@@ -72,6 +76,10 @@ public class UserServiceImpl implements UserService {
             log.warn("Deletion failed. Active user not found with ID: {}", id);
             return new ResourceNotFoundException("User not found with ID: " + id);
         });
+
+        if (adminEmail.equals(user.getEmail())) {
+            throw new BusinessException("Cannot delete admin user with ID: " + id);
+        }
 
         user.delete();
         userRepository.save(user);
@@ -141,6 +149,10 @@ public class UserServiceImpl implements UserService {
                 log.warn("Business rule violation: Attempted to update user ID: {} with an already existing email: {}", id, updateUserRequest.email());
                 throw new BusinessException("This email is already in use by another user.");
             }
+        }
+
+        if (adminEmail.equals(user.getEmail()) && updateUserRequest.isDeactivate()) {
+            throw new BusinessException("Cannot deactivate admin user with ID: " + id);
         }
 
         user.updateData(updateUserRequest.email(), updateUserRequest.type(), updateUserRequest.isDeactivate());
