@@ -6,4 +6,5 @@ import com.scoring.pmescoring.dto.request.weightconfiguration.WeightConfiguratio
 import com.scoring.pmescoring.dto.response.weightconfiguration.WeightConfigurationResponse;
 
 public interface WeightConfigurationService extends CrudService<Long, WeightConfigurationRequest, UpdateWeightConfigurationRequest, WeightConfigurationResponse> {
+    WeightConfigurationResponse findActive();
 }

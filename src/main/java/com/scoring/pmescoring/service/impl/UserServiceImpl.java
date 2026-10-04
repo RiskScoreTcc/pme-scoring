@@ -113,6 +113,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Page<UserResponse> findAllByFilter(UserFilter filter, Pageable pageable) {
         this.validateSearchFilter(filter);
         var specification = UserSpecification.filter(filter);

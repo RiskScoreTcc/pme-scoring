@@ -18,4 +18,6 @@ public interface WeightConfigurationRepository extends JpaRepository<WeightConfi
     long countByStatus(EntityStatus status);
 
     Optional<WeightConfiguration> findFirstByStatusOrderByIdDesc(EntityStatus status);
+
+    Optional<WeightConfiguration> findFirstByStatus(EntityStatus status);
 }
