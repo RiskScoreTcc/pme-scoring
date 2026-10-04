@@ -152,7 +152,7 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        if (adminEmail.equals(user.getEmail()) && (updateUserRequest.isDeactivate() || isTryingToChangeEmail || isTryingToChangeType)) {
+        if (adminEmail.equals(user.getEmail()) && (updateUserRequest.isDeactivate() != null || isTryingToChangeEmail || isTryingToChangeType)) {
             throw new BusinessException("Cannot deactivate, change the email, or change the type of the admin user with ID: " + id);
         }
 

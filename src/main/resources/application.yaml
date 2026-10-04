@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pme_scoring_db}
-    username: ${DB_USER:admin_teste}
-    password: ${DB_PASSWORD:sua_senha_segura}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:1506}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -41,6 +41,6 @@ cors:
 
 springdoc:
   api-docs:
-    enabled: ${SPRINGDOC_API_DOCS_ENABLED:false}
+    enabled: ${SPRINGDOC_API_DOCS_ENABLED:true}
   swagger-ui:
-    enabled: ${SPRINGDOC_SWAGGER_UI_ENABLED:false}
+    enabled: ${SPRINGDOC_SWAGGER_UI_ENABLED:true}
