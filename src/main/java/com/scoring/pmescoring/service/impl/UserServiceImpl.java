@@ -135,6 +135,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponse update(Long id, UpdateUserRequest updateUserRequest) {
         boolean isTryingToChangeEmail = updateUserRequest.email() != null && !updateUserRequest.email().isEmpty();
+        boolean isTryingToChangeType = updateUserRequest.type() != null;
 
         log.info("Initiating update process for user ID: {}", id);
 
@@ -151,8 +152,8 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        if (adminEmail.equals(user.getEmail()) && (updateUserRequest.isDeactivate() || isTryingToChangeEmail)) {
-            throw new BusinessException("Cannot deactivate or change the email of the admin user with ID: " + id);
+        if (adminEmail.equals(user.getEmail()) && (updateUserRequest.isDeactivate() || isTryingToChangeEmail || isTryingToChangeType)) {
+            throw new BusinessException("Cannot deactivate, change the email, or change the type of the admin user with ID: " + id);
         }
 
         user.updateData(updateUserRequest.email(), updateUserRequest.type(), updateUserRequest.isDeactivate());
