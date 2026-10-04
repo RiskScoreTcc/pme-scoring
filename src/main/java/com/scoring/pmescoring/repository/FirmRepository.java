@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
@@ -31,6 +32,20 @@ public interface FirmRepository extends JpaRepository<Firm, Long> {
             @Param("firmStatus") EntityStatus firmStatus,
             @Param("scoreStatus") EntityStatus scoreStatus,
             @Param("riskBand") RiskBand riskBand,
+            Pageable pageable
+    );
+
+    @Query("""
+    SELECT f
+    FROM Firm f
+    WHERE f.status = com.scoring.pmescoring.model.EntityStatus.ACTIVE
+      AND (
+          LOWER(f.registeredCompanyName) LIKE LOWER(CONCAT('%', :query, '%'))
+          OR f.cnpj LIKE CONCAT('%', :query, '%')
+      )
+    """)
+    Page<Firm> searchNameOrCnpj(
+            @Param("query") String query,
             Pageable pageable
     );
 }

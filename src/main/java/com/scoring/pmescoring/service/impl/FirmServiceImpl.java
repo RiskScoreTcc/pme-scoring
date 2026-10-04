@@ -24,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 @Slf4j
@@ -147,5 +148,12 @@ public class FirmServiceImpl implements FirmService {
 
         log.info("Firm ID: {} updated successfully", id);
         return firmMapper.toResponse(firm);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<FirmResponse> searchNameOrCnpj(String query, Pageable pageable) {
+        return this.firmRepository.searchNameOrCnpj(query, pageable)
+                .map(firmMapper::toResponse);
     }
 }

@@ -3,6 +3,7 @@ package com.scoring.pmescoring.controller;
 import com.scoring.pmescoring.dto.request.firm.FirmRequest;
 import com.scoring.pmescoring.dto.request.firm.UpdateFirmRequest;
 import com.scoring.pmescoring.dto.response.firm.FirmResponse;
+import com.scoring.pmescoring.model.EntityStatus;
 import com.scoring.pmescoring.service.FirmService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Collection;
 
 @Slf4j
 @RestController
@@ -73,6 +75,17 @@ public class FirmController {
     public ResponseEntity<Page<FirmResponse>> getAllCompanies(@PageableDefault(size = 10, sort = {"id"}) Pageable pageable) {
         log.info("Fetching paginated firms. PageNumber: {}, PageSize: {}", pageable.getPageNumber(), pageable.getPageSize());
         return ResponseEntity.ok(firmService.findAll(pageable));
+    }
+
+    @GetMapping("/search/{query}")
+    @Operation(summary = "Search companies", description = "Searches active companies by name or CNPJ.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Company search completed successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied (Requires CREDIT_ANALYST role)")
+    })
+    public ResponseEntity<Page<FirmResponse>> search(@PathVariable String query, Pageable pageable
+    ) {
+        return ResponseEntity.ok(firmService.searchNameOrCnpj(query, pageable));
     }
 
     @PatchMapping("/{id}")

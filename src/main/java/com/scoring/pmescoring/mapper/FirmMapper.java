@@ -15,6 +15,6 @@ public class FirmMapper implements GenericMapper<FirmRequest, FirmResponse, Firm
 
     @Override
     public FirmResponse toResponse(Firm firm) {
-        return new FirmResponse(firm.getId(), firm.getCnpj(), firm.getRegisteredCompanyName(), firm.getAverageRevenue(), firm.getTimeMonths(), firm.getNumberOfEmployees(), firm.getStatus());
+        return new FirmResponse(firm.getId(), firm.getCnpj(), firm.getRegisteredCompanyName(), firm.getAverageRevenue(), firm.getTimeMonths(), firm.getNumberOfEmployees(), firm.getCreationDate(), firm.getStatus());
     }
 }
