@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultOccurrenceSpecification {
+public final class DefaultOccurrenceSpecification {
 
     private DefaultOccurrenceSpecification() {}
 
@@ -30,6 +30,8 @@ public class DefaultOccurrenceSpecification {
             if (filter.statusResolved() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("statusResolved"), filter.statusResolved()));
             }
+
+            predicates.add(criteriaBuilder.equal(root.get("status"), EntityStatus.ACTIVE));
 
             Join<DefaultOccurrence, Firm> firm = root.join("firm", JoinType.INNER);
 
