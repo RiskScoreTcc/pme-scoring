@@ -1,5 +1,6 @@
 package com.scoring.pmescoring.controller;
 
+import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceFilter;
 import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceRequest;
 import com.scoring.pmescoring.dto.request.defaultoccurrence.UpdateDefaultOccurrenceRequest;
 import com.scoring.pmescoring.dto.response.defaultoccurrence.DefaultOccurrenceResponse;
@@ -93,21 +94,40 @@ public class DefaultOccurrenceController {
         return ResponseEntity.ok(response);
     }
 
+
     @PatchMapping("/{id}/status")
-    @Operation(summary = "Resolve a default occurrence", description = "Marks an active default occurrence as resolved, indicating that the debt has been paid or settled. This positively impacts future risk score calculations.")
+    @Operation(summary = "Update occurrence status", description = "Updates the resolution status of a default occurrence. Resolving an occurrence indicates that the related default has been settled and may positively impact future risk score calculations.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Occurrence marked as resolved successfully"),
-            @ApiResponse(responseCode = "403", description = "Access denied (Requires CREDIT_ANALYST role)"),
+            @ApiResponse(responseCode = "200", description = "Occurrence status updated successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied. Requires CREDIT_ANALYST role"),
             @ApiResponse(responseCode = "404", description = "Default occurrence not found")
     })
     public ResponseEntity<DefaultOccurrenceResponse> updateStatus(@PathVariable(name = "id") Long id) {
         log.info("Received request to update status for default occurrence with ID: {}", id);
-
         DefaultOccurrenceResponse response = defaultOccurrenceService.updateStatus(id);
-
         log.info("Status for default occurrence with ID: {} updated successfully", id);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/filter")
+    @Operation(summary = "Filter default occurrences", description = "Retrieves a paginated list of default occurrences associated with active firms based on the provided filters.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Filtered default occurrences retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid filter parameters"),
+            @ApiResponse(responseCode = "403", description = "Access denied (Requires CREDIT_ANALYST role)")
+    })
+    public ResponseEntity<Page<DefaultOccurrenceResponse>> filterOccurrence(@Valid @ModelAttribute DefaultOccurrenceFilter filter, @PageableDefault(size = 10, sort = {"id"}) Pageable pageable) {
+        log.info(
+                "Filtering default occurrences. PageNumber: {}, PageSize: {}, Sort: {}, Filters: {}",
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort(),
+                filter
+        );
+
+        return ResponseEntity.ok(defaultOccurrenceService.findAllByFilter(filter, pageable));
+    }
+
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Logically delete an occurrence", description = "Marks a default occurrence as deleted. This is used for erroneous entries, not for settled debts.")
