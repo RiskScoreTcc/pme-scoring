@@ -4,13 +4,16 @@ import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
 import com.scoring.pmescoring.common.util.PageableSanitizer;
 import com.scoring.pmescoring.domain.DefaultOccurrence;
 import com.scoring.pmescoring.domain.Firm;
+import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceFilter;
 import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceRequest;
 import com.scoring.pmescoring.dto.request.defaultoccurrence.UpdateDefaultOccurrenceRequest;
 import com.scoring.pmescoring.dto.response.defaultoccurrence.DefaultOccurrenceResponse;
+import com.scoring.pmescoring.dto.response.defaultoccurrence.OccurrenceMetricsResponse;
 import com.scoring.pmescoring.mapper.DefaultOccurrenceMapper;
 import com.scoring.pmescoring.model.EntityStatus;
 import com.scoring.pmescoring.repository.DefaultOccurrenceRepository;
 import com.scoring.pmescoring.repository.FirmRepository;
+import com.scoring.pmescoring.repository.specification.DefaultOccurrenceSpecification;
 import com.scoring.pmescoring.service.DefaultOccurrenceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -91,6 +94,19 @@ public class DefaultOccurrenceServiceImpl implements DefaultOccurrenceService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Page<DefaultOccurrenceResponse> findAllFilter(DefaultOccurrenceFilter filter, Pageable pageable) {
+        var specification = DefaultOccurrenceSpecification.filter(filter);
+        return this.defaultOccurrenceRepository.findAll(specification,pageable).map(defaultOccurrenceMapper::toResponse);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OccurrenceMetricsResponse findMetrics() {
+        return this.defaultOccurrenceRepository.getOccurrenceMetrics();
+    }
+
+    @Override
     @Transactional
     public DefaultOccurrenceResponse update(Long id, UpdateDefaultOccurrenceRequest updateDefaultOccurrenceRequest) {
         log.info("Initiating update for default occurrence ID: {}", id);
@@ -111,18 +127,18 @@ public class DefaultOccurrenceServiceImpl implements DefaultOccurrenceService {
     @Override
     @Transactional
     public DefaultOccurrenceResponse updateStatus(Long id) {
-        log.info("Initiating resolution status update for default occurrence ID: {}", id);
+        log.info("Initiating status update for default occurrence ID: {}", id);
 
         DefaultOccurrence defaultOccurrence = defaultOccurrenceRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
                 .orElseThrow(() -> {
-                    log.warn("Status update failed. Active default occurrence not found with ID: {}", id);
-                    return new ResourceNotFoundException("Default Occurrence not found with ID: " + id);
+                    log.warn( "Status update failed. Active default occurrence not found with ID: {}", id );
+                    return new ResourceNotFoundException( "Default occurrence not found with ID: " + id );
                 });
 
-        defaultOccurrence.setStatusResolved(true);
+        boolean newStatus = !Boolean.TRUE.equals(defaultOccurrence.getStatusResolved()); defaultOccurrence.setStatusResolved(newStatus);
         defaultOccurrenceRepository.save(defaultOccurrence);
 
-        log.info("Default occurrence ID: {} successfully marked as resolved", id);
+        log.info( "Default occurrence ID: {} status updated successfully to resolved={}", id, newStatus );
         return defaultOccurrenceMapper.toResponse(defaultOccurrence);
     }
 }

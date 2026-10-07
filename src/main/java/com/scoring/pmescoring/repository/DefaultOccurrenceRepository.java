@@ -1,17 +1,20 @@
 package com.scoring.pmescoring.repository;
 
 import com.scoring.pmescoring.domain.DefaultOccurrence;
+import com.scoring.pmescoring.dto.response.defaultoccurrence.OccurrenceMetricsResponse;
 import com.scoring.pmescoring.model.EntityStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DefaultOccurrenceRepository extends JpaRepository<DefaultOccurrence, Long> {
+public interface DefaultOccurrenceRepository extends JpaRepository<DefaultOccurrence, Long>, JpaSpecificationExecutor<DefaultOccurrence> {
 
     Optional<DefaultOccurrence> findByIdAndStatus(Long id, EntityStatus status);
 
@@ -20,4 +23,13 @@ public interface DefaultOccurrenceRepository extends JpaRepository<DefaultOccurr
     List<DefaultOccurrence> findByFirmIdAndStatusAndStatusResolvedFalse(Long firmId, EntityStatus status);
 
     List<DefaultOccurrence> findByFirmIdAndStatus(Long firmId, EntityStatus status);
+
+    @Query("""
+        SELECT new com.scoring.pmescoring.dto.response.defaultoccurrence.OccurrenceMetricsResponse(
+            COUNT(CASE WHEN o.status = com.scoring.pmescoring.model.EntityStatus.ACTIVE THEN 1 END),
+            COUNT(CASE WHEN o.status = com.scoring.pmescoring.model.EntityStatus.ACTIVE AND o.statusResolved = false THEN 1 END)
+        )
+        FROM DefaultOccurrence o
+    """)
+    OccurrenceMetricsResponse getOccurrenceMetrics();
 }
