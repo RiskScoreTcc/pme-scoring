@@ -10,6 +10,7 @@ import com.scoring.pmescoring.dto.request.user.UserFilter;
 import com.scoring.pmescoring.dto.request.user.UserLogin;
 import com.scoring.pmescoring.dto.request.user.UserRequest;
 import com.scoring.pmescoring.dto.response.user.DataTokenResponse;
+import com.scoring.pmescoring.dto.response.user.UserMetricsResponse;
 import com.scoring.pmescoring.dto.response.user.UserResponse;
 import com.scoring.pmescoring.mapper.UserMapper;
 import com.scoring.pmescoring.model.EntityStatus;
@@ -114,7 +115,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<UserResponse> findAllByFilter(UserFilter filter, Pageable pageable) {
+    public Page<UserResponse> findAllFilter(UserFilter filter, Pageable pageable) {
         this.validateSearchFilter(filter);
         var specification = UserSpecification.filter(filter);
         return userRepository.findAll(specification, pageable).map(userMapper::toResponse);
@@ -130,6 +131,13 @@ public class UserServiceImpl implements UserService {
         if (filter.creationDateFrom() != null && filter.creationDateTo() != null && filter.creationDateFrom().isAfter(filter.creationDateTo())) {
             throw new BusinessException("The creation start date cannot be later than the end date.");
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserMetricsResponse findMetrics() {
+        log.info("Calculating user system metrics summary.");
+        return this.userRepository.getUserMetrics();
     }
 
     @Override

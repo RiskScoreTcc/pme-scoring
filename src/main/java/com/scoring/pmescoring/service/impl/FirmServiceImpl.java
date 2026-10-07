@@ -7,15 +7,23 @@ import com.scoring.pmescoring.domain.CalculatedScore;
 import com.scoring.pmescoring.domain.DefaultOccurrence;
 import com.scoring.pmescoring.domain.Firm;
 import com.scoring.pmescoring.domain.User;
+import com.scoring.pmescoring.dto.projection.RiskBandCountDTO;
+import com.scoring.pmescoring.dto.request.firm.FirmFilter;
 import com.scoring.pmescoring.dto.request.firm.FirmRequest;
 import com.scoring.pmescoring.dto.request.firm.UpdateFirmRequest;
+import com.scoring.pmescoring.dto.response.calculatedscore.CalculatedScoreResponse;
+import com.scoring.pmescoring.dto.response.firm.FirmDetailResponse;
+import com.scoring.pmescoring.dto.response.firm.FirmMetricsResponse;
 import com.scoring.pmescoring.dto.response.firm.FirmResponse;
+import com.scoring.pmescoring.mapper.CalculatedScoreMapper;
 import com.scoring.pmescoring.mapper.FirmMapper;
 import com.scoring.pmescoring.model.EntityStatus;
+import com.scoring.pmescoring.model.RiskBand;
 import com.scoring.pmescoring.repository.CalculatedScoreRepository;
 import com.scoring.pmescoring.repository.DefaultOccurrenceRepository;
 import com.scoring.pmescoring.repository.FirmRepository;
 import com.scoring.pmescoring.repository.UserRepository;
+import com.scoring.pmescoring.repository.specification.FirmSpecification;
 import com.scoring.pmescoring.service.FirmService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -34,6 +44,7 @@ public class FirmServiceImpl implements FirmService {
 
     private final FirmRepository firmRepository;
     private final FirmMapper firmMapper;
+    private final CalculatedScoreMapper calculatedScoreMapper;
     private final UserRepository userRepository;
     private final CalculatedScoreRepository calculatedScoreRepository;
     private final DefaultOccurrenceRepository defaultOccurrenceRepository;
@@ -152,8 +163,42 @@ public class FirmServiceImpl implements FirmService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<FirmResponse> searchNameOrCnpj(String query, Pageable pageable) {
-        return this.firmRepository.searchNameOrCnpj(query, pageable)
-                .map(firmMapper::toResponse);
+    public Page<FirmDetailResponse> findAllFilter(FirmFilter filter, Pageable pageable) {
+
+        var specification = FirmSpecification.filter(filter);
+        Page<Firm> firmPage = this.firmRepository.findAll(specification, pageable);
+
+        return firmPage.map(firm -> {
+            CalculatedScore score = this.calculatedScoreRepository
+                    .findTopByFirmIdAndStatusOrderByIdDesc(firm.getId(), EntityStatus.ACTIVE)
+                    .orElse(null);
+
+            FirmResponse firmResponse = this.firmMapper.toResponse(firm);
+            CalculatedScoreResponse scoreResponse = (score != null)
+                    ? this.calculatedScoreMapper.toResponse(score)
+                    : null;
+
+            return new FirmDetailResponse(firmResponse, scoreResponse);
+        });
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public FirmMetricsResponse findMetrics() {
+        var projections = this.calculatedScoreRepository.countActiveFirmsByRiskBand();
+
+        Map<RiskBand, Long> counts = projections.stream()
+                .collect(Collectors.toMap(
+                        RiskBandCountDTO::riskBand,
+                        RiskBandCountDTO::count
+                ));
+
+        long lowRisk = counts.getOrDefault(RiskBand.LOW, 0L);
+        long mediumRisk = counts.getOrDefault(RiskBand.MEDIUM, 0L);
+        long highRisk = counts.getOrDefault(RiskBand.HIGH, 0L);
+
+        long totalEvaluated = lowRisk + mediumRisk + highRisk;
+
+        return new FirmMetricsResponse(lowRisk, mediumRisk, highRisk, totalEvaluated);
     }
 }

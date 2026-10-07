@@ -4,6 +4,7 @@ import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceFil
 import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceRequest;
 import com.scoring.pmescoring.dto.request.defaultoccurrence.UpdateDefaultOccurrenceRequest;
 import com.scoring.pmescoring.dto.response.defaultoccurrence.DefaultOccurrenceResponse;
+import com.scoring.pmescoring.dto.response.defaultoccurrence.OccurrenceMetricsResponse;
 import com.scoring.pmescoring.service.DefaultOccurrenceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -125,9 +126,23 @@ public class DefaultOccurrenceController {
                 filter
         );
 
-        return ResponseEntity.ok(defaultOccurrenceService.findAllByFilter(filter, pageable));
+        return ResponseEntity.ok(defaultOccurrenceService.findAllFilter(filter, pageable));
     }
 
+    @GetMapping("/metrics")
+    @Operation(
+            summary = "Get occurrence metrics",
+            description = "Retrieves aggregated counts of active occurrences along with total open (unresolved) occurrences."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Occurrence metrics retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied")
+    })
+    public ResponseEntity<OccurrenceMetricsResponse> getMetrics() {
+        log.info("Fetching occurrence metrics summary.");
+
+        return ResponseEntity.ok(this.defaultOccurrenceService.findMetrics());
+    }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Logically delete an occurrence", description = "Marks a default occurrence as deleted. This is used for erroneous entries, not for settled debts.")

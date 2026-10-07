@@ -1,9 +1,11 @@
 package com.scoring.pmescoring.controller;
 
+import com.scoring.pmescoring.dto.request.firm.FirmFilter;
 import com.scoring.pmescoring.dto.request.firm.FirmRequest;
 import com.scoring.pmescoring.dto.request.firm.UpdateFirmRequest;
+import com.scoring.pmescoring.dto.response.firm.FirmDetailResponse;
+import com.scoring.pmescoring.dto.response.firm.FirmMetricsResponse;
 import com.scoring.pmescoring.dto.response.firm.FirmResponse;
-import com.scoring.pmescoring.model.EntityStatus;
 import com.scoring.pmescoring.service.FirmService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -77,15 +79,38 @@ public class FirmController {
         return ResponseEntity.ok(firmService.findAll(pageable));
     }
 
-    @GetMapping("/search/{query}")
-    @Operation(summary = "Search companies", description = "Searches active companies by name or CNPJ.")
+    @GetMapping("/filter")
+    @Operation(summary = "Filter active companies", description = "Retrieves a paginated list of active companies filtered by search term (name/CNPJ) or risk band.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Company search completed successfully"),
+            @ApiResponse(responseCode = "200", description = "Filtered companies retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid filter or pagination parameters"),
             @ApiResponse(responseCode = "403", description = "Access denied (Requires CREDIT_ANALYST role)")
     })
-    public ResponseEntity<Page<FirmResponse>> search(@PathVariable String query, Pageable pageable
-    ) {
-        return ResponseEntity.ok(firmService.searchNameOrCnpj(query, pageable));
+    public ResponseEntity<Page<FirmDetailResponse>> filterCompanies(@Valid @ModelAttribute FirmFilter filter, @PageableDefault(size = 10, sort = {"id"}) Pageable pageable) {
+        log.info(
+                "Filtering companies. Filters: {}, PageNumber: {}, PageSize: {}, Sort: {}",
+                filter,
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSort()
+        );
+
+        return ResponseEntity.ok(firmService.findAllFilter(filter, pageable));
+    }
+
+    @GetMapping("/metrics")
+    @Operation(
+            summary = "Get firm risk metrics",
+            description = "Retrieves aggregated counts of active companies categorized by risk levels (LOW, MEDIUM, HIGH) along with total evaluated firms."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Firm risk metrics retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied (Requires CREDIT_ANALYST role)")
+    })
+    public ResponseEntity<FirmMetricsResponse> getMetrics() {
+        log.info("Fetching firm risk metrics summary.");
+
+        return ResponseEntity.ok(this.firmService.findMetrics());
     }
 
     @PatchMapping("/{id}")

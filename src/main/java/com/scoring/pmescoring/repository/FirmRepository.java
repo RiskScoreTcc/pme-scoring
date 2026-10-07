@@ -7,15 +7,15 @@ import com.scoring.pmescoring.model.RiskBand;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.Optional;
 
 @Repository
-public interface FirmRepository extends JpaRepository<Firm, Long> {
+public interface FirmRepository extends JpaRepository<Firm, Long>, JpaSpecificationExecutor<Firm> {
 
     Optional<Firm> findByIdAndStatus(Long id, EntityStatus status);
 
@@ -35,17 +35,4 @@ public interface FirmRepository extends JpaRepository<Firm, Long> {
             Pageable pageable
     );
 
-    @Query("""
-    SELECT f
-    FROM Firm f
-    WHERE f.status = com.scoring.pmescoring.model.EntityStatus.ACTIVE
-      AND (
-          LOWER(f.registeredCompanyName) LIKE LOWER(CONCAT('%', :query, '%'))
-          OR f.cnpj LIKE CONCAT('%', :query, '%')
-      )
-    """)
-    Page<Firm> searchNameOrCnpj(
-            @Param("query") String query,
-            Pageable pageable
-    );
 }

@@ -8,6 +8,7 @@ import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceFil
 import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceRequest;
 import com.scoring.pmescoring.dto.request.defaultoccurrence.UpdateDefaultOccurrenceRequest;
 import com.scoring.pmescoring.dto.response.defaultoccurrence.DefaultOccurrenceResponse;
+import com.scoring.pmescoring.dto.response.defaultoccurrence.OccurrenceMetricsResponse;
 import com.scoring.pmescoring.mapper.DefaultOccurrenceMapper;
 import com.scoring.pmescoring.model.EntityStatus;
 import com.scoring.pmescoring.repository.DefaultOccurrenceRepository;
@@ -94,9 +95,15 @@ public class DefaultOccurrenceServiceImpl implements DefaultOccurrenceService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<DefaultOccurrenceResponse> findAllByFilter(DefaultOccurrenceFilter filter, Pageable pageable) {
+    public Page<DefaultOccurrenceResponse> findAllFilter(DefaultOccurrenceFilter filter, Pageable pageable) {
         var specification = DefaultOccurrenceSpecification.filter(filter);
         return this.defaultOccurrenceRepository.findAll(specification,pageable).map(defaultOccurrenceMapper::toResponse);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OccurrenceMetricsResponse findMetrics() {
+        return this.defaultOccurrenceRepository.getOccurrenceMetrics();
     }
 
     @Override
