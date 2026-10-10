@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .sessionManagement(https -> https.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .dispatcherTypeMatchers(DispatcherType.ASYNC, DispatcherType.FORWARD, DispatcherType.ERROR).hasRole("CREDIT_ANALYST")
+                                .dispatcherTypeMatchers(DispatcherType.ASYNC, DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 
                                 .requestMatchers(
                                         "/v3/api-docs/**",
