@@ -4,6 +4,7 @@ import com.scoring.pmescoring.model.EntityStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Schema(description = "Detailed representation of an SME firm profile")
 public record FirmResponse(
@@ -25,6 +26,9 @@ public record FirmResponse(
 
         @Schema(description = "Total number of active employees working at the company", example = "25")
         Integer numberOfEmployees,
+
+        @Schema(description = "Date when the company was founded", example = "2020-05-15")
+        LocalDate creationDate,
 
         @Schema(description = "Current lifecycle status of the firm record (ACTIVE or INACTIVE)", example = "ACTIVE")
         EntityStatus status

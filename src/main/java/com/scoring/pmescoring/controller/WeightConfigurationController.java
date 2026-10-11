@@ -75,6 +75,21 @@ public class WeightConfigurationController {
         return ResponseEntity.ok(weightConfigurationService.findAll(pageable));
     }
 
+    @GetMapping("/active")
+    @Operation(
+            summary = "Get active weight configuration",
+            description = "Retrieves the currently active weight configuration."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Active weight configuration retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Active weight configuration not found"),
+            @ApiResponse(responseCode = "403", description = "Access denied: Requires ADMIN role")
+    })
+    public ResponseEntity<WeightConfigurationResponse> getActive() {
+        log.info("Fetching active weight configuration");
+        return ResponseEntity.ok(weightConfigurationService.findActive());
+    }
+
     @PatchMapping("/{id}")
     @Operation(summary = "Update weight configuration", description = "Inactivates the current version and creates a new updated configuration version to preserve historical calculation accuracy.")
     @ApiResponses(value = {

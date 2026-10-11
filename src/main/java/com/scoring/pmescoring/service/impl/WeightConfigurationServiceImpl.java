@@ -43,11 +43,10 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
             throw new BusinessException("Low risk threshold must be greater than medium risk threshold.");
         }
 
-        User user = userRepository.findByIdAndStatus(userID, EntityStatus.ACTIVE)
-                .orElseThrow(() -> {
-                    log.warn("Creation failed. Active user not found with ID: {}", userID);
-                    return new ResourceNotFoundException("User not found with ID: " + userID);
-                });
+        User user = userRepository.findByIdAndStatus(userID, EntityStatus.ACTIVE).orElseThrow(() -> {
+            log.warn("Creation failed. Active user not found with ID: {}", userID);
+            return new ResourceNotFoundException("User not found with ID: " + userID);
+        });
 
         List<WeightConfiguration> activeConfigs = weightConfigurationRepository.findByStatus(EntityStatus.ACTIVE);
         for (WeightConfiguration config : activeConfigs) {
@@ -58,17 +57,7 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
             log.info("Deactivated {} previously active weight configurations to maintain single active state", activeConfigs.size());
         }
 
-        WeightConfiguration newConfiguration = new WeightConfiguration(
-                request.formulaType(),
-                request.revenueWeight(),
-                request.timeWeight(),
-                request.defaultWeight(),
-                request.maxRevenueReference(),
-                request.maxTimeReferenceMonths(),
-                request.lowRiskThreshold(),
-                request.mediumRiskThreshold(),
-                user
-        );
+        WeightConfiguration newConfiguration = new WeightConfiguration(request.formulaType(), request.revenueWeight(), request.timeWeight(), request.defaultWeight(), request.maxRevenueReference(), request.maxTimeReferenceMonths(), request.lowRiskThreshold(), request.mediumRiskThreshold(), user);
 
         WeightConfiguration savedConfiguration = weightConfigurationRepository.save(newConfiguration);
         log.info("New weight configuration successfully created and activated with ID: {}", savedConfiguration.getId());
@@ -81,11 +70,10 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
     public void delete(Long id) {
         log.info("Initiating logical deletion for weight configuration ID: {}", id);
 
-        WeightConfiguration weightConfiguration = weightConfigurationRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
-                .orElseThrow(() -> {
-                    log.warn("Deletion failed. Active weight configuration not found with ID: {}", id);
-                    return new ResourceNotFoundException("weight configuration not found with ID: " + id);
-                });
+        WeightConfiguration weightConfiguration = weightConfigurationRepository.findByIdAndStatus(id, EntityStatus.ACTIVE).orElseThrow(() -> {
+            log.warn("Deletion failed. Active weight configuration not found with ID: {}", id);
+            return new ResourceNotFoundException("weight configuration not found with ID: " + id);
+        });
 
         long activeConfigurationsCount = weightConfigurationRepository.countByStatus(EntityStatus.ACTIVE);
         if (activeConfigurationsCount <= 1) {
@@ -104,13 +92,26 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
     public WeightConfigurationResponse findById(Long id) {
         log.info("Fetching weight configuration with ID: {}", id);
 
-        WeightConfiguration weightConfiguration = weightConfigurationRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.warn("Fetch failed. Weight configuration not found with ID: {}", id);
-                    return new ResourceNotFoundException("weight configuration not found with ID: " + id);
-                });
+        WeightConfiguration weightConfiguration = weightConfigurationRepository.findById(id).orElseThrow(() -> {
+            log.warn("Fetch failed. Weight configuration not found with ID: {}", id);
+            return new ResourceNotFoundException("weight configuration not found with ID: " + id);
+        });
 
         return weightConfigurationMapper.toResponse(weightConfiguration);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public WeightConfigurationResponse findActive() {
+        WeightConfiguration entity = this.weightConfigurationRepository
+                .findFirstByStatus(EntityStatus.ACTIVE)
+                .orElseThrow(() -> {
+                    log.warn("Fetch failed. Active weight configuration not found.");
+                    return new ResourceNotFoundException("Active weight configuration not found");
+                });
+
+        return this.weightConfigurationMapper.toResponse(entity);
     }
 
     @Override
@@ -129,11 +130,10 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
     public WeightConfigurationResponse update(Long id, UpdateWeightConfigurationRequest request) {
         log.info("Initiating update process for weight configuration ID: {}", id);
 
-        WeightConfiguration existingConfiguration = weightConfigurationRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
-                .orElseThrow(() -> {
-                    log.warn("Update failed. Active weight configuration not found with ID: {}", id);
-                    return new ResourceNotFoundException("weight configuration not found with ID: " + id);
-                });
+        WeightConfiguration existingConfiguration = weightConfigurationRepository.findByIdAndStatus(id, EntityStatus.ACTIVE).orElseThrow(() -> {
+            log.warn("Update failed. Active weight configuration not found with ID: {}", id);
+            return new ResourceNotFoundException("weight configuration not found with ID: " + id);
+        });
 
         Long userID = request.updatedByUserId();
 
@@ -151,27 +151,16 @@ public class WeightConfigurationServiceImpl implements WeightConfigurationServic
             throw new BusinessException("Low risk threshold must be greater than medium risk threshold.");
         }
 
-        User user = userRepository.findByIdAndStatus(userID, EntityStatus.ACTIVE)
-                .orElseThrow(() -> {
-                    log.warn("Update failed. Active user not found with ID: {}", userID);
-                    return new ResourceNotFoundException("User not found with ID: " + userID);
-                });
+        User user = userRepository.findByIdAndStatus(userID, EntityStatus.ACTIVE).orElseThrow(() -> {
+            log.warn("Update failed. Active user not found with ID: {}", userID);
+            return new ResourceNotFoundException("User not found with ID: " + userID);
+        });
 
         log.info("Deactivating current configuration ID: {} to create a new updated version", existingConfiguration.getId());
         existingConfiguration.delete();
         weightConfigurationRepository.save(existingConfiguration);
 
-        WeightConfiguration weightConfigurationUpdate = new WeightConfiguration(
-                formulaType,
-                revenueWeight,
-                timeWeight,
-                defaultWeight,
-                maxRevenueReference,
-                maxTimeReferenceMonths,
-                lowRiskThreshold,
-                mediumRiskThreshold,
-                user
-        );
+        WeightConfiguration weightConfigurationUpdate = new WeightConfiguration(formulaType, revenueWeight, timeWeight, defaultWeight, maxRevenueReference, maxTimeReferenceMonths, lowRiskThreshold, mediumRiskThreshold, user);
 
         weightConfigurationRepository.save(weightConfigurationUpdate);
         log.info("Updated weight configuration successfully created and activated with new ID: {}", weightConfigurationUpdate.getId());

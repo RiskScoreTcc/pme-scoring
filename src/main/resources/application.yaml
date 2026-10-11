@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pme_scoring_db}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:1506}
+    username: ${DB_USER:admin_teste}
+    password: ${DB_PASSWORD:sua_senha_segura}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -17,8 +17,15 @@ spring:
       hibernate:
         format_sql: ${FORMAT_SQL:false}
 
+  mvc:
+    async:
+      request-timeout: ${SPRING_MVC_ASYNC_REQUEST_TIMEOUT:300000}
+
 server:
   port: ${SERVER_PORT:8080}
+  tomcat:
+    connection-timeout: ${SERVER_TOMCAT_CONNECTION_TIMEOUT:300000}
+    max-http-form-post-size: ${SERVER_TOMCAT_MAX_HTTP_FORM_POST_SIZE:2MB}
 
 logging:
   file:

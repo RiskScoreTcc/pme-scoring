@@ -1,5 +1,6 @@
 package com.scoring.pmescoring.dto.response.defaultoccurrence;
 
+import com.scoring.pmescoring.dto.response.firm.FirmSummaryResponse;
 import com.scoring.pmescoring.model.EntityStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -12,8 +13,8 @@ public record DefaultOccurrenceResponse(
         @Schema(description = "Unique internal identifier of the default occurrence record", example = "10")
         Long id,
 
-        @Schema(description = "Identifier of the firm associated with this financial default", example = "1")
-        Long firmId,
+        @Schema(description = "Summary information of the firm associated with this financial occurrence")
+        FirmSummaryResponse firm,
 
         @Schema(description = "Date when the financial default occurrence took place", example = "2026-08-20")
         LocalDate dateOccurrence,

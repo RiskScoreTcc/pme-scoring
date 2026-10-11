@@ -1,7 +1,6 @@
-version: '3.8'
 
 services:
-  # 1. Banco de Dados PostgreSQL
+  # 1. PostgreSQL Database
   db:
     image: postgres:15-alpine
     container_name: postgres_db
@@ -11,7 +10,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - '5433:5432'
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
@@ -22,7 +21,7 @@ services:
       timeout: 5s
       retries: 5
 
-  # 2. Sua Aplicação Spring Boot
+  # 2. Spring Boot Application
   app:
     image: pme-scoring:local
     build:
@@ -31,41 +30,54 @@ services:
     container_name: spring_boot_app
     restart: always
     environment:
-      # Ambiente
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
 
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_NAME=${POSTGRES_DB}
-      - DB_USER=${POSTGRES_USER}
-      - DB_PASSWORD=${POSTGRES_PASSWORD}
-      - DB_DDL_AUTO=${DB_DDL_AUTO}
-      - SHOW_SQL=true
-      - FORMAT_SQL=true
-      - SERVER_PORT=${SERVER_PORT}
-      - LOG_PATH=${LOG_PATH}
-      - JWT_SECRET=${JWT_SECRET}
-      - SOURCE_ID=${SOURCE_ID}
-      - ADMIN_DEFAULT_EMAIL=${ADMIN_DEFAULT_EMAIL}
-      - ADMIN_DEFAULT_PASSWORD=${ADMIN_DEFAULT_PASSWORD}
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_DDL_AUTO: ${DB_DDL_AUTO}
+
+      SHOW_SQL: "true"
+      FORMAT_SQL: "true"
+
+      SERVER_PORT: ${SERVER_PORT}
+      LOG_PATH: ${LOG_PATH}
+      JWT_SECRET: ${JWT_SECRET}
+      SOURCE_ID: ${SOURCE_ID}
+      ADMIN_DEFAULT_EMAIL: ${ADMIN_DEFAULT_EMAIL}
+      ADMIN_DEFAULT_PASSWORD: ${ADMIN_DEFAULT_PASSWORD}
 
       # CORS
-      - CORS_ALLOWED_ORIGIN_PATTERNS=${CORS_ALLOWED_ORIGIN_PATTERNS}
-      - CORS_ALLOWED_METHODS=${CORS_ALLOWED_METHODS}
-      - CORS_ALLOWED_HEADERS=${CORS_ALLOWED_HEADERS}
-      - CORS_ALLOW_CREDENTIALS=${CORS_ALLOW_CREDENTIALS}
+      CORS_ALLOWED_ORIGIN_PATTERNS: ${CORS_ALLOWED_ORIGIN_PATTERNS}
+      CORS_ALLOWED_METHODS: ${CORS_ALLOWED_METHODS}
+      CORS_ALLOWED_HEADERS: ${CORS_ALLOWED_HEADERS}
+      CORS_ALLOW_CREDENTIALS: ${CORS_ALLOW_CREDENTIALS}
 
-      # Documentação da API
-      - SPRINGDOC_API_DOCS_ENABLED=${SPRINGDOC_API_DOCS_ENABLED}
-      - SPRINGDOC_SWAGGER_UI_ENABLED=${SPRINGDOC_SWAGGER_UI_ENABLED}
+      # API Documentation
+      SPRINGDOC_API_DOCS_ENABLED: ${SPRINGDOC_API_DOCS_ENABLED}
+      SPRINGDOC_SWAGGER_UI_ENABLED: ${SPRINGDOC_SWAGGER_UI_ENABLED}
 
     ports:
-      - '8080:8080'
+      - "8080:8080"
     volumes:
       - ./logs:${LOG_PATH}
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - app-net
+
+  # 3. Angular Frontend
+  frontend:
+    image: pme-scoring-web:local
+    container_name: pme_scoring_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - app
     networks:
       - app-net
 

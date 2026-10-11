@@ -5,6 +5,7 @@ import com.scoring.pmescoring.dto.request.user.UserFilter;
 import com.scoring.pmescoring.dto.request.user.UserLogin;
 import com.scoring.pmescoring.dto.request.user.UserRequest;
 import com.scoring.pmescoring.dto.response.user.DataTokenResponse;
+import com.scoring.pmescoring.dto.response.user.UserMetricsResponse;
 import com.scoring.pmescoring.dto.response.user.UserResponse;
 import com.scoring.pmescoring.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -93,7 +94,21 @@ public class UserController {
                 filter
         );
 
-        return ResponseEntity.ok(userService.findAllByFilter(filter, pageable));
+        return ResponseEntity.ok(userService.findAllFilter(filter, pageable));
+    }
+
+    @GetMapping("/metrics")
+    @Operation(
+            summary = "Get user system metrics",
+            description = "Retrieves total counts of all registered users (including inactive/deleted), active accounts, administrators, and operational analysts."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User metrics retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied (Requires ADMIN role)")
+    })
+    public ResponseEntity<UserMetricsResponse> getUserMetrics() {
+        log.info("Fetching user system metrics summary.");
+        return ResponseEntity.ok(this.userService.findMetrics());
     }
 
     @PatchMapping("/{id}")

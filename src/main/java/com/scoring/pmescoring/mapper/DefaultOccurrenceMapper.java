@@ -4,6 +4,7 @@ import com.scoring.pmescoring.common.mapper.GenericMapper;
 import com.scoring.pmescoring.domain.DefaultOccurrence;
 import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceRequest;
 import com.scoring.pmescoring.dto.response.defaultoccurrence.DefaultOccurrenceResponse;
+import com.scoring.pmescoring.dto.response.firm.FirmSummaryResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,6 +16,6 @@ public class DefaultOccurrenceMapper implements GenericMapper<DefaultOccurrenceR
 
     @Override
     public DefaultOccurrenceResponse toResponse(DefaultOccurrence entity) {
-        return new DefaultOccurrenceResponse(entity.getId(), entity.getFirm().getId(), entity.getDateOccurrence(), entity.getAmountDue(), entity.getStatusResolved(), entity.getDescription(), entity.getStatus(), entity.getCreationDate());
+        return new DefaultOccurrenceResponse(entity.getId(), new FirmSummaryResponse(entity.getFirm().getId(), entity.getFirm().getCnpj(), entity.getFirm().getRegisteredCompanyName() ), entity.getDateOccurrence(), entity.getAmountDue(), entity.getStatusResolved(), entity.getDescription(), entity.getStatus(), entity.getCreationDate());
     }
 }

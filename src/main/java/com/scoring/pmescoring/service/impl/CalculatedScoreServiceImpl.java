@@ -218,7 +218,7 @@ public class CalculatedScoreServiceImpl implements CalculatedScoreService {
     public CalculatedScoreResponse findById(Long id) {
         log.info("Fetching calculated score from database for ID: {}", id);
 
-        CalculatedScore calculatedScore = calculatedScoreRepository.findByIdAndStatus(id, EntityStatus.ACTIVE)
+        CalculatedScore calculatedScore = calculatedScoreRepository.findByIdAndStatusNot(id, EntityStatus.DELETED)
                 .orElseThrow(() -> {
                     log.warn("Fetch failed. Calculated Score not found with ID: {}", id);
                     return new ResourceNotFoundException("calculated Score not found with ID: " + id);
