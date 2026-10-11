@@ -1,9 +1,11 @@
 package com.scoring.pmescoring.controller;
 
 import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
+import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceFilter;
 import com.scoring.pmescoring.dto.request.defaultoccurrence.DefaultOccurrenceRequest;
 import com.scoring.pmescoring.dto.request.defaultoccurrence.UpdateDefaultOccurrenceRequest;
 import com.scoring.pmescoring.dto.response.defaultoccurrence.DefaultOccurrenceResponse;
+import com.scoring.pmescoring.dto.response.defaultoccurrence.OccurrenceMetricsResponse;
 import com.scoring.pmescoring.service.DefaultOccurrenceService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,10 +16,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.data.domain.Page;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -69,7 +73,8 @@ class DefaultOccurrenceControllerTest {
     @DisplayName("POST propaga ResourceNotFoundException quando a empresa não existe")
     void registerShouldPropagateNotFound() {
         DefaultOccurrenceRequest request = mock(DefaultOccurrenceRequest.class);
-        when(defaultOccurrenceService.create(request)).thenThrow(new ResourceNotFoundException("Firm not found with ID: 1"));
+        when(defaultOccurrenceService.create(request))
+                .thenThrow(new ResourceNotFoundException("Firm not found with ID: 1"));
 
         assertThatThrownBy(() -> controller.register(request)).isInstanceOf(ResourceNotFoundException.class);
     }
@@ -148,5 +153,83 @@ class DefaultOccurrenceControllerTest {
                 .when(defaultOccurrenceService).delete(99L);
 
         assertThatThrownBy(() -> controller.delete(99L)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("GET /filter repassa o filtro e a paginação para o service")
+    void filterShouldDelegate() {
+        DefaultOccurrenceFilter filter = mock(DefaultOccurrenceFilter.class);
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<DefaultOccurrenceResponse> page = ControllerTestSupport.emptyPage();
+        when(defaultOccurrenceService.findAllFilter(filter, pageable)).thenReturn(page);
+
+        ResponseEntity<Page<DefaultOccurrenceResponse>> result = controller.filterOccurrence(filter, pageable);
+
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(result.getBody()).isSameAs(page);
+    }
+
+    @Test
+    @DisplayName("A rota /filter não é capturada por /{id} e usa a paginação padrão")
+    void filterRouteShouldWork() throws Exception {
+        when(defaultOccurrenceService.findAllFilter(any(), any())).thenReturn(ControllerTestSupport.emptyPage());
+
+        mvc.perform(get(BASE_URL + "/filter")).andExpect(status().isOk());
+
+        ArgumentCaptor<Pageable> captor = ArgumentCaptor.forClass(Pageable.class);
+        verify(defaultOccurrenceService).findAllFilter(any(), captor.capture());
+        assertThat(captor.getValue().getPageSize()).isEqualTo(10);
+        verify(defaultOccurrenceService, never()).findById(any());
+    }
+
+    @Test
+    @DisplayName("GET /metrics devolve 200 com as métricas")
+    void metricsShouldReturnOk() {
+        OccurrenceMetricsResponse metrics = mock(OccurrenceMetricsResponse.class);
+        when(defaultOccurrenceService.findMetrics()).thenReturn(metrics);
+
+        ResponseEntity<OccurrenceMetricsResponse> result = controller.getMetrics();
+
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(result.getBody()).isSameAs(metrics);
+    }
+
+    @Test
+    @DisplayName("A rota /metrics não é capturada por /{id}")
+    void metricsRouteShouldNotConflictWithId() throws Exception {
+        when(defaultOccurrenceService.findMetrics()).thenReturn(mock(OccurrenceMetricsResponse.class));
+
+        mvc.perform(get(BASE_URL + "/metrics")).andExpect(status().isOk());
+
+        verify(defaultOccurrenceService).findMetrics();
+        verify(defaultOccurrenceService, never()).findById(any());
+    }
+
+    @Test
+    @DisplayName("GET /{id} propaga ResourceNotFoundException")
+    void getShouldPropagateNotFound() {
+        when(defaultOccurrenceService.findById(99L))
+                .thenThrow(new ResourceNotFoundException("Default Occurrence not found with ID: 99"));
+
+        assertThatThrownBy(() -> controller.getDefaultOccurrence(99L)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("PATCH /{id} propaga ResourceNotFoundException")
+    void updateShouldPropagateNotFound() {
+        UpdateDefaultOccurrenceRequest request = mock(UpdateDefaultOccurrenceRequest.class);
+        when(defaultOccurrenceService.update(99L, request))
+                .thenThrow(new ResourceNotFoundException("Default Occurrence not found with ID: 99"));
+
+        assertThatThrownBy(() -> controller.update(99L, request)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("PATCH /{id}/status propaga ResourceNotFoundException")
+    void updateStatusShouldPropagateNotFound() {
+        when(defaultOccurrenceService.updateStatus(99L))
+                .thenThrow(new ResourceNotFoundException("Default Occurrence not found with ID: 99"));
+
+        assertThatThrownBy(() -> controller.updateStatus(99L)).isInstanceOf(ResourceNotFoundException.class);
     }
 }

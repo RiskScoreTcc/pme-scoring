@@ -7,6 +7,7 @@ import com.scoring.pmescoring.dto.request.user.UserFilter;
 import com.scoring.pmescoring.dto.request.user.UserLogin;
 import com.scoring.pmescoring.dto.request.user.UserRequest;
 import com.scoring.pmescoring.dto.response.user.DataTokenResponse;
+import com.scoring.pmescoring.dto.response.user.UserMetricsResponse;
 import com.scoring.pmescoring.dto.response.user.UserResponse;
 import com.scoring.pmescoring.service.UserService;
 import org.junit.jupiter.api.AfterEach;
@@ -118,7 +119,7 @@ class UserControllerTest {
             UserFilter filter = mock(UserFilter.class);
             Pageable pageable = PageRequest.of(0, 10);
             Page<UserResponse> page = ControllerTestSupport.emptyPage();
-            when(userService.findAllByFilter(filter, pageable)).thenReturn(page);
+            when(userService.findAllFilter(filter, pageable)).thenReturn(page);
 
             ResponseEntity<Page<UserResponse>> result = controller.filterUsers(filter, pageable);
 
@@ -131,7 +132,7 @@ class UserControllerTest {
         void filterShouldPropagateInvalidRange() {
             UserFilter filter = mock(UserFilter.class);
             Pageable pageable = PageRequest.of(0, 10);
-            when(userService.findAllByFilter(filter, pageable))
+            when(userService.findAllFilter(filter, pageable))
                     .thenThrow(new BusinessException("The creation start date cannot be later than the end date."));
 
             assertThatThrownBy(() -> controller.filterUsers(filter, pageable)).isInstanceOf(BusinessException.class);
@@ -173,6 +174,57 @@ class UserControllerTest {
 
             assertThatThrownBy(() -> controller.delete(99L)).isInstanceOf(ResourceNotFoundException.class);
         }
+
+        @Test
+        @DisplayName("GET /metrics devolve 200 com as métricas")
+        void metricsShouldReturnOk() {
+            UserMetricsResponse metrics = mock(UserMetricsResponse.class);
+            when(userService.findMetrics()).thenReturn(metrics);
+
+            ResponseEntity<UserMetricsResponse> result = controller.getUserMetrics();
+
+            assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(result.getBody()).isSameAs(metrics);
+        }
+
+        @Test
+        @DisplayName("A rota /metrics não é capturada por /{id}")
+        void metricsRouteShouldNotConflictWithId() throws Exception {
+            when(userService.findMetrics()).thenReturn(mock(UserMetricsResponse.class));
+
+            mvc.perform(get(BASE_URL + "/metrics")).andExpect(status().isOk());
+
+            verify(userService).findMetrics();
+            verify(userService, never()).findById(any());
+        }
+
+        @Test
+        @DisplayName("GET /{id} propaga ResourceNotFoundException")
+        void getShouldPropagateNotFound() {
+            when(userService.findById(99L)).thenThrow(new ResourceNotFoundException("User not found with ID: 99"));
+
+            assertThatThrownBy(() -> controller.getUser(99L)).isInstanceOf(ResourceNotFoundException.class);
+        }
+
+        @Test
+        @DisplayName("PATCH /{id} propaga a BusinessException de e-mail já usado")
+        void updateShouldPropagateDuplicateEmail() {
+            UpdateUserRequest request = mock(UpdateUserRequest.class);
+            when(userService.update(3L, request)).thenThrow(new BusinessException("Email already in use"));
+
+            assertThatThrownBy(() -> controller.update(3L, request)).isInstanceOf(BusinessException.class);
+        }
+
+        @Test
+        @DisplayName("PATCH /{id} propaga ResourceNotFoundException")
+        void updateShouldPropagateNotFound() {
+            UpdateUserRequest request = mock(UpdateUserRequest.class);
+            when(userService.update(99L, request))
+                    .thenThrow(new ResourceNotFoundException("User not found with ID: 99"));
+
+            assertThatThrownBy(() -> controller.update(99L, request)).isInstanceOf(ResourceNotFoundException.class);
+        }
+
     }
 
     @Nested

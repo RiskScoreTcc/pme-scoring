@@ -140,4 +140,74 @@ class WeightConfigurationControllerTest {
 
         assertThatThrownBy(() -> controller.delete(4L)).isInstanceOf(BusinessException.class);
     }
+
+    @Test
+    @DisplayName("GET /active devolve 200 com a configuração ativa")
+    void getActiveShouldReturnOk() {
+        WeightConfigurationResponse response = mock(WeightConfigurationResponse.class);
+        when(weightConfigurationService.findActive()).thenReturn(response);
+
+        ResponseEntity<WeightConfigurationResponse> result = controller.getActive();
+
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(result.getBody()).isSameAs(response);
+    }
+
+    @Test
+    @DisplayName("GET /active propaga ResourceNotFoundException quando não há configuração ativa")
+    void getActiveShouldPropagateNotFound() {
+        when(weightConfigurationService.findActive())
+                .thenThrow(new ResourceNotFoundException("Active weight configuration not found"));
+
+        assertThatThrownBy(() -> controller.getActive()).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("A rota /active não é capturada por /{id}")
+    void activeRouteShouldNotConflictWithId() throws Exception {
+        when(weightConfigurationService.findActive()).thenReturn(mock(WeightConfigurationResponse.class));
+
+        mvc.perform(get(BASE_URL + "/active")).andExpect(status().isOk());
+
+        verify(weightConfigurationService).findActive();
+        verify(weightConfigurationService, never()).findById(any());
+    }
+
+    @Test
+    @DisplayName("PATCH /{id} propaga a BusinessException de limiares de risco inválidos")
+    void updateShouldPropagateInvalidThresholds() {
+        UpdateWeightConfigurationRequest request = mock(UpdateWeightConfigurationRequest.class);
+        when(weightConfigurationService.update(4L, request))
+                .thenThrow(new BusinessException("Low risk threshold must be greater than medium risk threshold."));
+
+        assertThatThrownBy(() -> controller.update(4L, request)).isInstanceOf(BusinessException.class);
+    }
+
+    @Test
+    @DisplayName("PATCH /{id} propaga ResourceNotFoundException")
+    void updateShouldPropagateNotFound() {
+        UpdateWeightConfigurationRequest request = mock(UpdateWeightConfigurationRequest.class);
+        when(weightConfigurationService.update(99L, request))
+                .thenThrow(new ResourceNotFoundException("weight configuration not found with ID: 99"));
+
+        assertThatThrownBy(() -> controller.update(99L, request)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("DELETE /{id} propaga ResourceNotFoundException")
+    void deleteShouldPropagateNotFound() {
+        doThrow(new ResourceNotFoundException("weight configuration not found with ID: 99"))
+                .when(weightConfigurationService).delete(99L);
+
+        assertThatThrownBy(() -> controller.delete(99L)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("POST propaga ResourceNotFoundException quando o usuário não existe")
+    void registerShouldPropagateUserNotFound() {
+        WeightConfigurationRequest request = mock(WeightConfigurationRequest.class);
+        when(weightConfigurationService.create(request)).thenThrow(new ResourceNotFoundException("User not found"));
+
+        assertThatThrownBy(() -> controller.register(request)).isInstanceOf(ResourceNotFoundException.class);
+    }
 }

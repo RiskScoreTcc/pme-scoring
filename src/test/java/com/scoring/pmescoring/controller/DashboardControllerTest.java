@@ -83,6 +83,7 @@ class DashboardControllerTest {
 
             verifyNoInteractions(dashboardService);
         }
+
     }
 
     @Nested
@@ -135,5 +136,63 @@ class DashboardControllerTest {
 
             verify(dashboardService).exportFirmsWithScoresInCsv(isNull(), eq(5000), any(OutputStream.class));
         }
+
+        @Test
+        @DisplayName("Faixa de risco inexistente no export devolve 400")
+        void exportShouldRejectUnknownRiskBand() throws Exception {
+            mvc.perform(get(BASE_URL + "/export/csv").param("risk", "ALTISSIMO"))
+                    .andExpect(status().isBadRequest());
+
+            verifyNoInteractions(dashboardService);
+        }
+
+        @Test
+        @DisplayName("pageSize não numérico devolve 400")
+        void exportShouldRejectNonNumericPageSize() throws Exception {
+            mvc.perform(get(BASE_URL + "/export/csv").param("pageSize", "abc"))
+                    .andExpect(status().isBadRequest());
+
+            verifyNoInteractions(dashboardService);
+        }
+
+        @Test
+        @DisplayName("Pela rota HTTP, converte risk e pageSize da URL")
+        void routeShouldBindParams() throws Exception {
+            MvcResult asyncResult = mvc.perform(get(BASE_URL + "/export/csv")
+                    .param("risk", "HIGH")
+                    .param("pageSize", "100"))
+                    .andExpect(request().asyncStarted())
+                    .andReturn();
+
+            mvc.perform(asyncDispatch(asyncResult)).andExpect(status().isOk());
+
+            verify(dashboardService).exportFirmsWithScoresInCsv(eq(RiskBand.HIGH), eq(100), any(OutputStream.class));
+        }
+
+        @Test
+        @DisplayName("Propaga RuntimeException ocorrida durante a escrita do stream")
+        void shouldPropagateRuntimeException() throws IOException {
+            doThrow(new IllegalStateException("Falha no banco"))
+                    .when(dashboardService).exportFirmsWithScoresInCsv(any(), anyInt(), any());
+            ResponseEntity<StreamingResponseBody> result = controller.exportLargeCsv(null, 100);
+
+            assertThatThrownBy(() -> result.getBody().writeTo(new ByteArrayOutputStream()))
+                    .isInstanceOf(IllegalStateException.class);
+        }
+
+        @Test
+        @DisplayName("Repassa page e size da URL para o service")
+        void shouldBindCustomPagination() throws Exception {
+            when(dashboardService.getFirms(any(), any())).thenReturn(ControllerTestSupport.emptyPage());
+
+            mvc.perform(get(BASE_URL + "/firms").param("page", "2").param("size", "5"))
+                    .andExpect(status().isOk());
+
+            ArgumentCaptor<Pageable> captor = ArgumentCaptor.forClass(Pageable.class);
+            verify(dashboardService).getFirms(isNull(), captor.capture());
+            assertThat(captor.getValue().getPageNumber()).isEqualTo(2);
+            assertThat(captor.getValue().getPageSize()).isEqualTo(5);
+        }
+
     }
 }

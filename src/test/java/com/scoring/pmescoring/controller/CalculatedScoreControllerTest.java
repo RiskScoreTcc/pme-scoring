@@ -15,10 +15,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.data.domain.Page;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -82,7 +84,8 @@ class CalculatedScoreControllerTest {
     @DisplayName("POST propaga ResourceNotFoundException quando a empresa não existe")
     void registerShouldPropagateNotFound() {
         CalculatedScoreRequest request = mock(CalculatedScoreRequest.class);
-        when(calculatedScoreService.create(request)).thenThrow(new ResourceNotFoundException("Firm not found with ID: 1"));
+        when(calculatedScoreService.create(request))
+                .thenThrow(new ResourceNotFoundException("Firm not found with ID: 1"));
 
         assertThatThrownBy(() -> controller.register(request)).isInstanceOf(ResourceNotFoundException.class);
     }
@@ -140,5 +143,56 @@ class CalculatedScoreControllerTest {
                 .when(calculatedScoreService).delete(anyLong());
 
         assertThatThrownBy(() -> controller.delete(12L)).isInstanceOf(BusinessException.class);
+    }
+
+    @Test
+    @DisplayName("GET /{id} propaga ResourceNotFoundException")
+    void getShouldPropagateNotFound() {
+        when(calculatedScoreService.findById(99L))
+                .thenThrow(new ResourceNotFoundException("Calculated score not found with ID: 99"));
+
+        assertThatThrownBy(() -> controller.getCalculatedScore(99L)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("PATCH /{id} propaga ResourceNotFoundException")
+    void updateShouldPropagateNotFound() {
+        UpdateCalculatedScoreRequest request = mock(UpdateCalculatedScoreRequest.class);
+        when(calculatedScoreService.update(99L, request))
+                .thenThrow(new ResourceNotFoundException("Calculated score not found with ID: 99"));
+
+        assertThatThrownBy(() -> controller.update(99L, request)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("PATCH /{id} propaga a BusinessException quando não há configuração de pesos ativa")
+    void updateShouldPropagateBusinessException() {
+        UpdateCalculatedScoreRequest request = mock(UpdateCalculatedScoreRequest.class);
+        when(calculatedScoreService.update(12L, request))
+                .thenThrow(new BusinessException("No active weight configuration found in the system."));
+
+        assertThatThrownBy(() -> controller.update(12L, request)).isInstanceOf(BusinessException.class);
+    }
+
+    @Test
+    @DisplayName("DELETE /{id} propaga ResourceNotFoundException")
+    void deleteShouldPropagateNotFound() {
+        doThrow(new ResourceNotFoundException("Calculated score not found with ID: 99"))
+                .when(calculatedScoreService).delete(99L);
+
+        assertThatThrownBy(() -> controller.delete(99L)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("GET lista devolve a página do service")
+    void listShouldReturnServicePage() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<CalculatedScoreResponse> page = ControllerTestSupport.emptyPage();
+        when(calculatedScoreService.findAll(pageable)).thenReturn(page);
+
+        ResponseEntity<Page<CalculatedScoreResponse>> result = controller.getAllCalculatedScores(pageable);
+
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(result.getBody()).isSameAs(page);
     }
 }

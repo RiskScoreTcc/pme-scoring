@@ -2,8 +2,11 @@ package com.scoring.pmescoring.controller;
 
 import com.scoring.pmescoring.common.exception.BusinessException;
 import com.scoring.pmescoring.common.exception.ResourceNotFoundException;
+import com.scoring.pmescoring.dto.request.firm.FirmFilter;
 import com.scoring.pmescoring.dto.request.firm.FirmRequest;
 import com.scoring.pmescoring.dto.request.firm.UpdateFirmRequest;
+import com.scoring.pmescoring.dto.response.firm.FirmDetailResponse;
+import com.scoring.pmescoring.dto.response.firm.FirmMetricsResponse;
 import com.scoring.pmescoring.dto.response.firm.FirmResponse;
 import com.scoring.pmescoring.service.FirmService;
 import org.junit.jupiter.api.AfterEach;
@@ -15,11 +18,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.data.domain.Page;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -163,5 +168,82 @@ class FirmControllerTest {
         doThrow(new ResourceNotFoundException("Firm not found with ID: 99")).when(firmService).delete(anyLong());
 
         assertThatThrownBy(() -> controller.delete(99L)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("GET /filter repassa o filtro e a paginação para o service")
+    void filterShouldDelegate() {
+        FirmFilter filter = mock(FirmFilter.class);
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<FirmDetailResponse> page = ControllerTestSupport.emptyPage();
+        when(firmService.findAllFilter(filter, pageable)).thenReturn(page);
+
+        ResponseEntity<Page<FirmDetailResponse>> result = controller.filterCompanies(filter, pageable);
+
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(result.getBody()).isSameAs(page);
+    }
+
+    @Test
+    @DisplayName("A rota /filter não é capturada por /{id} e usa a paginação padrão")
+    void filterRouteShouldWork() throws Exception {
+        when(firmService.findAllFilter(any(), any())).thenReturn(ControllerTestSupport.emptyPage());
+
+        mvc.perform(get(BASE_URL + "/filter")).andExpect(status().isOk());
+
+        ArgumentCaptor<Pageable> captor = ArgumentCaptor.forClass(Pageable.class);
+        verify(firmService).findAllFilter(any(), captor.capture());
+        assertThat(captor.getValue().getPageSize()).isEqualTo(10);
+        verify(firmService, never()).findById(any());
+    }
+
+    @Test
+    @DisplayName("GET /metrics devolve 200 com as métricas")
+    void metricsShouldReturnOk() {
+        FirmMetricsResponse metrics = mock(FirmMetricsResponse.class);
+        when(firmService.findMetrics()).thenReturn(metrics);
+
+        ResponseEntity<FirmMetricsResponse> result = controller.getMetrics();
+
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(result.getBody()).isSameAs(metrics);
+    }
+
+    @Test
+    @DisplayName("A rota /metrics não é capturada por /{id}")
+    void metricsRouteShouldNotConflictWithId() throws Exception {
+        when(firmService.findMetrics()).thenReturn(mock(FirmMetricsResponse.class));
+
+        mvc.perform(get(BASE_URL + "/metrics")).andExpect(status().isOk());
+
+        verify(firmService).findMetrics();
+        verify(firmService, never()).findById(any());
+    }
+
+    @Test
+    @DisplayName("PATCH /{id} propaga a BusinessException de CNPJ já usado por outra empresa")
+    void updateShouldPropagateDuplicateCnpj() {
+        UpdateFirmRequest request = mock(UpdateFirmRequest.class);
+        when(firmService.update(5L, request)).thenThrow(new BusinessException("Firm already exists with this cnpj."));
+
+        assertThatThrownBy(() -> controller.update(5L, request)).isInstanceOf(BusinessException.class);
+    }
+
+    @Test
+    @DisplayName("PATCH /{id} propaga ResourceNotFoundException")
+    void updateShouldPropagateNotFound() {
+        UpdateFirmRequest request = mock(UpdateFirmRequest.class);
+        when(firmService.update(99L, request)).thenThrow(new ResourceNotFoundException("Firm not found with ID: 99"));
+
+        assertThatThrownBy(() -> controller.update(99L, request)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("POST propaga ResourceNotFoundException quando o usuário solicitante não existe")
+    void registerShouldPropagateUserNotFound() {
+        FirmRequest request = mock(FirmRequest.class);
+        when(firmService.create(request)).thenThrow(new ResourceNotFoundException("User not found"));
+
+        assertThatThrownBy(() -> controller.register(request)).isInstanceOf(ResourceNotFoundException.class);
     }
 }

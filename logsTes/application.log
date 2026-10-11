@@ -348,3 +348,687 @@ java.io.IOException: Conexão encerrada pelo cliente
 2026-10-05 00:06:19.252 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-10-05 00:06:19.252 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
 2026-10-05 00:06:19.259 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-10-11 18:36:21.100 INFO  [main] c.s.p.PmeScoringApplicationTests - Starting PmeScoringApplicationTests using Java 25.0.4.1 with PID 7300 (started by Pc-Gamer in C:\Users\Pc-Gamer\OneDrive\Desktop\pme-scoring)
+2026-10-11 18:36:21.136 INFO  [main] c.s.p.PmeScoringApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2026-10-11 18:36:22.628 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-11 18:36:22.780 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 138 ms. Found 5 JPA repository interfaces.
+2026-10-11 18:36:23.422 INFO  [main] o.testcontainers.images.PullPolicy - Image pull policy will be performed by: DefaultPullPolicy()
+2026-10-11 18:36:23.424 INFO  [main] o.t.utility.ImageNameSubstitutor - Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+2026-10-11 18:36:23.480 INFO  [main] o.testcontainers.DockerClientFactory - Testcontainers version: 2.0.5
+2026-10-11 18:36:23.841 INFO  [main] o.t.d.DockerClientProviderStrategy - Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+2026-10-11 18:36:24.489 INFO  [main] o.t.d.DockerClientProviderStrategy - Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+2026-10-11 18:36:24.490 INFO  [main] o.testcontainers.DockerClientFactory - Docker host IP address is localhost
+2026-10-11 18:36:24.523 INFO  [main] o.testcontainers.DockerClientFactory - Connected to docker: 
+  Server Version: 29.8.1
+  API Version: 1.56
+  Operating System: Docker Desktop (containerized)
+  Total Memory: 7913 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+2026-10-11 18:36:24.653 INFO  [main] tc.testcontainers/ryuk:0.14.0 - Creating container for image: testcontainers/ryuk:0.14.0
+2026-10-11 18:36:24.980 INFO  [main] tc.testcontainers/ryuk:0.14.0 - Container testcontainers/ryuk:0.14.0 is starting: 8ffb0723a84a3381fc8b6f3f68f5cc9d6414b319dca246b0c6bde4faeeda79e6
+2026-10-11 18:36:25.519 INFO  [main] tc.testcontainers/ryuk:0.14.0 - Container testcontainers/ryuk:0.14.0 started in PT0.8655644S
+2026-10-11 18:36:25.531 INFO  [main] o.t.utility.RyukResourceReaper - Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+2026-10-11 18:36:25.531 INFO  [main] o.testcontainers.DockerClientFactory - Checking the system...
+2026-10-11 18:36:25.532 INFO  [main] o.testcontainers.DockerClientFactory - ✔︎ Docker server version should be at least 1.6.0
+2026-10-11 18:36:25.532 INFO  [main] tc.postgres:15-alpine - Creating container for image: postgres:15-alpine
+2026-10-11 18:36:25.665 INFO  [main] tc.postgres:15-alpine - Container postgres:15-alpine is starting: e2333671ca432fde61298e58a6c3eb7fd0b981221acb1c2a42956ad13307d5da
+2026-10-11 18:36:28.409 INFO  [main] tc.postgres:15-alpine - Container postgres:15-alpine started in PT2.8769054S
+2026-10-11 18:36:28.410 INFO  [main] tc.postgres:15-alpine - Container is started (JDBC URL: jdbc:postgresql://localhost:62198/test?loggerLevel=OFF)
+2026-10-11 18:36:29.108 INFO  [main] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-11 18:36:29.152 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-10-11 18:36:29.337 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@58cb1f78
+2026-10-11 18:36:29.339 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-10-11 18:36:30.706 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-11 18:36:30.805 INFO  [main] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-11 18:36:32.999 INFO  [main] c.s.p.config.security.SecurityConfig - Configuring Spring Security filter chain and endpoint access rules
+2026-10-11 18:36:33.432 INFO  [main] c.s.p.PmeScoringApplicationTests - Started PmeScoringApplicationTests in 12.932 seconds (process running for 20.133)
+2026-10-11 18:36:33.437 INFO  [main] c.s.p.c.security.InitialUserSetup - Initializing security setup: Checking default admin user configuration
+2026-10-11 18:36:33.589 INFO  [main] c.s.p.c.security.InitialUserSetup - Default admin user not found. Creating secure initial admin account for email: admin@admin.com
+2026-10-11 18:36:33.736 INFO  [main] c.s.p.c.security.InitialUserSetup - Secure initial admin user created successfully
+2026-10-11 18:36:33.762 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.CalculatedScoreRepositoryTest]: CalculatedScoreRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:33.818 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.CalculatedScoreRepositoryTest
+2026-10-11 18:36:33.819 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.CalculatedScoreRepositoryTest]: CalculatedScoreRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:33.820 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:33.841 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.CalculatedScoreRepositoryTest
+2026-10-11 18:36:33.900 INFO  [main] c.s.p.r.CalculatedScoreRepositoryTest - Starting CalculatedScoreRepositoryTest using Java 25.0.4.1 with PID 7300 (started by Pc-Gamer in C:\Users\Pc-Gamer\OneDrive\Desktop\pme-scoring)
+2026-10-11 18:36:33.901 INFO  [main] c.s.p.r.CalculatedScoreRepositoryTest - No active profile set, falling back to 1 default profile: "default"
+2026-10-11 18:36:34.041 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-11 18:36:34.092 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 49 ms. Found 5 JPA repository interfaces.
+2026-10-11 18:36:34.111 INFO  [main] tc.postgres:15-alpine - Creating container for image: postgres:15-alpine
+2026-10-11 18:36:34.308 INFO  [main] tc.postgres:15-alpine - Container postgres:15-alpine is starting: be8c679ac44576664e063107798a06fd5471475cd435f1da88811435d681371c
+2026-10-11 18:36:36.900 INFO  [main] tc.postgres:15-alpine - Container postgres:15-alpine started in PT2.7886051S
+2026-10-11 18:36:36.901 INFO  [main] tc.postgres:15-alpine - Container is started (JDBC URL: jdbc:postgresql://localhost:62209/test?loggerLevel=OFF)
+2026-10-11 18:36:37.044 INFO  [main] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-11 18:36:37.045 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-10-11 18:36:37.073 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@38abfa77
+2026-10-11 18:36:37.074 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-10-11 18:36:37.246 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-11 18:36:37.347 INFO  [main] c.s.p.r.CalculatedScoreRepositoryTest - Started CalculatedScoreRepositoryTest in 3.498 seconds (process running for 24.047)
+2026-10-11 18:36:37.696 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.DefaultOccurrenceRepositoryTest]: DefaultOccurrenceRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:37.719 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.DefaultOccurrenceRepositoryTest
+2026-10-11 18:36:37.720 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.DefaultOccurrenceRepositoryTest]: DefaultOccurrenceRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:37.721 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:37.746 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.DefaultOccurrenceRepositoryTest
+2026-10-11 18:36:38.039 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest]: FirmRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.067 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.FirmRepositoryTest
+2026-10-11 18:36:38.068 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest]: FirmRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.068 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.088 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.FirmRepositoryTest
+2026-10-11 18:36:38.097 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest$DashboardQuery]: DashboardQuery does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.117 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.FirmRepositoryTest$DashboardQuery
+2026-10-11 18:36:38.117 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest$DashboardQuery]: DashboardQuery does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.118 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest]: FirmRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.118 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.137 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.FirmRepositoryTest$DashboardQuery
+2026-10-11 18:36:38.481 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest$DerivedQueries]: DerivedQueries does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.502 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.FirmRepositoryTest$DerivedQueries
+2026-10-11 18:36:38.503 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest$DerivedQueries]: DerivedQueries does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.503 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest]: FirmRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.504 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.526 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.FirmRepositoryTest$DerivedQueries
+2026-10-11 18:36:38.772 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.UserRepositoryTest]: UserRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.791 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.UserRepositoryTest
+2026-10-11 18:36:38.792 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.UserRepositoryTest]: UserRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.793 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:38.817 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.UserRepositoryTest
+2026-10-11 18:36:39.132 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.UserSpecificationTest]: UserSpecificationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:39.161 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.UserSpecificationTest
+2026-10-11 18:36:39.162 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.UserSpecificationTest]: UserSpecificationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:39.162 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:39.189 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.UserSpecificationTest
+2026-10-11 18:36:39.651 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.WeightConfigurationRepositoryTest]: WeightConfigurationRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:39.676 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.WeightConfigurationRepositoryTest
+2026-10-11 18:36:39.677 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.WeightConfigurationRepositoryTest]: WeightConfigurationRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:39.677 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 18:36:39.698 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.WeightConfigurationRepositoryTest
+2026-10-11 18:36:40.760 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 18:36:40.760 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 18:36:40.763 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 650, Risk Band: MEDIUM
+2026-10-11 18:36:40.765 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 18:36:40.772 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 18:36:40.773 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 18:36:40.773 WARN  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Active firm search failed. Firm not found with ID: 1
+2026-10-11 18:36:40.778 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 18:36:40.779 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 18:36:40.779 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 1000, Risk Band: LOW
+2026-10-11 18:36:40.780 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 18:36:40.861 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 18:36:40.862 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 18:36:40.862 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 700, Risk Band: LOW
+2026-10-11 18:36:40.863 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 18:36:40.870 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 18:36:40.871 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 18:36:40.871 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 699, Risk Band: MEDIUM
+2026-10-11 18:36:40.872 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 18:36:40.877 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 18:36:40.878 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 18:36:40.878 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 400, Risk Band: MEDIUM
+2026-10-11 18:36:40.879 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 18:36:40.885 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 18:36:40.886 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 18:36:40.886 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 399, Risk Band: HIGH
+2026-10-11 18:36:40.887 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 18:36:40.967 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 18:36:40.967 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 18:36:40.967 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Found 1 active default occurrences for Firm ID: 1
+2026-10-11 18:36:40.968 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 350, Risk Band: HIGH
+2026-10-11 18:36:40.968 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 18:36:40.974 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 18:36:40.974 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 18:36:40.974 WARN  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Business rule violation: No active weight configuration found in the database
+2026-10-11 18:36:41.049 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 18:36:41.049 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Deactivating previous calculation record
+2026-10-11 18:36:41.050 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 18:36:41.051 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 650, Risk Band: MEDIUM
+2026-10-11 18:36:41.052 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 18:36:41.057 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 18:36:41.057 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 18:36:41.057 WARN  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Active user search failed. User not found with ID: 10
+2026-10-11 18:36:41.066 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting deletion process for calculated score ID: 5
+2026-10-11 18:36:41.066 WARN  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Business rule violation: Attempted to delete the only active calculated score ID: 5
+2026-10-11 18:36:41.074 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting deletion process for calculated score ID: 5
+2026-10-11 18:36:41.075 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Calculated score ID: 5 successfully marked as inactive (deleted)
+2026-10-11 18:36:41.081 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting deletion process for calculated score ID: 99
+2026-10-11 18:36:41.081 WARN  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Deletion failed. Calculated Score not found with ID: 99
+2026-10-11 18:36:41.091 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Querying firms dashboard data. RiskBand filter: HIGH
+2026-10-11 18:36:41.095 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: LOW, Batch size: 10
+2026-10-11 18:36:41.096 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 1
+2026-10-11 18:36:41.188 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 10
+2026-10-11 18:36:41.188 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 1
+2026-10-11 18:36:41.194 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 2
+2026-10-11 18:36:41.196 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 3
+2026-10-11 18:36:41.200 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 10
+2026-10-11 18:36:41.201 ERROR [main] c.s.p.s.impl.DashboardServiceImpl - Failed to write CSV export stream to output
+java.io.IOException: Conexão encerrada pelo cliente
+	at com.scoring.pmescoring.service.impl.DashboardServiceImplTest$ExportCsv$1.write(DashboardServiceImplTest.java:176)
+	at java.base/java.io.OutputStream.write(OutputStream.java:167)
+	at java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+	at java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+	at java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+	at java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+	at java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+	at java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+	at com.scoring.pmescoring.service.impl.DashboardServiceImpl.exportFirmsWithScoresInCsv(DashboardServiceImpl.java:71)
+	at com.scoring.pmescoring.service.impl.DashboardServiceImplTest$ExportCsv.lambda$shouldPropagateIOException$0(DashboardServiceImplTest.java:180)
+	at org.assertj.core.api.ThrowableAssert.catchThrowable(ThrowableAssert.java:66)
+	at org.assertj.core.api.AssertionsForClassTypes.catchThrowable(AssertionsForClassTypes.java:908)
+	at org.assertj.core.api.Assertions.catchThrowable(Assertions.java:1476)
+	at org.assertj.core.api.Assertions.assertThatThrownBy(Assertions.java:1319)
+	at com.scoring.pmescoring.service.impl.DashboardServiceImplTest$ExportCsv.shouldPropagateIOException(DashboardServiceImplTest.java:180)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:701)
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:502)
+	at org.junit.jupiter.engine.support.MethodReflectionUtils.invoke(MethodReflectionUtils.java:45)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:61)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:124)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:163)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:148)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:123)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:105)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:99)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:66)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:47)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:39)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:104)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:98)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invokeVoid(InterceptingExecutableInvoker.java:71)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$0(TestMethodTestDescriptor.java:219)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:215)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:157)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:70)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:176)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:36)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:52)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.executeEngine(EngineExecutionOrchestrator.java:246)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.failOrExecuteEngine(EngineExecutionOrchestrator.java:218)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:179)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:66)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:157)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:65)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:125)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$2(InterceptingLauncher.java:57)
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25)
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:56)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.apache.maven.surefire.api.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:125)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.executeWithCancellationToken(LauncherAdapter.java:68)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.execute(LauncherAdapter.java:54)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:203)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:168)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:136)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+2026-10-11 18:36:41.209 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 10
+2026-10-11 18:36:41.210 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 1
+2026-10-11 18:36:41.212 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 10
+2026-10-11 18:36:41.213 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 1
+2026-10-11 18:36:41.216 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 10
+2026-10-11 18:36:41.216 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 1
+2026-10-11 18:36:41.221 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 10
+2026-10-11 18:36:41.221 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 1
+2026-10-11 18:36:41.308 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Fetching paginated active default occurrences
+2026-10-11 18:36:41.311 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Fetching default occurrence with ID: 7
+2026-10-11 18:36:41.314 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Fetching default occurrence with ID: 7
+2026-10-11 18:36:41.315 WARN  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Fetch failed. Active default occurrence not found with ID: 7
+2026-10-11 18:36:41.320 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating creation of default occurrence for Firm ID: 1
+2026-10-11 18:36:41.320 WARN  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Creation failed. Active firm not found with ID: 1
+2026-10-11 18:36:41.324 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating creation of default occurrence for Firm ID: 1
+2026-10-11 18:36:41.325 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Default occurrence created successfully. Firm ID: 1, Amount Due: 1500.00
+2026-10-11 18:36:41.329 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating logical deletion for default occurrence ID: 7
+2026-10-11 18:36:41.330 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Default occurrence ID: 7 successfully marked as deleted
+2026-10-11 18:36:41.333 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating logical deletion for default occurrence ID: 7
+2026-10-11 18:36:41.333 WARN  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Deletion failed. Active default occurrence not found with ID: 7
+2026-10-11 18:36:41.341 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating update for default occurrence ID: 7
+2026-10-11 18:36:41.342 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Default occurrence ID: 7 updated successfully
+2026-10-11 18:36:41.346 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating update for default occurrence ID: 7
+2026-10-11 18:36:41.347 WARN  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Update failed. Active default occurrence not found with ID: 7
+2026-10-11 18:36:41.353 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating status update for default occurrence ID: 7
+2026-10-11 18:36:41.354 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Default occurrence ID: 7 status updated successfully to resolved=true
+2026-10-11 18:36:41.358 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating status update for default occurrence ID: 7
+2026-10-11 18:36:41.358 WARN  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Status update failed. Active default occurrence not found with ID: 7
+2026-10-11 18:36:41.451 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating logical deletion for Firm ID: 1 and its cascading dependencies
+2026-10-11 18:36:41.452 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Successfully marked 2 related calculated scores as deleted for Firm ID: 1
+2026-10-11 18:36:41.452 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Successfully marked 1 related default occurrences as deleted for Firm ID: 1
+2026-10-11 18:36:41.452 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Firm ID: 1 cascading deletion completed successfully
+2026-10-11 18:36:41.456 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating update process for Firm ID: 1
+2026-10-11 18:36:41.457 WARN  [main] c.s.p.service.impl.FirmServiceImpl - Update failed. Active firm not found with ID: 1
+2026-10-11 18:36:41.461 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating update process for Firm ID: 1
+2026-10-11 18:36:41.462 WARN  [main] c.s.p.service.impl.FirmServiceImpl - Business rule violation: Attempted to update Firm ID: 1 with an already registered CNPJ: 98765432000111
+2026-10-11 18:36:41.465 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating update process for Firm ID: 1
+2026-10-11 18:36:41.466 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Firm ID: 1 updated successfully
+2026-10-11 18:36:41.476 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating firm creation process for CNPJ: 12345678000199, requested by User ID: 10
+2026-10-11 18:36:41.477 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Firm created successfully with ID: 0, CNPJ: null
+2026-10-11 18:36:41.481 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating firm creation process for CNPJ: 12345678000199, requested by User ID: 0
+2026-10-11 18:36:41.481 WARN  [main] c.s.p.service.impl.FirmServiceImpl - Business rule violation: Attempted to register an already existing active CNPJ: 12345678000199
+2026-10-11 18:36:41.489 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating firm creation process for CNPJ: 12345678000199, requested by User ID: 10
+2026-10-11 18:36:41.490 WARN  [main] c.s.p.service.impl.FirmServiceImpl - Firm creation failed. Active user not found with ID: 10
+2026-10-11 18:36:41.889 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating update process for user ID: 1
+2026-10-11 18:36:41.893 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating update process for user ID: 2
+2026-10-11 18:36:41.894 WARN  [main] c.s.p.service.impl.UserServiceImpl - Business rule violation: Attempted to update user ID: 2 with an already existing email: outro@riskscore.com
+2026-10-11 18:36:41.898 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating update process for user ID: 2
+2026-10-11 18:36:41.899 INFO  [main] c.s.p.service.impl.UserServiceImpl - User ID: 0 updated successfully
+2026-10-11 18:36:41.980 INFO  [main] c.s.p.service.impl.UserServiceImpl - Attempting authentication for email: analista@riskscore.com
+2026-10-11 18:36:41.981 INFO  [main] c.s.p.service.impl.UserServiceImpl - Authentication successful for email: analista@riskscore.com. Generating JWT token.
+2026-10-11 18:36:41.984 INFO  [main] c.s.p.service.impl.UserServiceImpl - Attempting authentication for email: analista@riskscore.com
+2026-10-11 18:36:41.991 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating user creation process for email: analista@riskscore.com
+2026-10-11 18:36:41.991 WARN  [main] c.s.p.service.impl.UserServiceImpl - Business rule violation: Attempted to create user with an already existing email: analista@riskscore.com
+2026-10-11 18:36:41.994 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating user creation process for email: analista@riskscore.com
+2026-10-11 18:36:41.994 INFO  [main] c.s.p.service.impl.UserServiceImpl - User created successfully with ID: 0
+2026-10-11 18:36:41.999 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating logical deletion for user ID: 2
+2026-10-11 18:36:42.000 INFO  [main] c.s.p.service.impl.UserServiceImpl - User ID: 2 successfully marked as deleted
+2026-10-11 18:36:42.004 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating logical deletion for user ID: 1
+2026-10-11 18:36:42.009 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating logical deletion for user ID: 99
+2026-10-11 18:36:42.009 WARN  [main] c.s.p.service.impl.UserServiceImpl - Deletion failed. Active user not found with ID: 99
+2026-10-11 18:36:42.088 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Fetching weight configuration with ID: 99
+2026-10-11 18:36:42.090 WARN  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Fetch failed. Weight configuration not found with ID: 99
+2026-10-11 18:36:42.093 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Initiating weight configuration creation process requested by User ID: 0
+2026-10-11 18:36:42.093 WARN  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Business rule violation: Attempted to create configuration where low risk threshold (400) is not greater than medium risk threshold (400)
+2026-10-11 18:36:42.096 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Initiating weight configuration creation process requested by User ID: 10
+2026-10-11 18:36:42.096 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Deactivated 2 previously active weight configurations to maintain single active state
+2026-10-11 18:36:42.096 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - New weight configuration successfully created and activated with ID: null
+2026-10-11 18:36:42.099 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Initiating weight configuration creation process requested by User ID: 10
+2026-10-11 18:36:42.099 WARN  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Creation failed. Active user not found with ID: 10
+2026-10-11 18:36:42.102 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Initiating logical deletion for weight configuration ID: 1
+2026-10-11 18:36:42.103 WARN  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Business rule violation: Attempted to delete the only active weight configuration ID: 1
+2026-10-11 18:36:42.108 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Initiating update process for weight configuration ID: 1
+2026-10-11 18:36:42.109 WARN  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Business rule violation during update: Low risk threshold (300) is not greater than medium risk threshold (400)
+2026-10-11 18:36:42.112 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Initiating update process for weight configuration ID: 1
+2026-10-11 18:36:42.113 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Deactivating current configuration ID: 0 to create a new updated version
+2026-10-11 18:36:42.113 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Updated weight configuration successfully created and activated with new ID: null
+2026-10-11 18:36:42.324 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-11 18:36:42.326 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-10-11 18:36:42.331 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-10-11 18:36:42.816 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-11 18:36:42.817 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-10-11 18:36:42.823 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2026-10-11 19:08:13.145 INFO  [main] c.s.p.PmeScoringApplicationTests - Starting PmeScoringApplicationTests using Java 25.0.4.1 with PID 14196 (started by Pc-Gamer in C:\Users\Pc-Gamer\OneDrive\Desktop\pme-scoring)
+2026-10-11 19:08:13.146 INFO  [main] c.s.p.PmeScoringApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2026-10-11 19:08:14.033 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-11 19:08:14.142 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 100 ms. Found 5 JPA repository interfaces.
+2026-10-11 19:08:14.606 INFO  [main] o.testcontainers.images.PullPolicy - Image pull policy will be performed by: DefaultPullPolicy()
+2026-10-11 19:08:14.609 INFO  [main] o.t.utility.ImageNameSubstitutor - Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+2026-10-11 19:08:14.631 INFO  [main] o.testcontainers.DockerClientFactory - Testcontainers version: 2.0.5
+2026-10-11 19:08:14.898 INFO  [main] o.t.d.DockerClientProviderStrategy - Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+2026-10-11 19:08:15.418 INFO  [main] o.t.d.DockerClientProviderStrategy - Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+2026-10-11 19:08:15.419 INFO  [main] o.testcontainers.DockerClientFactory - Docker host IP address is localhost
+2026-10-11 19:08:15.442 INFO  [main] o.testcontainers.DockerClientFactory - Connected to docker: 
+  Server Version: 29.8.1
+  API Version: 1.56
+  Operating System: Docker Desktop (containerized)
+  Total Memory: 7913 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+2026-10-11 19:08:15.559 INFO  [main] tc.testcontainers/ryuk:0.14.0 - Creating container for image: testcontainers/ryuk:0.14.0
+2026-10-11 19:08:16.009 INFO  [main] tc.testcontainers/ryuk:0.14.0 - Container testcontainers/ryuk:0.14.0 is starting: dd37eb13cc56fc076341a38163197c16e41ba0e0e3dbd5deb171e84b9599058c
+2026-10-11 19:08:16.581 INFO  [main] tc.testcontainers/ryuk:0.14.0 - Container testcontainers/ryuk:0.14.0 started in PT1.0214421S
+2026-10-11 19:08:16.594 INFO  [main] o.t.utility.RyukResourceReaper - Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+2026-10-11 19:08:16.594 INFO  [main] o.testcontainers.DockerClientFactory - Checking the system...
+2026-10-11 19:08:16.595 INFO  [main] o.testcontainers.DockerClientFactory - ✔︎ Docker server version should be at least 1.6.0
+2026-10-11 19:08:16.596 INFO  [main] tc.postgres:15-alpine - Creating container for image: postgres:15-alpine
+2026-10-11 19:08:16.722 INFO  [main] tc.postgres:15-alpine - Container postgres:15-alpine is starting: a7bde40e6500063b8bb66b7bf4072a84e7a56a1cfb2d2dcce1716ddd753025ce
+2026-10-11 19:08:19.349 INFO  [main] tc.postgres:15-alpine - Container postgres:15-alpine started in PT2.7531145S
+2026-10-11 19:08:19.350 INFO  [main] tc.postgres:15-alpine - Container is started (JDBC URL: jdbc:postgresql://localhost:55529/test?loggerLevel=OFF)
+2026-10-11 19:08:20.011 INFO  [main] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-11 19:08:20.052 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-10-11 19:08:20.240 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@517c30f
+2026-10-11 19:08:20.242 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-10-11 19:08:21.346 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-11 19:08:21.421 INFO  [main] o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-10-11 19:08:23.212 INFO  [main] c.s.p.config.security.SecurityConfig - Configuring Spring Security filter chain and endpoint access rules
+2026-10-11 19:08:23.715 INFO  [main] c.s.p.PmeScoringApplicationTests - Started PmeScoringApplicationTests in 11.011 seconds (process running for 17.774)
+2026-10-11 19:08:23.720 INFO  [main] c.s.p.c.security.InitialUserSetup - Initializing security setup: Checking default admin user configuration
+2026-10-11 19:08:23.919 INFO  [main] c.s.p.c.security.InitialUserSetup - Default admin user not found. Creating secure initial admin account for email: admin@admin.com
+2026-10-11 19:08:24.082 INFO  [main] c.s.p.c.security.InitialUserSetup - Secure initial admin user created successfully
+2026-10-11 19:08:24.115 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.CalculatedScoreRepositoryTest]: CalculatedScoreRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:24.188 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.CalculatedScoreRepositoryTest
+2026-10-11 19:08:24.190 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.CalculatedScoreRepositoryTest]: CalculatedScoreRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:24.190 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:24.218 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.CalculatedScoreRepositoryTest
+2026-10-11 19:08:24.298 INFO  [main] c.s.p.r.CalculatedScoreRepositoryTest - Starting CalculatedScoreRepositoryTest using Java 25.0.4.1 with PID 14196 (started by Pc-Gamer in C:\Users\Pc-Gamer\OneDrive\Desktop\pme-scoring)
+2026-10-11 19:08:24.299 INFO  [main] c.s.p.r.CalculatedScoreRepositoryTest - No active profile set, falling back to 1 default profile: "default"
+2026-10-11 19:08:24.523 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-10-11 19:08:24.596 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 71 ms. Found 5 JPA repository interfaces.
+2026-10-11 19:08:24.630 INFO  [main] tc.postgres:15-alpine - Creating container for image: postgres:15-alpine
+2026-10-11 19:08:24.809 INFO  [main] tc.postgres:15-alpine - Container postgres:15-alpine is starting: b06bc7e8a71c6d2f3c6250ab6d2e43bf35e1809b8af123dac4eb4cda5aae58b3
+2026-10-11 19:08:27.177 INFO  [main] tc.postgres:15-alpine - Container postgres:15-alpine started in PT2.5463713S
+2026-10-11 19:08:27.177 INFO  [main] tc.postgres:15-alpine - Container is started (JDBC URL: jdbc:postgresql://localhost:55543/test?loggerLevel=OFF)
+2026-10-11 19:08:27.302 INFO  [main] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-10-11 19:08:27.303 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2026-10-11 19:08:27.330 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@2c06f84e
+2026-10-11 19:08:27.330 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2026-10-11 19:08:27.488 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-10-11 19:08:27.573 INFO  [main] c.s.p.r.CalculatedScoreRepositoryTest - Started CalculatedScoreRepositoryTest in 3.346 seconds (process running for 21.632)
+2026-10-11 19:08:27.841 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.DefaultOccurrenceRepositoryTest]: DefaultOccurrenceRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:27.860 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.DefaultOccurrenceRepositoryTest
+2026-10-11 19:08:27.861 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.DefaultOccurrenceRepositoryTest]: DefaultOccurrenceRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:27.861 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:27.882 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.DefaultOccurrenceRepositoryTest
+2026-10-11 19:08:28.134 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest]: FirmRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:28.155 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.FirmRepositoryTest
+2026-10-11 19:08:28.156 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest]: FirmRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:28.156 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:28.171 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.FirmRepositoryTest
+2026-10-11 19:08:28.176 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest$DashboardQuery]: DashboardQuery does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:28.192 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.FirmRepositoryTest$DashboardQuery
+2026-10-11 19:08:28.192 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest$DashboardQuery]: DashboardQuery does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:28.193 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest]: FirmRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:28.193 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:28.209 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.FirmRepositoryTest$DashboardQuery
+2026-10-11 19:08:28.733 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest$DerivedQueries]: DerivedQueries does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:28.757 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.FirmRepositoryTest$DerivedQueries
+2026-10-11 19:08:28.758 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest$DerivedQueries]: DerivedQueries does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:28.758 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.FirmRepositoryTest]: FirmRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:28.758 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:28.788 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.FirmRepositoryTest$DerivedQueries
+2026-10-11 19:08:29.004 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.UserRepositoryTest]: UserRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:29.028 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.UserRepositoryTest
+2026-10-11 19:08:29.029 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.UserRepositoryTest]: UserRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:29.029 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:29.052 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.UserRepositoryTest
+2026-10-11 19:08:29.300 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.UserSpecificationTest]: UserSpecificationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:29.322 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.UserSpecificationTest
+2026-10-11 19:08:29.322 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.UserSpecificationTest]: UserSpecificationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:29.323 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:29.342 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.UserSpecificationTest
+2026-10-11 19:08:29.842 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.WeightConfigurationRepositoryTest]: WeightConfigurationRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:29.864 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.WeightConfigurationRepositoryTest
+2026-10-11 19:08:29.865 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.WeightConfigurationRepositoryTest]: WeightConfigurationRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:29.865 INFO  [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.scoring.pmescoring.repository.RepositoryTestBase]: RepositoryTestBase does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-10-11 19:08:29.881 INFO  [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.scoring.pmescoring.PmeScoringApplication for test class com.scoring.pmescoring.repository.WeightConfigurationRepositoryTest
+2026-10-11 19:08:30.827 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 19:08:30.828 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 19:08:30.830 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 650, Risk Band: MEDIUM
+2026-10-11 19:08:30.832 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 19:08:30.838 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 19:08:30.839 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 19:08:30.839 WARN  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Active firm search failed. Firm not found with ID: 1
+2026-10-11 19:08:30.842 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 19:08:30.843 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 19:08:30.843 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 1000, Risk Band: LOW
+2026-10-11 19:08:30.843 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 19:08:30.912 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 19:08:30.913 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 19:08:30.913 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 700, Risk Band: LOW
+2026-10-11 19:08:30.914 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 19:08:30.927 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 19:08:30.927 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 19:08:30.928 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 699, Risk Band: MEDIUM
+2026-10-11 19:08:30.933 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 19:08:30.944 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 19:08:30.945 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 19:08:30.945 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 400, Risk Band: MEDIUM
+2026-10-11 19:08:30.946 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 19:08:30.953 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 19:08:30.954 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 19:08:30.954 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 399, Risk Band: HIGH
+2026-10-11 19:08:30.955 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 19:08:31.035 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 19:08:31.035 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 19:08:31.035 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Found 1 active default occurrences for Firm ID: 1
+2026-10-11 19:08:31.035 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 350, Risk Band: HIGH
+2026-10-11 19:08:31.036 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 19:08:31.041 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 19:08:31.041 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 19:08:31.042 WARN  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Business rule violation: No active weight configuration found in the database
+2026-10-11 19:08:31.112 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 19:08:31.112 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Deactivating previous calculation record
+2026-10-11 19:08:31.112 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 19:08:31.113 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Score calculation completed. Firm ID: 1, Final Score: 650, Risk Band: MEDIUM
+2026-10-11 19:08:31.113 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Successfully created and saved new calculated score for Firm ID: 1
+2026-10-11 19:08:31.117 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting calculation process for Firm ID: 1
+2026-10-11 19:08:31.117 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Gathering base data and configurations to calculate score for Firm ID: 1
+2026-10-11 19:08:31.118 WARN  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Active user search failed. User not found with ID: 10
+2026-10-11 19:08:31.123 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting deletion process for calculated score ID: 5
+2026-10-11 19:08:31.124 WARN  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Business rule violation: Attempted to delete the only active calculated score ID: 5
+2026-10-11 19:08:31.129 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting deletion process for calculated score ID: 5
+2026-10-11 19:08:31.129 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Calculated score ID: 5 successfully marked as inactive (deleted)
+2026-10-11 19:08:31.133 INFO  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Starting deletion process for calculated score ID: 99
+2026-10-11 19:08:31.133 WARN  [main] c.s.p.s.i.CalculatedScoreServiceImpl - Deletion failed. Calculated Score not found with ID: 99
+2026-10-11 19:08:31.139 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Querying firms dashboard data. RiskBand filter: HIGH
+2026-10-11 19:08:31.143 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: LOW, Batch size: 10
+2026-10-11 19:08:31.144 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 1
+2026-10-11 19:08:31.219 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 10
+2026-10-11 19:08:31.220 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 1
+2026-10-11 19:08:31.224 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 2
+2026-10-11 19:08:31.225 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 3
+2026-10-11 19:08:31.229 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 10
+2026-10-11 19:08:31.230 ERROR [main] c.s.p.s.impl.DashboardServiceImpl - Failed to write CSV export stream to output
+java.io.IOException: Conexão encerrada pelo cliente
+	at com.scoring.pmescoring.service.impl.DashboardServiceImplTest$ExportCsv$1.write(DashboardServiceImplTest.java:176)
+	at java.base/java.io.OutputStream.write(OutputStream.java:167)
+	at java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:220)
+	at java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:315)
+	at java.base/sun.nio.cs.StreamEncoder.implFlush(StreamEncoder.java:320)
+	at java.base/sun.nio.cs.StreamEncoder.flush(StreamEncoder.java:150)
+	at java.base/java.io.OutputStreamWriter.flush(OutputStreamWriter.java:249)
+	at java.base/java.io.BufferedWriter.flush(BufferedWriter.java:306)
+	at com.scoring.pmescoring.service.impl.DashboardServiceImpl.exportFirmsWithScoresInCsv(DashboardServiceImpl.java:71)
+	at com.scoring.pmescoring.service.impl.DashboardServiceImplTest$ExportCsv.lambda$shouldPropagateIOException$0(DashboardServiceImplTest.java:180)
+	at org.assertj.core.api.ThrowableAssert.catchThrowable(ThrowableAssert.java:66)
+	at org.assertj.core.api.AssertionsForClassTypes.catchThrowable(AssertionsForClassTypes.java:908)
+	at org.assertj.core.api.Assertions.catchThrowable(Assertions.java:1476)
+	at org.assertj.core.api.Assertions.assertThatThrownBy(Assertions.java:1319)
+	at com.scoring.pmescoring.service.impl.DashboardServiceImplTest$ExportCsv.shouldPropagateIOException(DashboardServiceImplTest.java:180)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:701)
+	at org.junit.platform.commons.support.ReflectionSupport.invokeMethod(ReflectionSupport.java:502)
+	at org.junit.jupiter.engine.support.MethodReflectionUtils.invoke(MethodReflectionUtils.java:45)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:61)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:124)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:163)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:148)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:86)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(InterceptingExecutableInvoker.java:123)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.lambda$invoke$0(InterceptingExecutableInvoker.java:105)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:99)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:66)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:47)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:39)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:104)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invoke(InterceptingExecutableInvoker.java:98)
+	at org.junit.jupiter.engine.execution.InterceptingExecutableInvoker.invokeVoid(InterceptingExecutableInvoker.java:71)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$0(TestMethodTestDescriptor.java:219)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:215)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:157)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:70)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:176)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:42)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$2(NodeTestTask.java:180)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$1(NodeTestTask.java:166)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$0(NodeTestTask.java:164)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:74)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:163)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:116)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:36)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:52)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.executeEngine(EngineExecutionOrchestrator.java:246)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.failOrExecuteEngine(EngineExecutionOrchestrator.java:218)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:179)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:108)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:66)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:157)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:65)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:125)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at org.junit.platform.launcher.core.InterceptingLauncher.lambda$execute$2(InterceptingLauncher.java:57)
+	at org.junit.platform.launcher.core.ClasspathAlignmentCheckingLauncherInterceptor.intercept(ClasspathAlignmentCheckingLauncherInterceptor.java:25)
+	at org.junit.platform.launcher.core.InterceptingLauncher.execute(InterceptingLauncher.java:56)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:58)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at org.apache.maven.surefire.api.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:125)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.executeWithCancellationToken(LauncherAdapter.java:68)
+	at org.apache.maven.surefire.junitplatform.LauncherAdapter.execute(LauncherAdapter.java:54)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:203)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:168)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:136)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+2026-10-11 19:08:31.235 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 10
+2026-10-11 19:08:31.236 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 1
+2026-10-11 19:08:31.238 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 10
+2026-10-11 19:08:31.239 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 1
+2026-10-11 19:08:31.241 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 10
+2026-10-11 19:08:31.241 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 1
+2026-10-11 19:08:31.245 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - Starting CSV export for active firms. RiskBand filter: null, Batch size: 10
+2026-10-11 19:08:31.245 INFO  [main] c.s.p.s.impl.DashboardServiceImpl - CSV export completed successfully. Total batches processed: 1
+2026-10-11 19:08:31.315 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Fetching paginated active default occurrences
+2026-10-11 19:08:31.318 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Fetching default occurrence with ID: 7
+2026-10-11 19:08:31.322 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Fetching default occurrence with ID: 7
+2026-10-11 19:08:31.322 WARN  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Fetch failed. Active default occurrence not found with ID: 7
+2026-10-11 19:08:31.328 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating creation of default occurrence for Firm ID: 1
+2026-10-11 19:08:31.328 WARN  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Creation failed. Active firm not found with ID: 1
+2026-10-11 19:08:31.332 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating creation of default occurrence for Firm ID: 1
+2026-10-11 19:08:31.333 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Default occurrence created successfully. Firm ID: 1, Amount Due: 1500.00
+2026-10-11 19:08:31.337 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating logical deletion for default occurrence ID: 7
+2026-10-11 19:08:31.338 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Default occurrence ID: 7 successfully marked as deleted
+2026-10-11 19:08:31.341 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating logical deletion for default occurrence ID: 7
+2026-10-11 19:08:31.341 WARN  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Deletion failed. Active default occurrence not found with ID: 7
+2026-10-11 19:08:31.347 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating update for default occurrence ID: 7
+2026-10-11 19:08:31.347 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Default occurrence ID: 7 updated successfully
+2026-10-11 19:08:31.352 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating update for default occurrence ID: 7
+2026-10-11 19:08:31.352 WARN  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Update failed. Active default occurrence not found with ID: 7
+2026-10-11 19:08:31.356 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating status update for default occurrence ID: 7
+2026-10-11 19:08:31.357 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Default occurrence ID: 7 status updated successfully to resolved=true
+2026-10-11 19:08:31.360 INFO  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Initiating status update for default occurrence ID: 7
+2026-10-11 19:08:31.360 WARN  [main] c.s.p.s.i.DefaultOccurrenceServiceImpl - Status update failed. Active default occurrence not found with ID: 7
+2026-10-11 19:08:31.441 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating logical deletion for Firm ID: 1 and its cascading dependencies
+2026-10-11 19:08:31.441 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Successfully marked 2 related calculated scores as deleted for Firm ID: 1
+2026-10-11 19:08:31.442 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Successfully marked 1 related default occurrences as deleted for Firm ID: 1
+2026-10-11 19:08:31.442 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Firm ID: 1 cascading deletion completed successfully
+2026-10-11 19:08:31.446 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating update process for Firm ID: 1
+2026-10-11 19:08:31.447 WARN  [main] c.s.p.service.impl.FirmServiceImpl - Update failed. Active firm not found with ID: 1
+2026-10-11 19:08:31.450 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating update process for Firm ID: 1
+2026-10-11 19:08:31.451 WARN  [main] c.s.p.service.impl.FirmServiceImpl - Business rule violation: Attempted to update Firm ID: 1 with an already registered CNPJ: 98765432000111
+2026-10-11 19:08:31.454 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating update process for Firm ID: 1
+2026-10-11 19:08:31.454 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Firm ID: 1 updated successfully
+2026-10-11 19:08:31.461 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating firm creation process for CNPJ: 12345678000199, requested by User ID: 10
+2026-10-11 19:08:31.462 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Firm created successfully with ID: 0, CNPJ: null
+2026-10-11 19:08:31.465 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating firm creation process for CNPJ: 12345678000199, requested by User ID: 0
+2026-10-11 19:08:31.466 WARN  [main] c.s.p.service.impl.FirmServiceImpl - Business rule violation: Attempted to register an already existing active CNPJ: 12345678000199
+2026-10-11 19:08:31.469 INFO  [main] c.s.p.service.impl.FirmServiceImpl - Initiating firm creation process for CNPJ: 12345678000199, requested by User ID: 10
+2026-10-11 19:08:31.469 WARN  [main] c.s.p.service.impl.FirmServiceImpl - Firm creation failed. Active user not found with ID: 10
+2026-10-11 19:08:31.751 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating update process for user ID: 1
+2026-10-11 19:08:31.757 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating update process for user ID: 2
+2026-10-11 19:08:31.758 WARN  [main] c.s.p.service.impl.UserServiceImpl - Business rule violation: Attempted to update user ID: 2 with an already existing email: outro@riskscore.com
+2026-10-11 19:08:31.761 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating update process for user ID: 2
+2026-10-11 19:08:31.762 INFO  [main] c.s.p.service.impl.UserServiceImpl - User ID: 0 updated successfully
+2026-10-11 19:08:31.876 INFO  [main] c.s.p.service.impl.UserServiceImpl - Attempting authentication for email: analista@riskscore.com
+2026-10-11 19:08:31.878 INFO  [main] c.s.p.service.impl.UserServiceImpl - Authentication successful for email: analista@riskscore.com. Generating JWT token.
+2026-10-11 19:08:31.881 INFO  [main] c.s.p.service.impl.UserServiceImpl - Attempting authentication for email: analista@riskscore.com
+2026-10-11 19:08:31.887 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating user creation process for email: analista@riskscore.com
+2026-10-11 19:08:31.887 WARN  [main] c.s.p.service.impl.UserServiceImpl - Business rule violation: Attempted to create user with an already existing email: analista@riskscore.com
+2026-10-11 19:08:31.890 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating user creation process for email: analista@riskscore.com
+2026-10-11 19:08:31.891 INFO  [main] c.s.p.service.impl.UserServiceImpl - User created successfully with ID: 0
+2026-10-11 19:08:31.895 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating logical deletion for user ID: 2
+2026-10-11 19:08:31.895 INFO  [main] c.s.p.service.impl.UserServiceImpl - User ID: 2 successfully marked as deleted
+2026-10-11 19:08:31.899 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating logical deletion for user ID: 1
+2026-10-11 19:08:31.902 INFO  [main] c.s.p.service.impl.UserServiceImpl - Initiating logical deletion for user ID: 99
+2026-10-11 19:08:31.902 WARN  [main] c.s.p.service.impl.UserServiceImpl - Deletion failed. Active user not found with ID: 99
+2026-10-11 19:08:31.980 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Fetching weight configuration with ID: 99
+2026-10-11 19:08:31.981 WARN  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Fetch failed. Weight configuration not found with ID: 99
+2026-10-11 19:08:31.985 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Initiating weight configuration creation process requested by User ID: 0
+2026-10-11 19:08:31.985 WARN  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Business rule violation: Attempted to create configuration where low risk threshold (400) is not greater than medium risk threshold (400)
+2026-10-11 19:08:31.988 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Initiating weight configuration creation process requested by User ID: 10
+2026-10-11 19:08:31.989 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Deactivated 2 previously active weight configurations to maintain single active state
+2026-10-11 19:08:31.989 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - New weight configuration successfully created and activated with ID: null
+2026-10-11 19:08:31.994 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Initiating weight configuration creation process requested by User ID: 10
+2026-10-11 19:08:31.995 WARN  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Creation failed. Active user not found with ID: 10
+2026-10-11 19:08:31.999 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Initiating logical deletion for weight configuration ID: 1
+2026-10-11 19:08:32.000 WARN  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Business rule violation: Attempted to delete the only active weight configuration ID: 1
+2026-10-11 19:08:32.007 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Initiating update process for weight configuration ID: 1
+2026-10-11 19:08:32.008 WARN  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Business rule violation during update: Low risk threshold (300) is not greater than medium risk threshold (400)
+2026-10-11 19:08:32.012 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Initiating update process for weight configuration ID: 1
+2026-10-11 19:08:32.013 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Deactivating current configuration ID: 0 to create a new updated version
+2026-10-11 19:08:32.014 INFO  [main] c.s.p.s.i.WeightConfigurationServiceImpl - Updated weight configuration successfully created and activated with new ID: null
+2026-10-11 19:08:32.062 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-11 19:08:32.064 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-10-11 19:08:32.068 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-10-11 19:08:32.511 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-10-11 19:08:32.512 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2026-10-11 19:08:32.520 INFO  [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
