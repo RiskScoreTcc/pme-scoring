@@ -1,6 +1,9 @@
 spring:
   application:
     name: pme-scoring
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
 
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:pme_scoring_db}
@@ -11,7 +14,7 @@ spring:
   jpa:
     open-in-view: false
     hibernate:
-      ddl-auto: ${DB_DDL_AUTO:update}
+      ddl-auto: validate
     show-sql: ${SHOW_SQL:false}
     properties:
       hibernate:
