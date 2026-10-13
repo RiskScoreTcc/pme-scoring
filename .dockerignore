@@ -1,0 +1,25 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Git and IDE files
+.git
+.gitignore
+.idea
+*.iml
+
+# Build artifacts
+target/
+
+# Logs
+logs/
+logsTes/
+*.log
+
+# Local Docker configuration
+docker-compose*.yml
+
+# Operating system files
+.DS_Store
+Thumbs.db
