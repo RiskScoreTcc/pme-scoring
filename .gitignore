@@ -39,3 +39,4 @@ application.yml
 logs/
 
 .env
+/logsTes/
